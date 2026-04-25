@@ -144,6 +144,10 @@ body > *{position:relative;z-index:2}
 .utility-right{display:flex;gap:1.4rem;align-items:center}
 .dot{width:6px;height:6px;border-radius:999px;background:var(--warm-soft);display:inline-block;margin-right:.45rem;vertical-align:middle;animation:pulse 2.4s infinite}
 @keyframes pulse{0%,100%{opacity:.5;transform:scale(.9)}50%{opacity:1;transform:scale(1.1)}}
+@media (max-width:600px){
+  .utility-sep,.utility-right{display:none}
+  .utility-left{gap:.9rem;font-size:.74rem}
+}
 
 /* ───────── Header ───────── */
 header.site{
@@ -226,7 +230,7 @@ nav.primary a:hover::after{transform:scaleX(1)}
 .cta--ghost:hover{background:var(--ink);color:var(--bone)}
 .cta svg{width:14px;height:14px}
 
-.nav-toggle{display:none;background:none;border:0;padding:.5rem;cursor:pointer;color:var(--ink)}
+.nav-toggle{display:none;background:none;border:0;padding:.6rem;cursor:pointer;color:var(--ink);min-width:44px;min-height:44px;display:none;place-items:center}
 .nav-toggle svg{width:24px;height:24px}
 
 @media (max-width:920px){
@@ -235,10 +239,16 @@ nav.primary a:hover::after{transform:scaleX(1)}
     display:block;position:absolute;top:100%;left:0;right:0;
     background:var(--paper);border-bottom:1px solid var(--rule);
     padding:1.5rem var(--gutter) 2rem;
+    z-index:50;
   }
   nav.primary.open ul{flex-direction:column;gap:1.1rem;font-size:1.1rem}
-  .nav-toggle{display:block}
+  .nav-toggle{display:grid}
   .nav .cta--ghost{display:none}
+}
+@media (max-width:600px){
+  .nav{padding-top:.8rem;padding-bottom:.8rem;gap:1rem}
+  .brand-tag{display:none}
+  .nav > div > .cta:not(.nav-toggle){display:none}
 }
 
 /* ───────── Hero ───────── */
@@ -287,7 +297,7 @@ nav.primary a:hover::after{transform:scaleX(1)}
 }
 
 h1.hero-title{
-  font-size:clamp(3rem,8.4vw,7.4rem);
+  font-size:clamp(2.4rem,8.4vw,7.4rem);
   letter-spacing:-.035em;
   line-height:.96;
   margin-bottom:1.6rem;
@@ -339,6 +349,21 @@ h1.hero-title .underline{
 @media (max-width:880px){
   .hero-meta{grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
   .hero-meta dd{font-size:1.25rem}
+}
+@media (max-width:600px){
+  .hero .wrap{padding-top:2rem;padding-bottom:2.5rem}
+  .hero-eyebrow-row{gap:.8rem;margin-bottom:1.4rem}
+  .hero-lede{font-size:1rem;margin-bottom:2rem}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .cta,.hero-actions .cta-link{
+    justify-content:center;width:100%;
+    padding:.95rem 1.2rem;
+  }
+  .hero-actions .cta-link{border-bottom:1px solid rgba(244,239,230,.4);padding-bottom:.95rem}
+  .hero-meta{grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem;max-width:100%}
+  .hero-meta dd{font-size:1.1rem}
+  .hero-meta dd .small{font-size:.75rem}
+  .hero-meta dt{font-size:.62rem;letter-spacing:.12em}
 }
 
 /* ───────── Marquee credentials ribbon ───────── */
@@ -417,6 +442,11 @@ section.block{padding:clamp(4rem,8vw,7rem) 0;position:relative}
 }
 .why-card .icon svg{width:20px;height:20px}
 @media (max-width:880px){.why-grid{grid-template-columns:1fr;border-left:0}.why-card{border-right:0}}
+@media (max-width:600px){
+  .why-card{padding:1.6rem 1.2rem}
+  .ribbon-track{font-size:1.1rem;gap:2rem}
+  .ribbon-track span{gap:2rem}
+}
 
 /* ───────── O nama (About) ───────── */
 .about-grid{
@@ -817,6 +847,7 @@ footer.site ul a:hover{color:var(--warm-soft)}
   font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:rgba(244,239,230,.5);text-transform:uppercase;
 }
 @media (max-width:760px){.footer-grid{grid-template-columns:1fr 1fr}.footer-grid > div:first-child{grid-column:1/-1}}
+@media (max-width:480px){.footer-grid{grid-template-columns:1fr}.footer-grid > div:first-child{grid-column:auto}}
 
 /* ───────── Reveal animations ───────── */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
@@ -836,9 +867,9 @@ footer.site ul a:hover{color:var(--warm-soft)}
   <div class="wrap">
     <div class="utility-left">
       <span><span class="dot" aria-hidden="true"></span>Centar otvoren — Pon–Pet 08–20h</span>
-      <span aria-hidden="true" style="opacity:.4">|</span>
+      <span class="utility-sep" aria-hidden="true" style="opacity:.4">|</span>
       <a href="tel:+385998556105">+385 99 855 6105</a>
-      <span aria-hidden="true" style="opacity:.4">|</span>
+      <span class="utility-sep" aria-hidden="true" style="opacity:.4">|</span>
       <a href="mailto:fizikalnasuperior@gmail.com">fizikalnasuperior@gmail.com</a>
     </div>
     <div class="utility-right">
