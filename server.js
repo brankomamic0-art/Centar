@@ -15,9 +15,12 @@ const FROM_EMAIL =
   process.env.FROM_EMAIL ||
   "Fizikalna terapija SUPERIOR <noreply@mamicwebdesign.com>";
 const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
-const BLOG_DATA_DIR = process.env.BLOG_DATA_DIR || join(__dirname, "data");
-const BLOG_UPLOAD_DIR = process.env.BLOG_UPLOAD_DIR || join(__dirname, "uploads", "blog");
+const BLOG_STORAGE_ROOT = process.env.RAILWAY_VOLUME_MOUNT_PATH || "";
+const BLOG_DATA_DIR = process.env.BLOG_DATA_DIR || (BLOG_STORAGE_ROOT ? join(BLOG_STORAGE_ROOT, "data") : join(__dirname, "data"));
+const BLOG_UPLOAD_DIR =
+  process.env.BLOG_UPLOAD_DIR || (BLOG_STORAGE_ROOT ? join(BLOG_STORAGE_ROOT, "uploads", "blog") : join(__dirname, "uploads", "blog"));
 const BLOG_POSTS_FILE = join(BLOG_DATA_DIR, "blog-posts.json");
+const BUNDLED_BLOG_POSTS_FILE = join(__dirname, "data", "blog-posts.json");
 const ADMIN_COOKIE_NAME = "superior_admin_session";
 const ADMIN_SESSION_MS = 1000 * 60 * 60 * 8;
 const adminSessions = new Map();
@@ -55,8 +58,16 @@ const readPosts = async () => {
     return JSON.parse(content);
   } catch (error) {
     if (error.code === "ENOENT") {
-      await writePosts([]);
-      return [];
+      let starterPosts = [];
+      if (BLOG_POSTS_FILE !== BUNDLED_BLOG_POSTS_FILE) {
+        try {
+          starterPosts = JSON.parse(await readFile(BUNDLED_BLOG_POSTS_FILE, "utf8"));
+        } catch {
+          starterPosts = [];
+        }
+      }
+      await writePosts(starterPosts);
+      return starterPosts;
     }
     throw error;
   }
