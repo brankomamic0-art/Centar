@@ -3,3 +3,5 @@ node_modules/
 .env
 .env.*
 npm-debug.log*
+uploads/blog/*
+!uploads/blog/.gitkeep

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="hr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Blog Admin - SUPERIOR</title>
+<meta name="robots" content="noindex,nofollow" />
+<link rel="icon" href="/slika.jpg" type="image/jpeg" />
+<link rel="stylesheet" href="/fonts/fonts.css" />
+<link rel="stylesheet" href="/blog/blog.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap nav">
+    <a href="/" class="brand">
+      <img src="/slika.jpg" class="brand-mark" alt="SUPERIOR logo" />
+      <span><span class="brand-name">Superior</span><span class="brand-tag">Blog admin</span></span>
+    </a>
+    <nav class="primary"><a href="/blog">Blog</a><a href="/">Web stranica</a></nav>
+  </div>
+</header>
+
+<main class="admin-shell wrap">
+  <section class="panel" id="login-panel">
+    <span class="eyebrow">Owner access</span>
+    <h1>Admin</h1>
+    <p class="notice">Unesite admin lozinku. Lozinka se postavlja kao Railway varijabla <strong>ADMIN_PASSWORD</strong>.</p>
+    <form id="login-form" class="admin-form">
+      <label class="full">Lozinka <input type="password" id="admin-password" autocomplete="current-password" required /></label>
+      <div class="actions"><button class="btn" type="submit">Otvori admin</button></div>
+    </form>
+  </section>
+
+  <section id="editor-panel" hidden>
+    <div class="admin-grid">
+      <aside class="panel">
+        <span class="eyebrow">Objave</span>
+        <p class="notice" id="admin-message"></p>
+        <button class="btn secondary" id="new-post" type="button">Nova objava</button>
+        <div class="post-list" id="admin-posts"></div>
+      </aside>
+
+      <section class="panel">
+        <form id="post-form" class="admin-form">
+          <input type="hidden" name="id" />
+          <label>Naslov <input name="title" required /></label>
+          <label>Slug <input name="slug" placeholder="moj-blog-post" /></label>
+          <label>Autor <input name="author" value="Fizikalna terapija SUPERIOR" /></label>
+          <label>Datum objave <input name="publishDate" type="date" /></label>
+          <label>Kategorija <input name="category" value="Savjeti" /></label>
+          <label>Status
+            <select name="status">
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+            </select>
+          </label>
+          <label class="full">Excerpt <textarea name="excerpt" rows="3"></textarea></label>
+          <label class="full">Content <textarea name="content" rows="14" placeholder="Pišite tekst. Odvojite paragrafe praznim redom."></textarea></label>
+          <label>Tags <input name="tags" placeholder="CVI, oporavak, terapija" /></label>
+          <label>Featured image path <input name="featuredImage" placeholder="/uploads/blog/slika.jpg" /></label>
+          <label class="full">Upload featured image <input type="file" id="image-upload" accept="image/png,image/jpeg,image/webp,image/gif" /></label>
+          <div class="actions">
+            <button class="btn" type="submit">Spremi</button>
+            <button class="btn secondary" id="save-draft" type="button">Spremi draft</button>
+            <button class="btn danger" id="delete-post" type="button">Obriši</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </section>
+</main>
+<script src="/admin/admin.js"></script>
+</body>
+</html>
