@@ -290,10 +290,6 @@ app.post("/api/blog-upload", requireAdmin, async (req, res) => {
   }
 });
 
-app.get("/blog/:slug", (_req, res) => {
-  res.sendFile(join(__dirname, "blog", "post.html"));
-});
-
 app.use("/uploads/blog", express.static(BLOG_UPLOAD_DIR));
 
 app.use(
@@ -306,6 +302,10 @@ app.use(
     },
   }),
 );
+
+app.get("/blog/:slug", (_req, res) => {
+  res.sendFile(join(__dirname, "blog", "post.html"));
+});
 
 app.use((_req, res) => {
   res.status(404).sendFile(join(__dirname, "index.html"));
