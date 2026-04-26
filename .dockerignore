@@ -1,5 +1,5 @@
-.claude/
-node_modules/
+node_modules
+.git
 .env
 .env.*
 npm-debug.log*
