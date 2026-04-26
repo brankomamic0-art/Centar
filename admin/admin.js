@@ -1,4 +1,3 @@
-let password = localStorage.getItem("superior_admin_password") || "";
 let posts = [];
 let activeId = null;
 
@@ -10,10 +9,11 @@ const form = document.getElementById("post-form");
 const fields = form.elements;
 
 const today = () => new Date().toISOString().slice(0, 10);
-const headers = () => ({ "Content-Type": "application/json", "x-admin-password": password });
+const jsonHeaders = () => ({ "Content-Type": "application/json" });
 const show = (text) => {
   message.textContent = text;
 };
+const statusLabel = (status) => (status === "published" ? "Objavljeno" : "Skica");
 const slugify = (value = "") =>
   value
     .trim()
@@ -65,7 +65,7 @@ const renderList = () => {
       (post) => `
         <button type="button" class="post-row ${post.id === activeId ? "active" : ""}" data-id="${post.id}">
           <span>${post.title || "Bez naslova"}</span>
-          <small>${post.status}</small>
+          <small>${statusLabel(post.status)}</small>
         </button>
       `,
     )
@@ -82,7 +82,7 @@ const renderList = () => {
 };
 
 const loadPosts = async () => {
-  const response = await fetch("/api/blog-posts?includeDrafts=true", { headers: { "x-admin-password": password } });
+  const response = await fetch("/api/blog-posts?includeDrafts=true", { credentials: "same-origin" });
   if (!response.ok) throw new Error((await response.json()).error || "Ne mogu učitati objave.");
   posts = await response.json();
   loginPanel.hidden = true;
@@ -93,14 +93,25 @@ const loadPosts = async () => {
 
 document.getElementById("login-form").addEventListener("submit", async (event) => {
   event.preventDefault();
-  password = document.getElementById("admin-password").value;
-  localStorage.setItem("superior_admin_password", password);
   try {
+    const response = await fetch("/api/admin-login", {
+      method: "POST",
+      headers: jsonHeaders(),
+      credentials: "same-origin",
+      body: JSON.stringify({ password: document.getElementById("admin-password").value }),
+    });
+    if (!response.ok) throw new Error((await response.json()).error || "Prijava nije uspjela.");
     await loadPosts();
   } catch (error) {
-    localStorage.removeItem("superior_admin_password");
     alert(error.message);
   }
+});
+
+document.getElementById("logout").addEventListener("click", async () => {
+  await fetch("/api/admin-logout", { method: "POST", credentials: "same-origin" }).catch(() => {});
+  editorPanel.hidden = true;
+  loginPanel.hidden = false;
+  document.getElementById("admin-password").value = "";
 });
 
 document.getElementById("new-post").addEventListener("click", () => {
@@ -118,7 +129,7 @@ form.addEventListener("submit", async (event) => {
   const data = formData();
   const method = activeId ? "PUT" : "POST";
   const url = activeId ? `/api/blog-posts/${activeId}` : "/api/blog-posts";
-  const response = await fetch(url, { method, headers: headers(), body: JSON.stringify(data) });
+  const response = await fetch(url, { method, headers: jsonHeaders(), credentials: "same-origin", body: JSON.stringify(data) });
   const result = await response.json();
   if (!response.ok) return show(result.error || "Spremanje nije uspjelo.");
   show("Objava je spremljena.");
@@ -134,7 +145,7 @@ document.getElementById("save-draft").addEventListener("click", () => {
 document.getElementById("delete-post").addEventListener("click", async () => {
   if (!activeId) return fillForm(emptyPost());
   if (!confirm("Obrisati ovu objavu?")) return;
-  const response = await fetch(`/api/blog-posts/${activeId}`, { method: "DELETE", headers: { "x-admin-password": password } });
+  const response = await fetch(`/api/blog-posts/${activeId}`, { method: "DELETE", credentials: "same-origin" });
   const result = await response.json();
   if (!response.ok) return show(result.error || "Brisanje nije uspjelo.");
   show("Objava je obrisana.");
@@ -148,19 +159,16 @@ document.getElementById("image-upload").addEventListener("change", async (event)
   reader.onload = async () => {
     const response = await fetch("/api/blog-upload", {
       method: "POST",
-      headers: headers(),
+      headers: jsonHeaders(),
+      credentials: "same-origin",
       body: JSON.stringify({ filename: file.name, dataUrl: reader.result }),
     });
     const result = await response.json();
-    if (!response.ok) return show(result.error || "Upload nije uspio.");
+    if (!response.ok) return show(result.error || "Učitavanje slike nije uspjelo.");
     fields.featuredImage.value = result.url;
-    show("Slika je uploadana i postavljena kao featured image.");
+    show("Slika je učitana i postavljena kao istaknuta slika.");
   };
   reader.readAsDataURL(file);
 });
 
-if (password) {
-  loadPosts().catch(() => {
-    localStorage.removeItem("superior_admin_password");
-  });
-}
+loadPosts().catch(() => {});

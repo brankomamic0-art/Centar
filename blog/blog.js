@@ -25,7 +25,7 @@ const renderPosts = (posts) => {
             <div class="meta">${escapeHtml(dateFormatter.format(new Date(post.publishDate)))} · ${escapeHtml(post.author)}</div>
             <h2>${escapeHtml(post.title)}</h2>
             <p>${escapeHtml(post.excerpt)}</p>
-            <a href="/blog/${escapeHtml(post.slug)}" class="btn">Read more</a>
+            <a href="/blog/${escapeHtml(post.slug)}" class="btn">Pročitaj više</a>
           </div>
         </article>
       `,

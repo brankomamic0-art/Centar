@@ -1,6 +1,7 @@
 import compression from "compression";
 import express from "express";
-import { randomUUID } from "crypto";
+import bcrypt from "bcryptjs";
+import { randomBytes, randomUUID } from "crypto";
 import { mkdir, readFile, writeFile } from "fs/promises";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
@@ -13,10 +14,13 @@ const CONTACT_EMAIL = process.env.CONTACT_EMAIL || "jurej2750@gmail.com";
 const FROM_EMAIL =
   process.env.FROM_EMAIL ||
   "Fizikalna terapija SUPERIOR <noreply@mamicwebdesign.com>";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
 const BLOG_DATA_DIR = process.env.BLOG_DATA_DIR || join(__dirname, "data");
 const BLOG_UPLOAD_DIR = process.env.BLOG_UPLOAD_DIR || join(__dirname, "uploads", "blog");
 const BLOG_POSTS_FILE = join(BLOG_DATA_DIR, "blog-posts.json");
+const ADMIN_COOKIE_NAME = "superior_admin_session";
+const ADMIN_SESSION_MS = 1000 * 60 * 60 * 8;
+const adminSessions = new Map();
 
 const escapeHtml = (value = "") =>
   String(value)
@@ -68,19 +72,67 @@ const publicPost = (post) => {
   return summary;
 };
 
+const parseCookies = (req) =>
+  Object.fromEntries(
+    String(req.headers.cookie || "")
+      .split(";")
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .map((part) => {
+        const index = part.indexOf("=");
+        return [part.slice(0, index), decodeURIComponent(part.slice(index + 1))];
+      }),
+  );
+
+const sessionCookie = (token, maxAgeSeconds) => {
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  return `${ADMIN_COOKIE_NAME}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAgeSeconds}${secure}`;
+};
+
 const requireAdmin = (req, res, next) => {
-  if (!ADMIN_PASSWORD) {
-    return res.status(500).json({ error: "ADMIN_PASSWORD nije postavljen na serveru." });
+  if (!ADMIN_PASSWORD_HASH) {
+    return res.status(500).json({ error: "ADMIN_PASSWORD_HASH nije postavljen na serveru." });
   }
-  if (req.get("x-admin-password") !== ADMIN_PASSWORD) {
-    return res.status(401).json({ error: "Neispravna admin lozinka." });
+
+  const token = parseCookies(req)[ADMIN_COOKIE_NAME];
+  const session = token ? adminSessions.get(token) : null;
+
+  if (!session || session.expiresAt < Date.now()) {
+    if (token) adminSessions.delete(token);
+    return res.status(401).json({ error: "Admin sesija je istekla. Prijavite se ponovno." });
   }
+
+  session.expiresAt = Date.now() + ADMIN_SESSION_MS;
   next();
 };
 
 app.use(compression());
 app.use(express.json({ limit: "8mb" }));
 app.use(express.urlencoded({ extended: false }));
+
+app.post("/api/admin-login", async (req, res) => {
+  if (!ADMIN_PASSWORD_HASH) {
+    return res.status(500).json({ error: "ADMIN_PASSWORD_HASH nije postavljen na serveru." });
+  }
+
+  const password = String(req.body?.password || "");
+  const ok = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
+  if (!ok) {
+    return res.status(401).json({ error: "Neispravna admin lozinka." });
+  }
+
+  const token = randomBytes(32).toString("hex");
+  adminSessions.set(token, { expiresAt: Date.now() + ADMIN_SESSION_MS });
+  res.setHeader("Set-Cookie", sessionCookie(token, ADMIN_SESSION_MS / 1000));
+  res.json({ ok: true });
+});
+
+app.post("/api/admin-logout", requireAdmin, (req, res) => {
+  const token = parseCookies(req)[ADMIN_COOKIE_NAME];
+  if (token) adminSessions.delete(token);
+  res.setHeader("Set-Cookie", sessionCookie("", 0));
+  res.json({ ok: true });
+});
 
 app.post("/api/send-email", async (req, res) => {
   if (!RESEND_KEY) {
