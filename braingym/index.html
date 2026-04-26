@@ -10,6 +10,8 @@
 <meta name="author" content="Fizikalna terapija + rehabilitacija SUPERIOR" />
 <meta name="robots" content="index, follow" />
 <meta name="theme-color" content="#0E2A47" />
+<link rel="icon" href="../slika.jpg" type="image/jpeg" />
+<link rel="apple-touch-icon" href="../slika.jpg" />
 
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="hr_HR" />
@@ -813,6 +815,19 @@ form.appt .consent input{
   form.appt{grid-template-columns:1fr}
 }
 
+
+.footer-social{display:flex;gap:.75rem;margin-top:1.2rem}
+.footer-social a{
+  width:38px;height:38px;border-radius:50%;
+  display:grid;place-items:center;
+  border:1px solid rgba(244,239,230,.2);
+  color:rgba(244,239,230,.7);
+  transition:background .25s,color .25s,border-color .25s;
+  flex-shrink:0;
+}
+.footer-social a:hover{background:var(--warm);color:var(--ink);border-color:var(--warm)}
+.footer-social svg{width:16px;height:16px}
+
 /* ───────── Footer ───────── */
 footer.site{
   background:var(--ink);color:var(--paper);
@@ -872,7 +887,7 @@ footer.site ul a:hover{color:var(--warm-soft)}
 <header class="site">
   <div class="wrap nav">
     <a href="/" class="brand" aria-label="SUPERIOR — naslovna">
-      <span class="brand-mark" aria-hidden="true">S</span>
+      <img src="../slika.jpg" class="brand-mark" alt="SUPERIOR logo" />
       <span>
         <span class="brand-name">Superior</span>
         <span class="brand-tag">Fizikalna terapija &amp; rehabilitacija</span>
@@ -1083,6 +1098,14 @@ footer.site ul a:hover{color:var(--warm-soft)}
       <div>
         <span class="f-brand-name">Fizikalna terapija + rehabilitacija SUPERIOR</span>
         <p>Specijalizirani centar za naprednu neurorehabilitaciju u Splitu. Voditeljica: Antonela Pavić, mag. physioth., predavač Sveučilišnog odjela zdravstvenih studija u Splitu.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/fizikalnasuperior" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/fizikalna_superior" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
+          </a>
+        </div>
       </div>
       <div>
         <h6>Navigacija</h6>
