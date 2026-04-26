@@ -1191,6 +1191,29 @@ if(tog){
   }));
 }
 
+const serviceMenu = document.querySelector('.nav-item');
+const serviceToggle = document.querySelector('.nav-dropdown-toggle');
+if(serviceMenu && serviceToggle){
+  const closeServiceMenu = () => {
+    serviceMenu.classList.remove('open');
+    serviceToggle.setAttribute('aria-expanded', 'false');
+  };
+  serviceToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = serviceMenu.classList.toggle('open');
+    serviceToggle.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', (e) => {
+    if(!serviceMenu.contains(e.target)) closeServiceMenu();
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeServiceMenu();
+  });
+  serviceMenu.querySelectorAll('.nav-dropdown a').forEach(a => {
+    a.addEventListener('click', closeServiceMenu);
+  });
+}
+
 // Service tabs
 const tabs = document.querySelectorAll('.svc-tab');
 const panels = document.querySelectorAll('.svc-panel');
