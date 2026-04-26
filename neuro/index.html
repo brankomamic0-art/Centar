@@ -208,6 +208,22 @@ nav.primary a::after{
   background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.7,0,.2,1);
 }
 nav.primary a:hover::after{transform:scaleX(1)}
+.nav-item{position:relative}
+.nav-dropdown{
+  position:absolute;top:calc(100% + .8rem);left:50%;transform:translate(-50%,8px);
+  min-width:230px;padding:.55rem;background:var(--paper);border:1px solid var(--rule);
+  box-shadow:var(--shadow-1);opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .2s,transform .2s,visibility .2s;z-index:80;
+}
+.nav-item:hover .nav-dropdown,.nav-item:focus-within .nav-dropdown{
+  opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0);
+}
+nav.primary .nav-dropdown a{
+  display:block;padding:.75rem .85rem;font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;
+}
+nav.primary .nav-dropdown a::after{display:none}
+nav.primary .nav-dropdown a:hover{background:var(--bone);color:var(--ink)}
 
 .cta{
   display:inline-flex;align-items:center;gap:.6rem;
@@ -237,6 +253,11 @@ nav.primary a:hover::after{transform:scaleX(1)}
     padding:1.5rem var(--gutter) 2rem;
   }
   nav.primary.open ul{flex-direction:column;gap:1.1rem;font-size:1.1rem}
+  nav.primary.open .nav-dropdown{
+    position:static;transform:none;opacity:1;visibility:visible;pointer-events:auto;
+    min-width:0;padding:.35rem 0 0 .9rem;margin-top:.2rem;border:0;box-shadow:none;background:transparent;
+  }
+  nav.primary.open .nav-dropdown a{padding:.45rem 0;font-size:.74rem}
   .nav-toggle{display:block}
   .nav .cta--ghost{display:none}
 }
@@ -899,7 +920,14 @@ footer.site ul a:hover{color:var(--warm-soft)}
       <ul>
         <li><a href="/">Naslovna</a></li>
         <li><a href="/o-nama">O nama</a></li>
-        <li><a href="/usluge">Usluge</a></li>
+        <li class="nav-item">
+          <a href="/usluge">Usluge</a>
+          <div class="nav-dropdown" aria-label="Sekcije usluga">
+            <a href="/usluge#fizikalne-procedure">Fizikalne procedure</a>
+            <a href="/usluge#neuro-tretmani">Neuro-tretmani</a>
+            <a href="/usluge#manualna-terapija">Manualna terapija</a>
+          </div>
+        </li>
         <li><a href="/neuro">Neurorehabilitacija</a></li>
         <li><a href="/braingym">Brain Gym</a></li>
         <li><a href="/kontakt">Kontakt</a></li>
@@ -1032,7 +1060,7 @@ footer.site ul a:hover{color:var(--warm-soft)}
           <li><a href="/neuro">Oporavak nakon CVI</a></li>
           <li><a href="/neuro">Multipla skleroza</a></li>
           <li><a href="/neuro">Parkinsonova bolest</a></li>
-          <li><a href="/braingym">Brain Gym ®</a></li>
+          <li><a href="/braingym">Brain Gym</a></li>
           <li><a href="/usluge">Terapija u kući</a></li>
         </ul>
       </div>
