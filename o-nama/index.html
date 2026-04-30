@@ -513,6 +513,24 @@ section.block{padding:clamp(4rem,8vw,7rem) 0;position:relative}
 }
 .about-portrait .caption b{font-family:var(--serif);font-size:1rem;letter-spacing:0;text-transform:none;font-weight:400;font-style:italic}
 
+.about-masonry{
+  column-count:2;
+  column-gap:.9rem;
+}
+.about-masonry figure{
+  margin:0 0 .9rem;
+  break-inside:avoid;
+  border-radius:6px;
+  overflow:hidden;
+  background:var(--paper-deep);
+  box-shadow:var(--shadow-1);
+}
+.about-masonry img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
 .about-text h3{font-size:2.2rem;line-height:1.1;margin-bottom:1.2rem;letter-spacing:-.02em}
 .about-text h3 .it{font-style:italic;color:var(--ink-soft)}
 .about-text p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.1rem}
@@ -529,6 +547,7 @@ section.block{padding:clamp(4rem,8vw,7rem) 0;position:relative}
 
 @media (max-width:760px){
   .about-grid{grid-template-columns:1fr}
+  .about-masonry{column-count:1}
   .cred{grid-template-columns:1fr;gap:.2rem}
 }
 
@@ -988,13 +1007,20 @@ footer.site ul a:hover{color:var(--warm-soft)}
 
       <div class="about-grid">
 
-        <figure class="about-portrait reveal" aria-label="Portret voditeljice">
-          <img src="../antonela.jpg" alt="Antonela Pavić, mag. physioth." style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;" />
-          <figcaption class="caption">
-            <span><b>Antonela Pavić</b><br/>mag. physioth.</span>
-            <span>EST. 2025</span>
-          </figcaption>
-        </figure>
+        <div class="about-masonry reveal" aria-label="Galerija centra Superior">
+          <figure>
+            <img src="../uploads/o-nama/about-1.jpeg" alt="Superior centar za fizikalnu terapiju i rehabilitaciju" loading="lazy" />
+          </figure>
+          <figure>
+            <img src="../uploads/o-nama/about-2.jpeg" alt="Terapijski prostor centra Superior" loading="lazy" />
+          </figure>
+          <figure>
+            <img src="../uploads/o-nama/about-3.jpeg" alt="Detalj iz prostora za rehabilitaciju" loading="lazy" />
+          </figure>
+          <figure>
+            <img src="../uploads/o-nama/about-4.jpeg" alt="Prostor centra Superior u Splitu" loading="lazy" />
+          </figure>
+        </div>
 
         <div class="about-text reveal">
           <h3>Voditeljica koja predaje sljedeću <span class="it">generaciju fizioterapeuta.</span></h3>
