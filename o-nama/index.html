@@ -531,6 +531,14 @@ section.block{padding:clamp(4rem,8vw,7rem) 0;position:relative}
   height:auto;
 }
 
+.about-gallery{
+  padding-top:0;
+  background:var(--bone);
+}
+.about-gallery .about-masonry{
+  column-count:4;
+}
+
 .about-text h3{font-size:2.2rem;line-height:1.1;margin-bottom:1.2rem;letter-spacing:-.02em}
 .about-text h3 .it{font-style:italic;color:var(--ink-soft)}
 .about-text p{font-size:1.05rem;line-height:1.7;color:var(--ink-soft);margin-bottom:1.1rem}
@@ -548,7 +556,11 @@ section.block{padding:clamp(4rem,8vw,7rem) 0;position:relative}
 @media (max-width:760px){
   .about-grid{grid-template-columns:1fr}
   .about-masonry{column-count:1}
+  .about-gallery .about-masonry{column-count:1}
   .cred{grid-template-columns:1fr;gap:.2rem}
+}
+@media (min-width:761px) and (max-width:1020px){
+  .about-gallery .about-masonry{column-count:2}
 }
 
 /* ───────── Usluge (Services) ───────── */
