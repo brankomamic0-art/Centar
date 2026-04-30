@@ -1,0 +1,25 @@
+{
+  "sources": [
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com/fizikalna_superior/",
+      "notes": [
+        "Službeni Instagram profil ordinacije Fizikalna terapija + rehabilitacija SUPERIOR.",
+        "Koristi se kao dodatni javni izvor za informacije o aktivnostima, objavama, novostima i vizualnom sadržaju centra."
+      ]
+    },
+    {
+      "name": "Facebook",
+      "url": "https://www.facebook.com/fizikalnasuperior/",
+      "notes": [
+        "Službena Facebook stranica ordinacije Fizikalna terapija + rehabilitacija SUPERIOR.",
+        "Koristi se kao dodatni javni izvor za informacije o aktivnostima, objavama, novostima i komunikaciji centra."
+      ]
+    }
+  ],
+  "chatbotGuidance": [
+    "Ako korisnik pita za društvene mreže, navedi Instagram i Facebook linkove.",
+    "Ako korisnik pita za najnovije objave, naglasi da se najnovije informacije najbolje provjeravaju direktno na službenim profilima.",
+    "Ne izmišljaj sadržaj objava s društvenih mreža ako nije upisan u ovu datoteku ili u tekst web stranice."
+  ]
+}

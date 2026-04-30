@@ -23,6 +23,7 @@ const BLOG_UPLOAD_DIR =
   process.env.BLOG_UPLOAD_DIR || (BLOG_STORAGE_ROOT ? join(BLOG_STORAGE_ROOT, "uploads", "blog") : join(__dirname, "uploads", "blog"));
 const BLOG_POSTS_FILE = join(BLOG_DATA_DIR, "blog-posts.json");
 const BUNDLED_BLOG_POSTS_FILE = join(__dirname, "data", "blog-posts.json");
+const SOCIAL_KNOWLEDGE_FILE = join(__dirname, "data", "social-knowledge.json");
 const ADMIN_COOKIE_NAME = "superior_admin_session";
 const ADMIN_SESSION_MS = 1000 * 60 * 60 * 8;
 const adminSessions = new Map();
@@ -59,7 +60,10 @@ Fizikalna terapija + rehabilitacija SUPERIOR is a specialized physiotherapy and 
 Address: Put studenca 23a, Split.
 Phone: +385 99 855 6105.
 Email: fizikalnasuperior@gmail.com.
+Preferred website contact path for appointments and personal questions: /kontakt. Direct users to the contact form instead of giving the phone number unless they explicitly ask for the phone number.
 Working hours shown on the website: Monday-Friday 08:00-20:00.
+Facebook: https://www.facebook.com/fizikalnasuperior/
+Instagram: https://www.instagram.com/fizikalna_superior/
 Website language: Croatian, but answer in the user's language if they write in another language.
 
 About Antonela Pavic:
@@ -89,24 +93,101 @@ Services and offerings:
 - Bebologija Superior is linked at https://bebologija-superior.com/.
 
 Safety boundary:
-The chatbot is only a website information assistant. It must not diagnose, prescribe treatment, interpret symptoms, assess urgency, or replace a doctor/physiotherapist. For personal medical advice, booking, acute symptoms, or post-accident evaluation, it should recommend contacting SUPERIOR directly or contacting emergency/medical services when urgent.
+The chatbot is only a website information assistant. It must not diagnose, prescribe treatment, interpret symptoms, assess urgency, or replace a doctor/physiotherapist. For personal medical advice, booking, acute symptoms, or post-accident evaluation, it should direct users to the contact form at /kontakt or contacting emergency/medical services when urgent.
 `;
+
+const SITE_KNOWLEDGE_FILES = [
+  ["Naslovna", "index.html"],
+  ["O nama", join("o-nama", "index.html")],
+  ["Usluge", join("usluge", "index.html")],
+  ["Neurorehabilitacija", join("neuro", "index.html")],
+  ["Brain Gym", join("braingym", "index.html")],
+  ["Kontakt", join("kontakt", "index.html")],
+  ["Blog", join("blog", "index.html")],
+  ["Privatnost", join("privatnost", "index.html")],
+];
+
+let websiteKnowledgeCache = "";
+let socialKnowledgeCache = "";
+
+const htmlToKnowledgeText = (html = "") =>
+  String(html)
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<svg[\s\S]*?<\/svg>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&mdash;|&#8212;/g, "—")
+    .replace(/&ndash;|&#8211;/g, "–")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const getWebsiteKnowledge = async () => {
+  if (websiteKnowledgeCache) return websiteKnowledgeCache;
+
+  const sections = [];
+  for (const [label, relativePath] of SITE_KNOWLEDGE_FILES) {
+    try {
+      const html = await readFile(join(__dirname, relativePath), "utf8");
+      const text = htmlToKnowledgeText(html);
+      if (text) sections.push(`${label}: ${text.slice(0, 6000)}`);
+    } catch (error) {
+      console.error(`Chat knowledge read error for ${relativePath}:`, error.message);
+    }
+  }
+
+  websiteKnowledgeCache = sections.join("\n\n");
+  return websiteKnowledgeCache;
+};
+
+const getSocialKnowledge = async () => {
+  if (socialKnowledgeCache) return socialKnowledgeCache;
+
+  try {
+    const data = JSON.parse(await readFile(SOCIAL_KNOWLEDGE_FILE, "utf8"));
+    const sourceText = Array.isArray(data.sources)
+      ? data.sources
+          .map((source) => {
+            const notes = Array.isArray(source.notes) ? source.notes.join(" ") : "";
+            return `${source.name || "Društvena mreža"}: ${source.url || ""}. ${notes}`.trim();
+          })
+          .join("\n")
+      : "";
+    const guidanceText = Array.isArray(data.chatbotGuidance) ? data.chatbotGuidance.join(" ") : "";
+    socialKnowledgeCache = [sourceText, guidanceText].filter(Boolean).join("\n");
+  } catch (error) {
+    console.error("Social knowledge read error:", error.message);
+    socialKnowledgeCache =
+      "Instagram: https://www.instagram.com/fizikalna_superior/. Facebook: https://www.facebook.com/fizikalnasuperior/.";
+  }
+
+  return socialKnowledgeCache;
+};
 
 const fallbackChatAnswer = (message) => {
   const text = String(message || "").toLowerCase();
   if (text.includes("antonela") || text.includes("pavic") || text.includes("pavić")) {
-    return "Antonela Pavić, mag. physioth., voditeljica je centra SUPERIOR. Magistrica je fizioterapije i predavačica na Sveučilišnom odjelu zdravstvenih studija u Splitu, gdje povezuje akademsko znanje s kliničkom praksom neurorehabilitacije.";
+    return "Duje kaže: Antonela Pavić, mag. physioth., voditeljica je centra SUPERIOR. Magistrica je fizioterapije i predavačica na Sveučilišnom odjelu zdravstvenih studija u Splitu, gdje povezuje akademsko znanje s kliničkom praksom neurorehabilitacije.";
   }
   if (text.includes("nezgod") || text.includes("nesre") || text.includes("promet") || text.includes("auto") || text.includes("accident")) {
-    return "Da. SUPERIOR radi i terapijski oporavak nakon prometnih i drugih nezgoda: nakon padova, prijeloma, ozljeda mekih tkiva, operacija, boli, gubitka pokretljivosti i povratka svakodnevnom kretanju. Za individualnu procjenu najbolje je nazvati +385 99 855 6105.";
+    return "Duje kaže: SUPERIOR radi i terapijski oporavak nakon prometnih i drugih nezgoda: nakon padova, prijeloma, ozljeda mekih tkiva, operacija, boli, gubitka pokretljivosti i povratka svakodnevnom kretanju. Za individualnu procjenu ili termin najbolje je poslati upit putem kontakt forme: /kontakt.";
+  }
+  if (text.includes("facebook") || text.includes("instagram") || text.includes("društven") || text.includes("drustven") || text.includes("mrež") || text.includes("mrez") || text.includes("social")) {
+    return "Duje kaže: SUPERIOR možete pronaći na Facebooku: https://www.facebook.com/fizikalnasuperior/ i Instagramu: https://www.instagram.com/fizikalna_superior/.";
   }
   if (text.includes("kontakt") || text.includes("adresa") || text.includes("gdje") || text.includes("telefon")) {
-    return "SUPERIOR se nalazi na adresi Put studenca 23a, Split. Telefon je +385 99 855 6105, a email fizikalnasuperior@gmail.com. Radno vrijeme navedeno na stranici je ponedjeljak-petak 08-20h.";
+    if (text.includes("telefon") || text.includes("broj") || text.includes("nazvati") || text.includes("zvati")) {
+      return "Duje kaže: telefon centra je +385 99 855 6105. Za slanje upita ili dogovor termina možete koristiti i kontakt formu: /kontakt.";
+    }
+    return "Duje kaže: SUPERIOR se nalazi na adresi Put studenca 23a, Split. Za upit ili dogovor termina najbolje je koristiti kontakt formu: /kontakt. Radno vrijeme navedeno na stranici je ponedjeljak-petak 08-20h.";
   }
   if (text.includes("brain") || text.includes("gym")) {
-    return "Brain Gym je strukturirani program vježbi za poticanje neuroplastičnosti i integracije moždanih funkcija. Na stranici je SUPERIOR istaknut kao jedini Brain Gym centar/program u regiji.";
+    return "Duje misli: Brain Gym je strukturirani program vježbi za poticanje neuroplastičnosti i integracije moždanih funkcija. Na stranici je SUPERIOR istaknut kao jedini Brain Gym centar/program u regiji.";
   }
-  return "SUPERIOR nudi fizikalnu terapiju i naprednu neurorehabilitaciju: oporavak nakon CVI/moždanog udara, neurološka stanja, Bobath koncept, mirror therapy, Brain Gym, fizikalne procedure, manualnu terapiju, rehabilitaciju nakon nezgoda i kućne posjete. Za osobni medicinski savjet ili termin nazovite +385 99 855 6105.";
+  return "Duje kaže: SUPERIOR nudi fizikalnu terapiju i naprednu neurorehabilitaciju: oporavak nakon CVI/moždanog udara, neurološka stanja, Bobath koncept, mirror therapy, Brain Gym, fizikalne procedure, manualnu terapiju, rehabilitaciju nakon nezgoda i kućne posjete. Za osobni medicinski savjet ili termin pošaljite upit putem kontakt forme: /kontakt.";
 };
 
 const readPosts = async () => {
@@ -281,6 +362,8 @@ app.post("/api/chat", async (req, res) => {
     return res.json({ answer: fallbackChatAnswer(message), fallback: true });
   }
 
+  const websiteKnowledge = await getWebsiteKnowledge();
+  const socialKnowledge = await getSocialKnowledge();
   const input = [
     ...history
       .filter((item) => item && ["user", "assistant"].includes(item.role) && typeof item.content === "string")
@@ -298,8 +381,12 @@ app.post("/api/chat", async (req, res) => {
       body: JSON.stringify({
         model: OPENAI_MODEL,
         instructions:
-          "You are the website assistant for Fizikalna terapija + rehabilitacija SUPERIOR. Answer only using the provided website knowledge. Be concise, warm, and practical. Do not provide diagnosis, medical advice, prognosis, exercises, prescriptions, or urgency triage. For personal medical situations, recommend contacting the clinic directly. If the user mentions an emergency or severe acute symptoms, tell them to contact emergency medical services. Prefer Croatian unless the user writes in another language.\n\nWEBSITE KNOWLEDGE:\n" +
-          CHATBOT_KNOWLEDGE,
+          "You are Duje, the website assistant for Fizikalna terapija + rehabilitacija SUPERIOR. Answer only using the provided website knowledge. Keep information formal, accurate, and concise, but begin each answer with a light signature phrase such as 'Duje kaže:' or 'Duje misli:'. Do not overdo humor. Do not provide diagnosis, medical advice, prognosis, exercises, prescriptions, or urgency triage. For personal medical situations, appointment booking, individual assessments, and contact requests, direct users to the website contact form at /kontakt. Do not give the phone number unless the user explicitly asks for the phone number. If the user mentions an emergency or severe acute symptoms, tell them to contact emergency medical services. Prefer Croatian unless the user writes in another language.\n\nWEBSITE KNOWLEDGE:\n" +
+          CHATBOT_KNOWLEDGE +
+          "\n\nSOCIAL MEDIA SOURCES:\n" +
+          socialKnowledge +
+          "\n\nFULL WEBSITE TEXT:\n" +
+          websiteKnowledge,
         input,
         max_output_tokens: 260,
       }),
