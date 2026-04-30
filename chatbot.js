@@ -63,6 +63,21 @@
     return message;
   };
 
+  const typeMessage = async (element, text) => {
+    element.textContent = "";
+    element.classList.add("typing");
+
+    for (const char of text) {
+      element.textContent += char;
+      log.scrollTop = log.scrollHeight;
+
+      const pause = /[.!?]/.test(char) ? 90 : /[,;:]/.test(char) ? 45 : 14;
+      await new Promise((resolve) => setTimeout(resolve, pause));
+    }
+
+    element.classList.remove("typing");
+  };
+
   const setOpen = (open) => {
     panel.classList.toggle("open", open);
     launcher.setAttribute("aria-expanded", String(open));
@@ -92,12 +107,12 @@
         body: JSON.stringify({ message, history }),
       });
       const data = await response.json();
-      const answer = data.answer || "Trenutno ne mogu odgovoriti. Molimo nazovite +385 99 855 6105.";
-      loading.textContent = answer;
+      const answer = data.answer || "Trenutno ne mogu odgovoriti. Molimo pošaljite upit putem kontakt forme: /kontakt.";
+      await typeMessage(loading, answer);
       history.push({ role: "user", content: message }, { role: "assistant", content: answer });
       while (history.length > 8) history.shift();
     } catch {
-      loading.textContent = "Trenutno ne mogu odgovoriti. Molimo nazovite +385 99 855 6105.";
+      await typeMessage(loading, "Trenutno ne mogu odgovoriti. Molimo pošaljite upit putem kontakt forme: /kontakt.");
     }
   };
 

@@ -52,7 +52,18 @@ for (const item of prepared) {
 
   for (const keyword of item.keywords || []) {
     const query = normalizeSearchText(keyword);
-    const matched = prepared.find((candidate) => candidate.normalizedKeywords.some((candidateKeyword) => query.includes(candidateKeyword)));
+    const queryWords = query.split(" ");
+    const matched = prepared
+      .map((candidate, order) => {
+        const matchedKeyword = candidate.normalizedKeywords
+          .filter((candidateKeyword) =>
+            candidateKeyword.length <= 3 ? queryWords.includes(candidateKeyword) : query.includes(candidateKeyword),
+          )
+          .sort((a, b) => b.length - a.length)[0];
+        return matchedKeyword ? { candidate, order, keywordLength: matchedKeyword.length } : null;
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.keywordLength - a.keywordLength || a.order - b.order)[0]?.candidate;
 
     if (!matched) {
       failures.push(`Keyword "${keyword}" from ${item.id} did not match anything.`);

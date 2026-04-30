@@ -258,10 +258,45 @@ const getChatbotKnowledge = async () => {
 
 const findChatbotKnowledgeAnswer = async (message) => {
   const text = normalizeSearchText(message);
+  const words = text.split(" ");
   const items = await getChatbotKnowledge();
-  const match = items.find((item) => item.normalizedKeywords.some((keyword) => text.includes(keyword)));
-  const fallback = items.find((item) => item.id === "default") || items.at(-1);
-  return (match || fallback)?.answer || "";
+  const matches = items
+    .map((item, order) => {
+      const matchedKeyword = item.normalizedKeywords
+        .filter((keyword) => (keyword.length <= 3 ? words.includes(keyword) : text.includes(keyword)))
+        .sort((a, b) => b.length - a.length)[0];
+      return matchedKeyword ? { item, order, keywordLength: matchedKeyword.length } : null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.keywordLength - a.keywordLength || a.order - b.order);
+  const match = matches[0]?.item;
+  return match?.answer || "";
+};
+
+const findWebsiteKnowledgeAnswer = async (message) => {
+  const tokens = normalizeSearchText(message)
+    .split(" ")
+    .filter((token) => token.length > 3 && !["kako", "koje", "koji", "sto", "sta", "ima", "imaju", "moze", "mogu"].includes(token));
+
+  if (!tokens.length) return "";
+
+  const websiteKnowledge = await getWebsiteKnowledge();
+  const chunks = websiteKnowledge
+    .split(/(?<=[.!?])\s+|\n+/)
+    .map((chunk) => chunk.trim())
+    .filter((chunk) => chunk.length >= 40 && chunk.length <= 520)
+    .filter((chunk) => !normalizeSearchText(chunk).includes("preskoci na sadrzaj"));
+
+  let best = null;
+  for (const chunk of chunks) {
+    const normalizedChunk = normalizeSearchText(chunk);
+    const score = tokens.reduce((sum, token) => sum + (normalizedChunk.includes(token) ? 1 : 0), 0);
+    if (score > 0 && (!best || score > best.score)) best = { chunk, score };
+  }
+
+  if (!best) return "";
+
+  return `Na stranici je navedeno: ${best.chunk} Za detaljniji upit ili dogovor termina najbolje je poslati poruku putem kontakt forme: /kontakt.`;
 };
 
 const getChatbotKnowledgeText = async () => {
@@ -278,6 +313,9 @@ const getChatbotKnowledgeText = async () => {
 const fallbackChatAnswer = async (message) => {
   const knowledgeAnswer = await findChatbotKnowledgeAnswer(message);
   if (knowledgeAnswer) return knowledgeAnswer;
+
+  const websiteAnswer = await findWebsiteKnowledgeAnswer(message);
+  if (websiteAnswer) return websiteAnswer;
 
   const text = String(message || "").toLowerCase();
   if (text.includes("facebook") || text.includes("instagram") || text.includes("društven") || text.includes("drustven") || text.includes("mrež") || text.includes("mrez") || text.includes("social")) {

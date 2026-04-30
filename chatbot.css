@@ -86,6 +86,17 @@
   background:#1A3556;
   color:#F4EFE6;
 }
+.chatbot-msg.typing::after{
+  content:"";
+  display:inline-block;
+  width:2px;
+  height:1em;
+  margin-left:2px;
+  background:currentColor;
+  vertical-align:-.15em;
+  animation:chatbot-caret .8s steps(1) infinite;
+}
+@keyframes chatbot-caret{50%{opacity:0}}
 .chatbot-suggestions{
   display:flex;
   flex-wrap:wrap;

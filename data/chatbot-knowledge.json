@@ -84,6 +84,90 @@
     "answer": "Ultrazvučna terapija koristi se kao fizikalna procedura za potporu oporavku mekih tkiva, smanjenje upale i poboljšanje lokalne cirkulacije. Za procjenu je li prikladna za vašu tegobu, pošaljite upit putem kontakt forme: /kontakt."
   },
   {
+    "id": "physical-procedures",
+    "title": "Fizikalne procedure",
+    "keywords": ["fizikalne procedure", "fizikalna terapija", "procedure", "tretmani"],
+    "answer": "Fizikalne procedure u SUPERIOR-u uključuju ultrazvučnu terapiju, elektromagnetsku terapiju, elektroterapiju TENS/EMS, krio i termoterapiju, medicinsku masažu, limfnu drenažu te rehabilitaciju nakon nezgoda. Za odabir odgovarajuće terapije najbolje je poslati upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "neuro-treatments",
+    "title": "Neuro-tretmani",
+    "keywords": ["neuro tretmani", "neuro-tretmani", "neurorehabilitacija", "neurološki tretmani", "neuroloski tretmani", "neurološka rehabilitacija", "neuroloska rehabilitacija"],
+    "answer": "Neuro-tretmani u SUPERIOR-u uključuju Bobath koncept, terapiju ogledalom, Brain Gym, reedukaciju hoda, vježbe ravnoteže i funkcionalnu elektrostimulaciju. Namijenjeni su osobama nakon CVI-ja/moždanog udara, kod MS-a, Parkinsonove bolesti, ozljeda živaca i drugih neuroloških poteškoća. Za individualnu procjenu pošaljite upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "manual-therapy",
+    "title": "Manualna terapija",
+    "keywords": ["manualna terapija", "manualni tretmani"],
+    "answer": "Manualna terapija u SUPERIOR-u uključuje manualnu mobilizaciju, kineziološko tejpiranje i terapiju trigger točaka. Koristi se kod bolova, ukočenosti, posttraumatskih stanja, kontraktura i mišićnih tegoba. Za individualnu procjenu pošaljite upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "home-visits",
+    "title": "Kućne posjete",
+    "keywords": ["kućne posjete", "kucne posjete", "kućna terapija", "kucna terapija", "terapija u kući", "terapija u kuci", "dolazak kući", "dolazak kuci", "nepokretni pacijenti", "ograničena mobilnost", "ogranicena mobilnost"],
+    "answer": "SUPERIOR nudi kućne posjete za nepokretne pacijente, pacijente nakon težih CVI-ja i osobe s ograničenom mobilnošću. Tim dolazi s opremom na adresu na području Splita i šire okolice. Za dogovor kućne posjete najbolje je poslati upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "electromagnetic-therapy",
+    "title": "Elektromagnetska terapija",
+    "keywords": ["elektromagnetska terapija", "elektromagnet", "magnetna terapija", "magnetoterapija"],
+    "answer": "Elektromagnetska terapija je bezbolna fizikalna procedura koja se na stranici opisuje kao potpora cijeljenju kostiju, smanjenju upala i regeneraciji živčanih struktura. Za procjenu je li prikladna za vaš slučaj, pošaljite upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "electrotherapy",
+    "title": "Elektroterapija TENS / EMS",
+    "keywords": ["elektroterapija", "tens", "ems", "elektrostimulacija", "stimulacija mišića", "stimulacija misica"],
+    "answer": "Elektroterapija TENS/EMS koristi stimulaciju mišića i živaca s ciljem ublažavanja boli, aktivacije slabijih mišića i podrške oporavku, osobito kod određenih ozljeda i neuroloških oštećenja. Za individualnu procjenu pošaljite upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "cryo-thermo",
+    "title": "Krio i termoterapija",
+    "keywords": ["krioterapija", "krio", "termoterapija", "toplina", "hladnoća", "hladnoca", "led"],
+    "answer": "Krio i termoterapija uključuju ciljanu primjenu hladnoće ili topline radi smanjenja akutnih upala, ublažavanja tegoba i pripreme tkiva za daljnji terapijski rad. Za procjenu odgovarajuće terapije pošaljite upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "medical-massage",
+    "title": "Medicinska masaža",
+    "keywords": ["medicinska masaža", "medicinska masaza", "masaža", "masaza", "terapeutska masaža", "terapeutska masaza"],
+    "answer": "Medicinska masaža u SUPERIOR-u nije wellness tretman, nego terapijska tehnika usmjerena na konkretnu disfunkciju, mišićne napetosti i posturalne obrasce. Za dogovor terapije pošaljite upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "gait-reeducation",
+    "title": "Reedukacija hoda",
+    "keywords": ["reedukacija hoda", "hod", "učenje hoda", "ucenje hoda", "ponovno hodanje", "hodanje"],
+    "answer": "Reedukacija hoda je sustavni rad na ponovnom učenju ili poboljšanju obrasca hoda nakon moždanog udara, ozljeda ili kod neurodegenerativnih bolesti. Za procjenu i plan terapije pošaljite upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "balance-exercises",
+    "title": "Vježbe ravnoteže",
+    "keywords": ["vježbe ravnoteže", "vjezbe ravnoteze", "ravnoteža", "ravnoteza", "stabilnost", "posturalna kontrola"],
+    "answer": "Vježbe ravnoteže usmjerene su na posturalnu kontrolu, statičku i dinamičku ravnotežu te sigurnije kretanje. Posebno su važne kod ataksije, MS-a, Parkinsonove bolesti i nakon CVI-ja. Za individualnu procjenu pošaljite upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "functional-electrical-stimulation",
+    "title": "Funkcionalna elektrostimulacija",
+    "keywords": ["funkcionalna elektrostimulacija", "fes", "functional electrical stimulation"],
+    "answer": "Funkcionalna elektrostimulacija (FES) koristi električnu stimulaciju za aktivaciju oslabljenih mišića tijekom funkcionalnih pokreta poput hoda. Koristi se kao dio rehabilitacije kada je takav pristup prikladan za pacijenta. Za procjenu pošaljite upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "manual-mobilization",
+    "title": "Manualna mobilizacija",
+    "keywords": ["manualna mobilizacija", "mobilizacija", "ručne tehnike", "rucne tehnike"],
+    "answer": "Manualna mobilizacija uključuje ručne terapijske tehnike za vraćanje opsega pokreta zglobova, osobito kod posttraumatskih stanja, ukočenosti i kontraktura. Za procjenu pošaljite upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "kinesio-taping",
+    "title": "Kineziološko tejpiranje",
+    "keywords": ["kineziološko tejpiranje", "kineziolosko tejpiranje", "tejpiranje", "taping", "kinesio tape", "trake"],
+    "answer": "Kineziološko tejpiranje koristi specijalizirane trake kao potporu mišićima, propriocepciji i smanjenju boli te se primjenjuje kao dopuna terapiji. Za procjenu i dogovor pošaljite upit putem kontakt forme: /kontakt."
+  },
+  {
+    "id": "trigger-points",
+    "title": "Terapija trigger točaka",
+    "keywords": ["trigger točke", "trigger tocke", "trigger point", "bolne točke", "bolne tocke"],
+    "answer": "Terapija trigger točaka usmjerena je na precizan rad na bolnim točkama u mišićima koje mogu uzrokovati lokalnu ili prenesenu bol. Za individualnu procjenu pošaljite upit putem kontakt forme: /kontakt."
+  },
+  {
     "id": "patient-problem",
     "title": "Pacijentove tegobe i ozljede",
     "keywords": ["bol", "boli", "problem", "tegoba", "tegobe", "ozljeda", "ozljedu", "ozlijedio", "rastrgao", "rastrg", "puknuće", "puk", "istegnuće", "istegnuo", "istegn", "uganuće", "uganuo", "uganu", "prepona", "preponu", "prepon", "mišić", "misic", "tetiva", "tetiv", "ligament", "vrat", "leđa", "leda", "rame", "lakat", "šaka", "saka", "ruka", "koljeno", "kuk", "zglob", "list", "noga", "stopalo", "gležanj", "glezanj", "naručiti", "naruciti", "termin"],
