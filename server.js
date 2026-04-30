@@ -10,6 +10,8 @@ const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const RESEND_KEY = process.env.RESEND_API_KEY || process.env.RESEND_KEY;
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || "jurej2750@gmail.com";
 const FROM_EMAIL =
   process.env.FROM_EMAIL ||
@@ -50,6 +52,61 @@ const normalizeTags = (tags) => {
     .split(",")
     .map((tag) => tag.trim())
     .filter(Boolean);
+};
+
+const CHATBOT_KNOWLEDGE = `
+Fizikalna terapija + rehabilitacija SUPERIOR is a specialized physiotherapy and neurorehabilitation center in Split, Croatia.
+Address: Put studenca 23a, Split.
+Phone: +385 99 855 6105.
+Email: fizikalnasuperior@gmail.com.
+Working hours shown on the website: Monday-Friday 08:00-20:00.
+Website language: Croatian, but answer in the user's language if they write in another language.
+
+About Antonela Pavic:
+Antonela Pavic, mag. physioth., founded and leads SUPERIOR. She is a master of physiotherapy and a lecturer at the University Department of Health Studies in Split, teaching Physiotherapy and Nursing students. Her work connects academic teaching and clinical neurorehabilitation practice. Areas mentioned on the website include Bobath concept, mirror therapy, Brain Gym, neurorehabilitation after CVI/stroke, MS, Parkinson's disease, Alzheimer's disease, nerve injuries, and spinal cord injuries.
+
+Services and offerings:
+- Advanced neurorehabilitation.
+- Recovery after stroke/CVI.
+- Rehabilitation for multiple sclerosis, Parkinson's disease, Alzheimer's disease, nerve injuries, and spinal cord injuries.
+- Therapy recovery after traffic accidents, car accidents, falls, fractures, soft-tissue injuries, post-operative states, mobility loss, pain, and return to everyday movement after trauma.
+- Bobath concept.
+- Mirror therapy.
+- Brain Gym. The website describes SUPERIOR as the only Brain Gym program/center in the region.
+- Gait re-education.
+- Balance exercises.
+- Functional electrical stimulation.
+- Ultrasound therapy.
+- Electromagnetic therapy.
+- Electrotherapy TENS/EMS.
+- Cryotherapy and thermotherapy.
+- Medical massage.
+- Lymphatic drainage.
+- Manual mobilization.
+- Kinesiology taping.
+- Trigger point therapy.
+- Home visits for immobile patients, patients after severe CVI, and people with limited mobility in Split and the surrounding area.
+- Bebologija Superior is linked at https://bebologija-superior.com/.
+
+Safety boundary:
+The chatbot is only a website information assistant. It must not diagnose, prescribe treatment, interpret symptoms, assess urgency, or replace a doctor/physiotherapist. For personal medical advice, booking, acute symptoms, or post-accident evaluation, it should recommend contacting SUPERIOR directly or contacting emergency/medical services when urgent.
+`;
+
+const fallbackChatAnswer = (message) => {
+  const text = String(message || "").toLowerCase();
+  if (text.includes("antonela") || text.includes("pavic") || text.includes("pavić")) {
+    return "Antonela Pavić, mag. physioth., voditeljica je centra SUPERIOR. Magistrica je fizioterapije i predavačica na Sveučilišnom odjelu zdravstvenih studija u Splitu, gdje povezuje akademsko znanje s kliničkom praksom neurorehabilitacije.";
+  }
+  if (text.includes("nezgod") || text.includes("nesre") || text.includes("promet") || text.includes("auto") || text.includes("accident")) {
+    return "Da. SUPERIOR radi i terapijski oporavak nakon prometnih i drugih nezgoda: nakon padova, prijeloma, ozljeda mekih tkiva, operacija, boli, gubitka pokretljivosti i povratka svakodnevnom kretanju. Za individualnu procjenu najbolje je nazvati +385 99 855 6105.";
+  }
+  if (text.includes("kontakt") || text.includes("adresa") || text.includes("gdje") || text.includes("telefon")) {
+    return "SUPERIOR se nalazi na adresi Put studenca 23a, Split. Telefon je +385 99 855 6105, a email fizikalnasuperior@gmail.com. Radno vrijeme navedeno na stranici je ponedjeljak-petak 08-20h.";
+  }
+  if (text.includes("brain") || text.includes("gym")) {
+    return "Brain Gym je strukturirani program vježbi za poticanje neuroplastičnosti i integracije moždanih funkcija. Na stranici je SUPERIOR istaknut kao jedini Brain Gym centar/program u regiji.";
+  }
+  return "SUPERIOR nudi fizikalnu terapiju i naprednu neurorehabilitaciju: oporavak nakon CVI/moždanog udara, neurološka stanja, Bobath koncept, mirror therapy, Brain Gym, fizikalne procedure, manualnu terapiju, rehabilitaciju nakon nezgoda i kućne posjete. Za osobni medicinski savjet ili termin nazovite +385 99 855 6105.";
 };
 
 const readPosts = async () => {
@@ -205,6 +262,69 @@ app.post("/api/send-email", async (req, res) => {
   } catch (error) {
     console.error("Resend error:", error);
     res.status(500).json({ error: "Greška pri slanju upita." });
+  }
+});
+
+app.post("/api/chat", async (req, res) => {
+  const message = String(req.body?.message || "").trim();
+  const history = Array.isArray(req.body?.history) ? req.body.history.slice(-6) : [];
+
+  if (!message) {
+    return res.status(400).json({ error: "Poruka je obavezna." });
+  }
+
+  if (message.length > 900) {
+    return res.status(400).json({ error: "Poruka je preduga. Molimo skratite upit." });
+  }
+
+  if (!OPENAI_API_KEY) {
+    return res.json({ answer: fallbackChatAnswer(message), fallback: true });
+  }
+
+  const input = [
+    ...history
+      .filter((item) => item && ["user", "assistant"].includes(item.role) && typeof item.content === "string")
+      .map((item) => ({ role: item.role, content: item.content.slice(0, 900) })),
+    { role: "user", content: message },
+  ];
+
+  try {
+    const response = await fetch("https://api.openai.com/v1/responses", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: OPENAI_MODEL,
+        instructions:
+          "You are the website assistant for Fizikalna terapija + rehabilitacija SUPERIOR. Answer only using the provided website knowledge. Be concise, warm, and practical. Do not provide diagnosis, medical advice, prognosis, exercises, prescriptions, or urgency triage. For personal medical situations, recommend contacting the clinic directly. If the user mentions an emergency or severe acute symptoms, tell them to contact emergency medical services. Prefer Croatian unless the user writes in another language.\n\nWEBSITE KNOWLEDGE:\n" +
+          CHATBOT_KNOWLEDGE,
+        input,
+        max_output_tokens: 260,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("OpenAI chat error:", error);
+      return res.json({ answer: fallbackChatAnswer(message), fallback: true });
+    }
+
+    const data = await response.json();
+    const answer =
+      data.output_text ||
+      data.output
+        ?.flatMap((item) => item.content || [])
+        .map((content) => content.text)
+        .filter(Boolean)
+        .join("\n")
+        .trim();
+
+    res.json({ answer: answer || fallbackChatAnswer(message) });
+  } catch (error) {
+    console.error("OpenAI chat error:", error);
+    res.json({ answer: fallbackChatAnswer(message), fallback: true });
   }
 });
 
