@@ -282,6 +282,25 @@ nav.primary .nav-dropdown a:hover{background:var(--bone);color:var(--ink)}
   .nav-toggle{display:block}
   .nav .cta--ghost{display:none}
 }
+@media (max-width:600px){
+  .utility{font-size:.68rem;letter-spacing:.02em}
+  .utility .wrap{display:block;padding-top:.55rem;padding-bottom:.55rem}
+  .utility-left{display:grid;grid-template-columns:1fr;gap:.42rem;line-height:1.35}
+  .utility-left > span[aria-hidden="true"],.utility-sep,.utility-right{display:none}
+  .nav{gap:.7rem;padding-top:.72rem;padding-bottom:.72rem}
+  .brand{gap:.55rem;min-width:0}
+  .brand-mark{width:38px;height:38px;flex:0 0 38px}
+  .brand-name{font-size:1.05rem}
+  .brand-tag{font-size:.55rem;letter-spacing:.14em;max-width:8.5rem}
+  .nav > div{gap:.35rem!important;flex:0 0 auto}
+  .nav > div > .cta:not(.cta--ghost){padding:.68rem .82rem;font-size:.76rem}
+  .nav > div > .cta:not(.cta--ghost) svg{display:none}
+  .nav-toggle{display:grid;min-width:42px;min-height:42px;padding:.45rem}
+}
+@media (max-width:380px){
+  .brand-tag{display:none}
+  .nav > div > .cta:not(.cta--ghost){display:none}
+}
 
 /* ───────── Hero ───────── */
 .hero{

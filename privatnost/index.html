@@ -76,7 +76,22 @@ nav.primary .nav-dropdown a:hover{background:var(--bone);color:var(--ink)}
 .nav-toggle{display:none;background:none;border:0;padding:.6rem;cursor:pointer;color:var(--ink);min-width:44px;min-height:44px;place-items:center}
 .nav-toggle svg{width:24px;height:24px}
 @media(max-width:920px){nav.primary{display:none}nav.primary.open{display:block;position:absolute;top:100%;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--rule);padding:1.5rem var(--gutter) 2rem;z-index:50}nav.primary.open ul{flex-direction:column;gap:1.1rem;font-size:1.1rem}nav.primary.open .nav-dropdown{position:static;transform:none;opacity:0;visibility:hidden;pointer-events:none;min-width:0;padding:0 0 0 .9rem;margin-top:0;border:0;box-shadow:none;background:transparent;max-height:0;overflow:hidden}nav.primary.open .nav-item.open .nav-dropdown{opacity:1;visibility:visible;pointer-events:auto;max-height:20rem;margin-top:.2rem;padding-top:.35rem}nav.primary.open .nav-dropdown a{padding:.45rem 0;font-size:.74rem}.nav-toggle{display:grid}.nav .cta--ghost{display:none}}
-@media(max-width:600px){.nav{padding:.8rem 0;gap:1rem}.brand-tag{display:none}.nav>div>.cta:not(.nav-toggle){display:none}}
+@media(max-width:600px){
+  .utility{font-size:.68rem;letter-spacing:.02em}
+  .utility .wrap{display:block;padding-top:.55rem;padding-bottom:.55rem}
+  .utility-left{display:grid;grid-template-columns:1fr;gap:.42rem;line-height:1.35}
+  .utility-left > span[aria-hidden="true"],.utility-sep,.utility-right{display:none}
+  .nav{padding:.72rem 0;gap:.7rem}
+  .brand{gap:.55rem;min-width:0}
+  .brand-mark{width:38px;height:38px;flex:0 0 38px}
+  .brand-name{font-size:1.05rem}
+  .brand-tag{font-size:.55rem;letter-spacing:.14em;max-width:8.5rem}
+  .nav>div{gap:.35rem!important;flex:0 0 auto}
+  .nav>div>.cta:not(.cta--ghost){padding:.68rem .82rem;font-size:.76rem}
+  .nav>div>.cta:not(.cta--ghost) svg{display:none}
+  .nav-toggle{display:grid;min-width:42px;min-height:42px;padding:.45rem}
+}
+@media(max-width:380px){.brand-tag{display:none}.nav>div>.cta:not(.cta--ghost){display:none}}
 
 /* Privacy page content */
 .privacy-header{

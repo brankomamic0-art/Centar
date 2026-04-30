@@ -146,11 +146,20 @@
   font-size:.72rem;
 }
 @media (max-width:600px){
-  .chatbot-launcher{right:1rem;bottom:1rem}
-  .chatbot-panel{
-    right:1rem;
-    left:1rem;
-    bottom:4.8rem;
-    width:auto;
+  .chatbot-launcher{
+    right:.75rem;
+    bottom:.75rem;
+    padding:.68rem .78rem;
+    font-size:.78rem;
+    box-shadow:0 12px 28px rgba(11,31,56,.2), 0 0 0 3px rgba(232,201,164,.22);
   }
+  .chatbot-launcher svg{width:16px;height:16px}
+  .chatbot-panel{
+    right:.75rem;
+    left:.75rem;
+    bottom:4rem;
+    width:auto;
+    height:min(560px,calc(100vh - 5.25rem));
+  }
+  .chatbot-msg{max-width:92%;font-size:.9rem}
 }
