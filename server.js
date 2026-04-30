@@ -285,7 +285,17 @@ const findWebsiteKnowledgeAnswer = async (message) => {
     .split(/(?<=[.!?])\s+|\n+/)
     .map((chunk) => chunk.trim())
     .filter((chunk) => chunk.length >= 40 && chunk.length <= 520)
-    .filter((chunk) => !normalizeSearchText(chunk).includes("preskoci na sadrzaj"));
+    .filter((chunk) => {
+      const normalized = normalizeSearchText(chunk);
+      return (
+        !normalized.includes("preskoci na sadrzaj") &&
+        !normalized.includes("navigacija") &&
+        !normalized.includes("politika privatnosti") &&
+        !normalized.includes("fizikalnasuperior gmail") &&
+        !normalized.includes("put studenca") &&
+        !normalized.includes("naslovna o nama usluge")
+      );
+    });
 
   let best = null;
   for (const chunk of chunks) {
@@ -296,7 +306,7 @@ const findWebsiteKnowledgeAnswer = async (message) => {
 
   if (!best) return "";
 
-  return `Na stranici je navedeno: ${best.chunk} Za detaljniji upit ili dogovor termina najbolje je poslati poruku putem kontakt forme: /kontakt.`;
+  return `${best.chunk} Za detaljniji upit ili dogovor termina najbolje je poslati poruku putem kontakt forme: /kontakt.`;
 };
 
 const getChatbotKnowledgeText = async () => {
