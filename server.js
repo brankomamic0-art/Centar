@@ -24,6 +24,7 @@ const BLOG_UPLOAD_DIR =
 const BLOG_POSTS_FILE = join(BLOG_DATA_DIR, "blog-posts.json");
 const BUNDLED_BLOG_POSTS_FILE = join(__dirname, "data", "blog-posts.json");
 const SOCIAL_KNOWLEDGE_FILE = join(__dirname, "data", "social-knowledge.json");
+const CHATBOT_KNOWLEDGE_FILE = join(__dirname, "data", "chatbot-knowledge.json");
 const ADMIN_COOKIE_NAME = "superior_admin_session";
 const ADMIN_SESSION_MS = 1000 * 60 * 60 * 8;
 const adminSessions = new Map();
@@ -109,6 +110,7 @@ const SITE_KNOWLEDGE_FILES = [
 
 let websiteKnowledgeCache = "";
 let socialKnowledgeCache = "";
+let chatbotKnowledgeCache = null;
 
 const htmlToKnowledgeText = (html = "") =>
   String(html)
@@ -215,7 +217,68 @@ const conditionAnswers = [
   },
 ];
 
-const fallbackChatAnswer = (message) => {
+const normalizeSearchText = (value = "") =>
+  String(value)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const getChatbotKnowledge = async () => {
+  if (chatbotKnowledgeCache) return chatbotKnowledgeCache;
+
+  try {
+    const items = JSON.parse(await readFile(CHATBOT_KNOWLEDGE_FILE, "utf8"));
+    if (!Array.isArray(items)) throw new Error("chatbot-knowledge.json must contain an array.");
+
+    chatbotKnowledgeCache = items.map((item) => ({
+      ...item,
+      keywords: Array.isArray(item.keywords) ? item.keywords : [],
+      normalizedKeywords: (Array.isArray(item.keywords) ? item.keywords : []).map(normalizeSearchText).filter(Boolean),
+    }));
+  } catch (error) {
+    console.error("Chatbot knowledge read error:", error.message);
+    chatbotKnowledgeCache = [
+      {
+        id: "default",
+        title: "Opći odgovor",
+        keywords: [],
+        normalizedKeywords: [],
+        answer:
+          "SUPERIOR nudi fizikalnu terapiju i naprednu neurorehabilitaciju. Za osobni medicinski savjet ili termin pošaljite upit putem kontakt forme: /kontakt.",
+      },
+    ];
+  }
+
+  return chatbotKnowledgeCache;
+};
+
+const findChatbotKnowledgeAnswer = async (message) => {
+  const text = normalizeSearchText(message);
+  const items = await getChatbotKnowledge();
+  const match = items.find((item) => item.normalizedKeywords.some((keyword) => text.includes(keyword)));
+  const fallback = items.find((item) => item.id === "default") || items.at(-1);
+  return (match || fallback)?.answer || "";
+};
+
+const getChatbotKnowledgeText = async () => {
+  const items = await getChatbotKnowledge();
+  return items
+    .filter((item) => item.id !== "default")
+    .map((item) => {
+      const keywords = item.keywords.length ? ` Keywords: ${item.keywords.join(", ")}.` : "";
+      return `${item.title || item.id}: ${item.answer}${keywords}`;
+    })
+    .join("\n");
+};
+
+const fallbackChatAnswer = async (message) => {
+  const knowledgeAnswer = await findChatbotKnowledgeAnswer(message);
+  if (knowledgeAnswer) return knowledgeAnswer;
+
   const text = String(message || "").toLowerCase();
   if (text.includes("facebook") || text.includes("instagram") || text.includes("društven") || text.includes("drustven") || text.includes("mrež") || text.includes("mrez") || text.includes("social")) {
     return "SUPERIOR možete pronaći na Facebooku: https://www.facebook.com/fizikalnasuperior/ i Instagramu: https://www.instagram.com/fizikalna_superior/.";
@@ -424,11 +487,12 @@ app.post("/api/chat", async (req, res) => {
   }
 
   if (!OPENAI_API_KEY) {
-    return res.json({ answer: fallbackChatAnswer(message), fallback: true });
+    return res.json({ answer: await fallbackChatAnswer(message), fallback: true });
   }
 
   const websiteKnowledge = await getWebsiteKnowledge();
   const socialKnowledge = await getSocialKnowledge();
+  const chatbotKnowledge = await getChatbotKnowledgeText();
   const input = [
     ...history
       .filter((item) => item && ["user", "assistant"].includes(item.role) && typeof item.content === "string")
@@ -448,6 +512,8 @@ app.post("/api/chat", async (req, res) => {
         instructions:
           "You are Duje, the website assistant for Fizikalna terapija + rehabilitacija SUPERIOR. Answer only using the provided website knowledge. Keep information formal, accurate, concise, and direct. Do not begin answers with signature phrases like 'Duje kaže' or 'Duje misli'. Do not overdo humor. Do not provide diagnosis, medical advice, prognosis, exercises, prescriptions, or urgency triage. When users describe pain, injuries, torn/strained muscles, groin problems, accident recovery, or similar patient problems, say that SUPERIOR works with rehabilitation after injuries and individual musculoskeletal/neurorehabilitation issues, then direct them to the contact form at /kontakt for assessment/booking. Do not give the phone number unless the user explicitly asks for the phone number. If the user mentions an emergency or severe acute symptoms, tell them to contact emergency medical services. Prefer Croatian unless the user writes in another language.\n\nWEBSITE KNOWLEDGE:\n" +
           CHATBOT_KNOWLEDGE +
+          "\n\nCHATBOT KNOWLEDGE BASE:\n" +
+          chatbotKnowledge +
           "\n\nSOCIAL MEDIA SOURCES:\n" +
           socialKnowledge +
           "\n\nFULL WEBSITE TEXT:\n" +
@@ -460,7 +526,7 @@ app.post("/api/chat", async (req, res) => {
     if (!response.ok) {
       const error = await response.text();
       console.error("OpenAI chat error:", error);
-      return res.json({ answer: fallbackChatAnswer(message), fallback: true });
+      return res.json({ answer: await fallbackChatAnswer(message), fallback: true });
     }
 
     const data = await response.json();
@@ -473,10 +539,10 @@ app.post("/api/chat", async (req, res) => {
         .join("\n")
         .trim();
 
-    res.json({ answer: answer || fallbackChatAnswer(message) });
+    res.json({ answer: answer || (await fallbackChatAnswer(message)) });
   } catch (error) {
     console.error("OpenAI chat error:", error);
-    res.json({ answer: fallbackChatAnswer(message), fallback: true });
+    res.json({ answer: await fallbackChatAnswer(message), fallback: true });
   }
 });
 

@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test:chatbot": "node scripts/test-chatbot-knowledge.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
