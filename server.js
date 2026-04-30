@@ -167,10 +167,72 @@ const getSocialKnowledge = async () => {
   return socialKnowledgeCache;
 };
 
+const conditionAnswers = [
+  {
+    terms: ["cvi", "moždan", "mozdan", "udar", "šlog", "slog", "stroke"],
+    answer:
+      "Kod oporavka nakon CVI-ja/moždanog udara rehabilitacija je usmjerena na ponovno učenje pokreta, hod, ravnotežu, funkciju ruke, kontrolu trupa i svakodnevne aktivnosti. SUPERIOR u tom području koristi neurorehabilitacijske pristupe poput Bobath koncepta, terapije ogledalom, reedukacije hoda, vježbi ravnoteže i funkcionalne elektrostimulacije. Za individualnu procjenu najbolje je poslati upit putem kontakt forme: /kontakt.",
+  },
+  {
+    terms: ["multipla skleroza", "multiplu sklerozu", "skleroz", "ms"],
+    answer:
+      "Kod multiple skleroze rehabilitacija se prilagođava trenutnom stanju osobe, umoru, ravnoteži, hodu, snazi i funkcionalnim ciljevima. SUPERIOR radi neurorehabilitaciju za osobe s MS-om kroz kontrolirane vježbe, rad na stabilnosti, ravnoteži, hodu i očuvanju svakodnevne funkcije. Za individualni plan najbolje je poslati upit putem kontakt forme: /kontakt.",
+  },
+  {
+    terms: ["parkinson", "parkinsonova"],
+    answer:
+      "Kod Parkinsonove bolesti fizioterapija i neurorehabilitacija mogu pomoći u održavanju pokretljivosti, ravnoteže, koordinacije, sigurnijeg hoda i svakodnevne funkcionalnosti. SUPERIOR radi vježbe ravnoteže, reedukaciju hoda i individualno prilagođenu neurorehabilitaciju. Za procjenu i termin pošaljite upit putem kontakt forme: /kontakt.",
+  },
+  {
+    terms: ["alzheimer", "alzheimerova"],
+    answer:
+      "Kod Alzheimerove bolesti rehabilitacija je usmjerena na očuvanje funkcionalnosti, sigurnosti, rutine kretanja, ravnoteže i podršku obitelji u svakodnevnoj skrbi. SUPERIOR pristupa takvim stanjima individualno, uz naglasak na sigurno kretanje i održavanje sposobnosti koliko je moguće. Za dogovor procjene pošaljite upit putem kontakt forme: /kontakt.",
+  },
+  {
+    terms: ["ozljeda leđne moždine", "ozljeda ledne mozdine", "leđna moždina", "ledna mozdina", "spinal"],
+    answer:
+      "Kod ozljeda leđne moždine rehabilitacija se usmjerava na očuvanje i poboljšanje funkcije, kontrolu trupa, transfer, ravnotežu, hod gdje je moguć, prevenciju komplikacija i što veću samostalnost. SUPERIOR radi individualno prilagođenu neurorehabilitaciju za složena neurološka stanja. Za procjenu pošaljite upit putem kontakt forme: /kontakt.",
+  },
+  {
+    terms: ["ozljeda živca", "ozljedu živca", "ozljeda zivca", "ozljedu zivca", "živac", "živca", "zivac", "zivca", "periferni živac", "periferni zivac"],
+    answer:
+      "Kod ozljeda perifernih živaca rehabilitacija može uključivati rad na aktivaciji mišića, očuvanju opsega pokreta, smanjenju boli, funkcionalnoj elektrostimulaciji i postupnom vraćanju funkcije. SUPERIOR radi oporavak nakon ozljeda živaca i neuroloških oštećenja. Za individualnu procjenu pošaljite upit putem kontakt forme: /kontakt.",
+  },
+  {
+    terms: ["ataksija", "ataxia"],
+    answer:
+      "Kod ataksije rehabilitacija je najčešće usmjerena na koordinaciju, ravnotežu, sigurniji hod, kontrolu trupa i smanjenje rizika od pada. SUPERIOR radi vježbe ravnoteže i individualnu neurorehabilitaciju kod takvih neuroloških poteškoća. Za procjenu pošaljite upit putem kontakt forme: /kontakt.",
+  },
+  {
+    terms: ["edem", "otok", "oteklina"],
+    answer:
+      "Kod edema ili oticanja rehabilitacija može uključivati postupke poput limfne drenaže, edukacije, terapijskih procedura i prilagodbe aktivnosti, ovisno o uzroku. SUPERIOR nudi limfnu drenažu i rehabilitacijsku podršku kod edema, osobito nakon operacija i kod određenih stanja. Za procjenu pošaljite upit putem kontakt forme: /kontakt.",
+  },
+  {
+    terms: ["prijelom", "prelom", "fraktura", "operacija", "postoperativ"],
+    answer:
+      "Nakon prijeloma, operacija ili postoperativnih stanja rehabilitacija je usmjerena na smanjenje boli i otoka, vraćanje opsega pokreta, snage, stabilnosti i sigurnog povratka svakodnevnim aktivnostima. SUPERIOR radi oporavak nakon ozljeda i operacija. Za individualni plan pošaljite upit putem kontakt forme: /kontakt.",
+  },
+];
+
 const fallbackChatAnswer = (message) => {
   const text = String(message || "").toLowerCase();
   if (text.includes("facebook") || text.includes("instagram") || text.includes("društven") || text.includes("drustven") || text.includes("mrež") || text.includes("mrez") || text.includes("social")) {
     return "SUPERIOR možete pronaći na Facebooku: https://www.facebook.com/fizikalnasuperior/ i Instagramu: https://www.instagram.com/fizikalna_superior/.";
+  }
+  const condition = conditionAnswers.find((item) => item.terms.some((term) => text.includes(term)));
+  if (condition) return condition.answer;
+  if (text.includes("bobath")) {
+    return "Bobath koncept je neurorazvojni terapijski pristup koji se koristi kod neuroloških poteškoća, primjerice nakon moždanog udara, kod multiple skleroze i drugih oštećenja središnjeg živčanog sustava. Cilj je poticati kvalitetniji obrazac pokreta, bolju kontrolu tijela i funkcionalniji oporavak kroz individualno prilagođen rad. Za procjenu odgovara li Bobath terapija vašem slučaju, najbolje je poslati upit putem kontakt forme: /kontakt.";
+  }
+  if (text.includes("mirror") || text.includes("ogledal")) {
+    return "Mirror therapy, odnosno terapija ogledalom, koristi vizualnu povratnu informaciju kako bi potaknula aktivaciju i oporavak pokreta, osobito kod neuroloških stanja i oporavka nakon moždanog udara. Za individualnu procjenu najbolje je poslati upit putem kontakt forme: /kontakt.";
+  }
+  if (text.includes("limfn") || text.includes("drenaž") || text.includes("drenaz")) {
+    return "Limfna drenaža je terapijska tehnika kojom se potiče protok limfe, često kao podrška kod edema, nakon operacija ili kod određenih rehabilitacijskih stanja. Za odabir odgovarajuće terapije najbolje je poslati upit putem kontakt forme: /kontakt.";
+  }
+  if (text.includes("ultrazv")) {
+    return "Ultrazvučna terapija koristi se kao fizikalna procedura za potporu oporavku mekih tkiva, smanjenje upale i poboljšanje lokalne cirkulacije. Za procjenu je li prikladna za vašu tegobu, pošaljite upit putem kontakt forme: /kontakt.";
   }
   if (text.includes("bol") || text.includes("boli") || text.includes("problem") || text.includes("tegob") || text.includes("ozljed") || text.includes("ozlijed") || text.includes("rastrg") || text.includes("puk") || text.includes("istegn") || text.includes("uganu") || text.includes("prepon") || text.includes("mišić") || text.includes("misic") || text.includes("tetiv") || text.includes("ligament") || text.includes("vrat") || text.includes("leđa") || text.includes("leda") || text.includes("rame") || text.includes("lakat") || text.includes("šaka") || text.includes("saka") || text.includes("ruka") || text.includes("koljeno") || text.includes("kuk") || text.includes("zglob") || text.includes("list") || text.includes("noga") || text.includes("stopalo") || text.includes("gležanj") || text.includes("glezanj") || text.includes("naručit") || text.includes("narucit") || text.includes("termin")) {
     return "SUPERIOR radi rehabilitaciju nakon ozljeda, bolova i individualnih tegoba, uključujući ozljede mišića, tetiva, ligamenata i oporavak nakon nezgoda. Za takav slučaj najbolje je poslati upit putem kontakt forme: /kontakt. U poruci kratko opišite što se dogodilo, gdje osjećate problem, koliko dugo traje i želite li termin za procjenu. Ako je ozljeda svježa, jaka ili se stanje naglo pogoršava, prvo se obratite liječniku ili hitnoj službi.";
