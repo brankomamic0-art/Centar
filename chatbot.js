@@ -103,7 +103,7 @@
 
   addMessage(
     "bot",
-    "Duje kaže: pozdrav. Mogu odgovoriti na kratka pitanja o uslugama, centru, Antoneli Pavić, terminima i oporavku nakon nezgoda.",
+    "Pozdrav. Mogu odgovoriti na kratka pitanja o uslugama, centru, Antoneli Pavić, terminima i oporavku nakon nezgoda.",
   );
 
   launcher.addEventListener("click", () => setOpen(!panel.classList.contains("open")));
