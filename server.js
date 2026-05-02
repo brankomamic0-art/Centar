@@ -338,7 +338,7 @@ const findWebsiteKnowledgeAnswer = async (message) => {
 
   if (!tokens.length) return "";
 
-  const websiteKnowledge = await getWebsiteKnowledge();
+  const websiteKnowledge = await getRelevantWebsiteKnowledge(message);
   const chunks = websiteKnowledge
     .split(/(?<=[.!?])\s+|\n+/)
     .map((chunk) => chunk.trim())
@@ -365,6 +365,42 @@ const findWebsiteKnowledgeAnswer = async (message) => {
   if (!best) return "";
 
   return `${best.chunk} Za detaljniji upit ili dogovor termina najbolje je poslati poruku putem kontakt forme: /kontakt.`;
+};
+
+const getRelevantWebsiteKnowledge = async (message) => {
+  const normalizedMessage = normalizeSearchText(message);
+  const tokens = normalizedMessage
+    .split(" ")
+    .filter((token) => token.length > 2 && !["kako", "koje", "koji", "sto", "sta", "jel", "radite", "imate", "mogu", "moze", "moze li"].includes(token));
+
+  const expandedTokens = new Set(tokens);
+  if (tokens.some((token) => ["kuce", "kuci", "kucne", "kucni", "home"].includes(token))) {
+    ["kucne", "posjete", "nepokretne", "mobilnost", "split"].forEach((token) => expandedTokens.add(token));
+  }
+  if (tokens.some((token) => ["termin", "naruciti", "narucivanje", "kontakt"].includes(token))) {
+    ["kontakt", "forma", "termin", "upit"].forEach((token) => expandedTokens.add(token));
+  }
+
+  const websiteKnowledge = await getWebsiteKnowledge();
+  const chunks = websiteKnowledge
+    .split(/(?<=[.!?])\s+|\n+/)
+    .map((chunk) => chunk.trim())
+    .filter((chunk) => chunk.length >= 35 && chunk.length <= 800);
+
+  const scored = chunks
+    .map((chunk, order) => {
+      const normalizedChunk = normalizeSearchText(chunk);
+      const score = [...expandedTokens].reduce((sum, token) => sum + (normalizedChunk.includes(token) ? 1 : 0), 0);
+      return { chunk, order, score };
+    })
+    .filter((item) => item.score > 0)
+    .sort((a, b) => b.score - a.score || a.order - b.order)
+    .slice(0, 12)
+    .sort((a, b) => a.order - b.order)
+    .map((item) => item.chunk)
+    .join("\n\n");
+
+  return scored || websiteKnowledge.slice(0, 8000);
 };
 
 const getChatbotKnowledgeText = async () => {
@@ -611,7 +647,7 @@ app.post("/api/chat", async (req, res) => {
     return res.json({ answer: await fallbackChatAnswer(message), fallback: true });
   }
 
-  const websiteKnowledge = await getWebsiteKnowledge();
+  const websiteKnowledge = await getRelevantWebsiteKnowledge(message);
   const input = [
     ...history
       .filter((item) => item && ["user", "assistant"].includes(item.role) && typeof item.content === "string")
