@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
+    "start": "node --env-file-if-exists=.env server.js",
     "test:chatbot": "node scripts/test-chatbot-knowledge.js"
   },
   "dependencies": {
