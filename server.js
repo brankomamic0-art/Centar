@@ -378,7 +378,17 @@ const getChatbotKnowledgeText = async () => {
     .join("\n");
 };
 
+const getGreetingAnswer = (message = "") => {
+  const text = normalizeSearchText(message);
+  if (!/^(bok|cao|cesto|hej|halo|hello|hi|pozdrav|dobar dan|dobra vecer|dobro jutro)$/.test(text)) return "";
+
+  return "Pozdrav. Mogu pomoći s informacijama o uslugama centra SUPERIOR, neurorehabilitaciji, fizikalnim procedurama, Brain Gymu, lokaciji i naručivanju termina. Možete pitati, na primjer: koje usluge nudite, gdje se nalazite ili kako naručiti termin.";
+};
+
 const fallbackChatAnswer = async (message) => {
+  const greetingAnswer = getGreetingAnswer(message);
+  if (greetingAnswer) return greetingAnswer;
+
   const knowledgeAnswer = await findChatbotKnowledgeAnswer(message);
   if (knowledgeAnswer) return knowledgeAnswer;
 
@@ -592,13 +602,16 @@ app.post("/api/chat", async (req, res) => {
     return res.status(400).json({ error: "Poruka je preduga. Molimo skratite upit." });
   }
 
+  const greetingAnswer = getGreetingAnswer(message);
+  if (greetingAnswer) {
+    return res.json({ answer: greetingAnswer });
+  }
+
   if (!OPENAI_API_KEY) {
     return res.json({ answer: await fallbackChatAnswer(message), fallback: true });
   }
 
   const websiteKnowledge = await getWebsiteKnowledge();
-  const socialKnowledge = await getSocialKnowledge();
-  const chatbotKnowledge = await getChatbotKnowledgeText();
   const input = [
     ...history
       .filter((item) => item && ["user", "assistant"].includes(item.role) && typeof item.content === "string")
@@ -606,13 +619,7 @@ app.post("/api/chat", async (req, res) => {
     { role: "user", content: message },
   ];
   const openAiInstructions =
-    "You are Duje, the website assistant for Fizikalna terapija + rehabilitacija SUPERIOR. Answer only using the provided website knowledge. Keep information formal, accurate, concise, and direct. Do not begin answers with signature phrases like 'Duje kaže' or 'Duje misli'. Do not overdo humor. Do not provide diagnosis, medical advice, prognosis, exercises, prescriptions, or urgency triage. When users describe pain, injuries, torn/strained muscles, groin problems, accident recovery, or similar patient problems, say that SUPERIOR works with rehabilitation after injuries and individual musculoskeletal/neurorehabilitation issues, then direct them to the contact form at /kontakt for assessment/booking. Do not give the phone number unless the user explicitly asks for the phone number. If the user mentions an emergency or severe acute symptoms, tell them to contact emergency medical services. Prefer Croatian unless the user writes in another language.\n\nWEBSITE KNOWLEDGE:\n" +
-    CHATBOT_KNOWLEDGE +
-    "\n\nCHATBOT KNOWLEDGE BASE:\n" +
-    chatbotKnowledge +
-    "\n\nSOCIAL MEDIA SOURCES:\n" +
-    socialKnowledge +
-    "\n\nFULL WEBSITE TEXT:\n" +
+    "You are Duje, the website assistant for Fizikalna terapija + rehabilitacija SUPERIOR. Answer only using the provided website text. Do not use any outside knowledge or the old manual chatbot knowledge base. If the answer is not stated in the website text, say that the information is not listed on the website and direct the user to the contact form at /kontakt. Keep information formal, accurate, concise, and direct. Do not begin answers with signature phrases like 'Duje kaže' or 'Duje misli'. Do not overdo humor. Do not provide diagnosis, medical advice, prognosis, exercises, prescriptions, or urgency triage. When users describe pain, injuries, torn/strained muscles, groin problems, accident recovery, or similar patient problems, summarize only what the website says about relevant rehabilitation services, then direct them to /kontakt for assessment/booking. Do not give the phone number unless the user explicitly asks for the phone number. If the user mentions an emergency or severe acute symptoms, tell them to contact emergency medical services. Prefer Croatian unless the user writes in another language.\n\nWEBSITE TEXT:\n" +
     websiteKnowledge;
 
   try {
