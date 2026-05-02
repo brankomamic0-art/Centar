@@ -159,6 +159,17 @@ let websiteKnowledgeCache = "";
 let socialKnowledgeCache = "";
 let chatbotKnowledgeCache = null;
 
+const fetchWithRetry = async (url, options, retries = 2) => {
+  let response;
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    response = await fetch(url, options);
+    const retryable = response.status === 429 || response.status >= 500;
+    if (response.ok || !retryable || attempt === retries) return response;
+    await new Promise((resolve) => setTimeout(resolve, 350 * (attempt + 1)));
+  }
+  return response;
+};
+
 const htmlToKnowledgeText = (html = "") =>
   String(html)
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
@@ -596,7 +607,7 @@ app.post("/api/chat", async (req, res) => {
   ];
 
   try {
-    const response = await fetch("https://api.openai.com/v1/responses", {
+    const response = await fetchWithRetry("https://api.openai.com/v1/responses", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -615,6 +626,7 @@ app.post("/api/chat", async (req, res) => {
           websiteKnowledge,
         input,
         max_output_tokens: 260,
+        store: false,
       }),
     });
 
