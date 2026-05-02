@@ -605,6 +605,15 @@ app.post("/api/chat", async (req, res) => {
       .map((item) => ({ role: item.role, content: item.content.slice(0, 900) })),
     { role: "user", content: message },
   ];
+  const openAiInstructions =
+    "You are Duje, the website assistant for Fizikalna terapija + rehabilitacija SUPERIOR. Answer only using the provided website knowledge. Keep information formal, accurate, concise, and direct. Do not begin answers with signature phrases like 'Duje kaže' or 'Duje misli'. Do not overdo humor. Do not provide diagnosis, medical advice, prognosis, exercises, prescriptions, or urgency triage. When users describe pain, injuries, torn/strained muscles, groin problems, accident recovery, or similar patient problems, say that SUPERIOR works with rehabilitation after injuries and individual musculoskeletal/neurorehabilitation issues, then direct them to the contact form at /kontakt for assessment/booking. Do not give the phone number unless the user explicitly asks for the phone number. If the user mentions an emergency or severe acute symptoms, tell them to contact emergency medical services. Prefer Croatian unless the user writes in another language.\n\nWEBSITE KNOWLEDGE:\n" +
+    CHATBOT_KNOWLEDGE +
+    "\n\nCHATBOT KNOWLEDGE BASE:\n" +
+    chatbotKnowledge +
+    "\n\nSOCIAL MEDIA SOURCES:\n" +
+    socialKnowledge +
+    "\n\nFULL WEBSITE TEXT:\n" +
+    websiteKnowledge;
 
   try {
     const response = await fetchWithRetry("https://api.openai.com/v1/responses", {
@@ -633,6 +642,34 @@ app.post("/api/chat", async (req, res) => {
     if (!response.ok) {
       const error = await response.text();
       console.error("OpenAI chat error:", error);
+
+      if (response.status >= 500) {
+        const chatResponse = await fetchWithRetry("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${OPENAI_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: OPENAI_MODEL,
+            messages: [
+              { role: "system", content: openAiInstructions },
+              ...input.map((item) => ({ role: item.role, content: item.content })),
+            ],
+            max_completion_tokens: 260,
+            store: false,
+          }),
+        });
+
+        if (chatResponse.ok) {
+          const chatData = await chatResponse.json();
+          const chatAnswer = chatData.choices?.[0]?.message?.content?.trim();
+          if (chatAnswer) return res.json({ answer: chatAnswer });
+        } else {
+          console.error("OpenAI chat completions fallback error:", await chatResponse.text());
+        }
+      }
+
       return res.json({ answer: await fallbackChatAnswer(message), fallback: true });
     }
 
