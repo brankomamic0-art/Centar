@@ -27,7 +27,28 @@ const SOCIAL_KNOWLEDGE_FILE = join(__dirname, "data", "social-knowledge.json");
 const CHATBOT_KNOWLEDGE_FILE = join(__dirname, "data", "chatbot-knowledge.json");
 const ADMIN_COOKIE_NAME = "superior_admin_session";
 const ADMIN_SESSION_MS = 1000 * 60 * 60 * 8;
+const SITE_URL = (process.env.SITE_URL || process.env.PUBLIC_SITE_URL || "").replace(/\/+$/, "");
 const adminSessions = new Map();
+
+const SEO_ROUTES = [
+  { path: "/", priority: "1.0", changefreq: "weekly" },
+  { path: "/usluge/", priority: "0.9", changefreq: "monthly" },
+  { path: "/neuro/", priority: "0.9", changefreq: "monthly" },
+  { path: "/braingym/", priority: "0.9", changefreq: "monthly" },
+  { path: "/o-nama/", priority: "0.8", changefreq: "monthly" },
+  { path: "/kontakt/", priority: "0.8", changefreq: "monthly" },
+  { path: "/blog/", priority: "0.7", changefreq: "weekly" },
+];
+
+const STATIC_SEO_PAGES = [
+  { routes: ["/", "/index.html"], file: "index.html", canonical: "/" },
+  { routes: ["/usluge", "/usluge/"], file: join("usluge", "index.html"), canonical: "/usluge/" },
+  { routes: ["/neuro", "/neuro/"], file: join("neuro", "index.html"), canonical: "/neuro/" },
+  { routes: ["/braingym", "/braingym/"], file: join("braingym", "index.html"), canonical: "/braingym/" },
+  { routes: ["/o-nama", "/o-nama/"], file: join("o-nama", "index.html"), canonical: "/o-nama/" },
+  { routes: ["/kontakt", "/kontakt/"], file: join("kontakt", "index.html"), canonical: "/kontakt/" },
+  { routes: ["/blog", "/blog/"], file: join("blog", "index.html"), canonical: "/blog/" },
+];
 
 const escapeHtml = (value = "") =>
   String(value)
@@ -36,6 +57,32 @@ const escapeHtml = (value = "") =>
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+
+const escapeXml = (value = "") =>
+  String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+
+const getSiteOrigin = (req) => {
+  if (SITE_URL) return SITE_URL;
+  const protocol = req.get("x-forwarded-proto") || req.protocol || "https";
+  return `${protocol}://${req.get("host")}`;
+};
+
+const absolutizeSeoUrls = (html, req, canonicalPath) => {
+  const origin = getSiteOrigin(req);
+  const absoluteCanonical = `${origin}${canonicalPath}`;
+  return html
+    .replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${escapeHtml(absoluteCanonical)}" />`)
+    .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${escapeHtml(absoluteCanonical)}" />`)
+    .replace(/<meta property="og:image" content="\/([^"]+)" \/>/, (_match, imagePath) => {
+      return `<meta property="og:image" content="${escapeHtml(`${origin}/${imagePath}`)}" />`;
+    })
+    .replace(/"image": "\/([^"]+)"/, (_match, imagePath) => `"image": "${escapeHtml(`${origin}/${imagePath}`)}"`);
+};
 
 const requiredText = (value) => typeof value === "string" && value.trim().length > 0;
 const slugify = (value = "") =>
@@ -739,6 +786,57 @@ app.post("/api/blog-upload", requireAdmin, async (req, res) => {
   }
 });
 
+app.get("/robots.txt", (req, res) => {
+  const origin = getSiteOrigin(req);
+  res.type("text/plain").send(`User-agent: *
+Allow: /
+Disallow: /admin
+Sitemap: ${origin}/sitemap.xml
+`);
+});
+
+app.get("/sitemap.xml", async (req, res) => {
+  try {
+    const origin = getSiteOrigin(req);
+    const posts = await readPosts();
+    const publishedPosts = posts
+      .filter((post) => post.status === "published" && post.slug)
+      .map((post) => ({
+        path: `/blog/${post.slug}`,
+        priority: "0.7",
+        changefreq: "monthly",
+        lastmod: post.updatedAt || post.publishDate || new Date().toISOString(),
+      }));
+
+    const urls = [...SEO_ROUTES, ...publishedPosts]
+      .map((route) => {
+        const loc = `${origin}${route.path}`;
+        const lastmod = route.lastmod ? `<lastmod>${escapeXml(String(route.lastmod).slice(0, 10))}</lastmod>` : "";
+        return `<url><loc>${escapeXml(loc)}</loc>${lastmod}<changefreq>${route.changefreq}</changefreq><priority>${route.priority}</priority></url>`;
+      })
+      .join("");
+
+    res
+      .type("application/xml")
+      .send(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`);
+  } catch (error) {
+    console.error("Sitemap error:", error);
+    res.status(500).type("text/plain").send("Sitemap error");
+  }
+});
+
+for (const page of STATIC_SEO_PAGES) {
+  app.get(page.routes, async (req, res) => {
+    try {
+      const html = await readFile(join(__dirname, page.file), "utf8");
+      res.type("html").send(absolutizeSeoUrls(html, req, page.canonical));
+    } catch (error) {
+      console.error(`SEO page render error for ${page.file}:`, error);
+      res.status(500).sendFile(join(__dirname, page.file));
+    }
+  });
+}
+
 app.use("/uploads/blog", express.static(BLOG_UPLOAD_DIR));
 
 app.use(
@@ -752,8 +850,46 @@ app.use(
   }),
 );
 
-app.get("/blog/:slug", (_req, res) => {
-  res.sendFile(join(__dirname, "blog", "post.html"));
+app.get("/blog/:slug", async (req, res) => {
+  try {
+    const posts = await readPosts();
+    const post = posts.find((item) => item.slug === req.params.slug && item.status === "published");
+    if (!post) return res.status(404).sendFile(join(__dirname, "blog", "post.html"));
+
+    const origin = getSiteOrigin(req);
+    const postUrl = `${origin}/blog/${post.slug}`;
+    const imageUrl = post.featuredImage?.startsWith("http")
+      ? post.featuredImage
+      : `${origin}${post.featuredImage || "/slika.jpg"}`;
+    const title = `${post.title} | SUPERIOR Split`;
+    const description =
+      post.excerpt ||
+      String(post.content || "")
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 155);
+
+    let html = await readFile(join(__dirname, "blog", "post.html"), "utf8");
+    html = html
+      .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
+      .replace(
+        /<meta name="description" content="[^"]*" \/>/,
+        `<meta name="description" content="${escapeHtml(description)}" />`,
+      )
+      .replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${escapeHtml(postUrl)}" />`)
+      .replace(/<meta property="og:title" content="[^"]*" \/>/, `<meta property="og:title" content="${escapeHtml(title)}" />`)
+      .replace(
+        /<meta property="og:description" content="[^"]*" \/>/,
+        `<meta property="og:description" content="${escapeHtml(description)}" />`,
+      )
+      .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${escapeHtml(postUrl)}" />`)
+      .replace(/<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${escapeHtml(imageUrl)}" />`);
+
+    res.type("html").send(html);
+  } catch (error) {
+    console.error("Blog SEO render error:", error);
+    res.status(500).sendFile(join(__dirname, "blog", "post.html"));
+  }
 });
 
 app.use((_req, res) => {
