@@ -24,7 +24,6 @@ const BLOG_UPLOAD_DIR =
 const BLOG_POSTS_FILE = join(BLOG_DATA_DIR, "blog-posts.json");
 const BUNDLED_BLOG_POSTS_FILE = join(__dirname, "data", "blog-posts.json");
 const SOCIAL_KNOWLEDGE_FILE = join(__dirname, "data", "social-knowledge.json");
-const CHATBOT_KNOWLEDGE_FILE = join(__dirname, "data", "chatbot-knowledge.json");
 const ADMIN_COOKIE_NAME = "superior_admin_session";
 const ADMIN_SESSION_MS = 1000 * 60 * 60 * 8;
 const SITE_URL = (process.env.SITE_URL || process.env.PUBLIC_SITE_URL || "").replace(/\/+$/, "");
@@ -103,47 +102,6 @@ const normalizeTags = (tags) => {
     .filter(Boolean);
 };
 
-const CHATBOT_KNOWLEDGE = `
-Fizikalna terapija + rehabilitacija SUPERIOR is a specialized physiotherapy and neurorehabilitation center in Split, Croatia.
-Address: Put studenca 23a, Split.
-Phone: +385 99 855 6105.
-Email: fizikalnasuperior@gmail.com.
-Preferred website contact path for appointments and personal questions: /kontakt. Direct users to the contact form instead of giving the phone number unless they explicitly ask for the phone number.
-Working hours shown on the website: Monday-Friday 08:00-20:00.
-Facebook: https://www.facebook.com/fizikalnasuperior/
-Instagram: https://www.instagram.com/fizikalna_superior/
-Website language: Croatian, but answer in the user's language if they write in another language.
-
-About Antonela Pavic:
-Antonela Pavic, mag. physioth., founded and leads SUPERIOR. She is a master of physiotherapy and a lecturer at the University Department of Health Studies in Split, teaching Physiotherapy and Nursing students. Her work connects academic teaching and clinical neurorehabilitation practice. Areas mentioned on the website include Bobath concept, mirror therapy, Brain Gym, neurorehabilitation after CVI/stroke, MS, Parkinson's disease, Alzheimer's disease, nerve injuries, and spinal cord injuries.
-
-Services and offerings:
-- Advanced neurorehabilitation.
-- Recovery after stroke/CVI.
-- Rehabilitation for multiple sclerosis, Parkinson's disease, Alzheimer's disease, nerve injuries, and spinal cord injuries.
-- Therapy recovery after traffic accidents, car accidents, falls, fractures, soft-tissue injuries, post-operative states, mobility loss, pain, and return to everyday movement after trauma.
-- Bobath concept.
-- Mirror therapy.
-- Brain Gym. The website describes SUPERIOR as the only Brain Gym program/center in the region.
-- Gait re-education.
-- Balance exercises.
-- Functional electrical stimulation.
-- Ultrasound therapy.
-- Electromagnetic therapy.
-- Electrotherapy TENS/EMS.
-- Cryotherapy and thermotherapy.
-- Medical massage.
-- Lymphatic drainage.
-- Manual mobilization.
-- Kinesiology taping.
-- Trigger point therapy.
-- Home visits for immobile patients, patients after severe CVI, and people with limited mobility in Split and the surrounding area.
-- Bebologija Superior is linked at https://bebologija-superior.com/.
-
-Safety boundary:
-The chatbot is only a website information assistant. It must not diagnose, prescribe treatment, interpret symptoms, assess urgency, or replace a doctor/physiotherapist. For personal medical advice, booking, acute symptoms, or post-accident evaluation, it should direct users to the contact form at /kontakt or contacting emergency/medical services when urgent.
-`;
-
 const SITE_KNOWLEDGE_FILES = [
   ["Naslovna", "index.html"],
   ["O nama", join("o-nama", "index.html")],
@@ -157,7 +115,6 @@ const SITE_KNOWLEDGE_FILES = [
 
 let websiteKnowledgeCache = "";
 let socialKnowledgeCache = "";
-let chatbotKnowledgeCache = null;
 
 const fetchWithRetry = async (url, options, retries = 2) => {
   let response;
@@ -227,54 +184,6 @@ const getSocialKnowledge = async () => {
   return socialKnowledgeCache;
 };
 
-const conditionAnswers = [
-  {
-    terms: ["cvi", "moždan", "mozdan", "udar", "šlog", "slog", "stroke"],
-    answer:
-      "Kod oporavka nakon CVI-ja/moždanog udara rehabilitacija je usmjerena na ponovno učenje pokreta, hod, ravnotežu, funkciju ruke, kontrolu trupa i svakodnevne aktivnosti. SUPERIOR u tom području koristi neurorehabilitacijske pristupe poput Bobath koncepta, terapije ogledalom, reedukacije hoda, vježbi ravnoteže i funkcionalne elektrostimulacije. Za individualnu procjenu najbolje je poslati upit putem kontakt forme: /kontakt.",
-  },
-  {
-    terms: ["multipla skleroza", "multiplu sklerozu", "skleroz", "ms"],
-    answer:
-      "Kod multiple skleroze rehabilitacija se prilagođava trenutnom stanju osobe, umoru, ravnoteži, hodu, snazi i funkcionalnim ciljevima. SUPERIOR radi neurorehabilitaciju za osobe s MS-om kroz kontrolirane vježbe, rad na stabilnosti, ravnoteži, hodu i očuvanju svakodnevne funkcije. Za individualni plan najbolje je poslati upit putem kontakt forme: /kontakt.",
-  },
-  {
-    terms: ["parkinson", "parkinsonova"],
-    answer:
-      "Kod Parkinsonove bolesti fizioterapija i neurorehabilitacija mogu pomoći u održavanju pokretljivosti, ravnoteže, koordinacije, sigurnijeg hoda i svakodnevne funkcionalnosti. SUPERIOR radi vježbe ravnoteže, reedukaciju hoda i individualno prilagođenu neurorehabilitaciju. Za procjenu i termin pošaljite upit putem kontakt forme: /kontakt.",
-  },
-  {
-    terms: ["alzheimer", "alzheimerova"],
-    answer:
-      "Kod Alzheimerove bolesti rehabilitacija je usmjerena na očuvanje funkcionalnosti, sigurnosti, rutine kretanja, ravnoteže i podršku obitelji u svakodnevnoj skrbi. SUPERIOR pristupa takvim stanjima individualno, uz naglasak na sigurno kretanje i održavanje sposobnosti koliko je moguće. Za dogovor procjene pošaljite upit putem kontakt forme: /kontakt.",
-  },
-  {
-    terms: ["ozljeda leđne moždine", "ozljeda ledne mozdine", "leđna moždina", "ledna mozdina", "spinal"],
-    answer:
-      "Kod ozljeda leđne moždine rehabilitacija se usmjerava na očuvanje i poboljšanje funkcije, kontrolu trupa, transfer, ravnotežu, hod gdje je moguć, prevenciju komplikacija i što veću samostalnost. SUPERIOR radi individualno prilagođenu neurorehabilitaciju za složena neurološka stanja. Za procjenu pošaljite upit putem kontakt forme: /kontakt.",
-  },
-  {
-    terms: ["ozljeda živca", "ozljedu živca", "ozljeda zivca", "ozljedu zivca", "živac", "živca", "zivac", "zivca", "periferni živac", "periferni zivac"],
-    answer:
-      "Kod ozljeda perifernih živaca rehabilitacija može uključivati rad na aktivaciji mišića, očuvanju opsega pokreta, smanjenju boli, funkcionalnoj elektrostimulaciji i postupnom vraćanju funkcije. SUPERIOR radi oporavak nakon ozljeda živaca i neuroloških oštećenja. Za individualnu procjenu pošaljite upit putem kontakt forme: /kontakt.",
-  },
-  {
-    terms: ["ataksija", "ataxia"],
-    answer:
-      "Kod ataksije rehabilitacija je najčešće usmjerena na koordinaciju, ravnotežu, sigurniji hod, kontrolu trupa i smanjenje rizika od pada. SUPERIOR radi vježbe ravnoteže i individualnu neurorehabilitaciju kod takvih neuroloških poteškoća. Za procjenu pošaljite upit putem kontakt forme: /kontakt.",
-  },
-  {
-    terms: ["edem", "otok", "oteklina"],
-    answer:
-      "Kod edema ili oticanja rehabilitacija može uključivati postupke poput limfne drenaže, edukacije, terapijskih procedura i prilagodbe aktivnosti, ovisno o uzroku. SUPERIOR nudi limfnu drenažu i rehabilitacijsku podršku kod edema, osobito nakon operacija i kod određenih stanja. Za procjenu pošaljite upit putem kontakt forme: /kontakt.",
-  },
-  {
-    terms: ["prijelom", "prelom", "fraktura", "operacija", "postoperativ"],
-    answer:
-      "Nakon prijeloma, operacija ili postoperativnih stanja rehabilitacija je usmjerena na smanjenje boli i otoka, vraćanje opsega pokreta, snage, stabilnosti i sigurnog povratka svakodnevnim aktivnostima. SUPERIOR radi oporavak nakon ozljeda i operacija. Za individualni plan pošaljite upit putem kontakt forme: /kontakt.",
-  },
-];
-
 const normalizeSearchText = (value = "") =>
   String(value)
     .toLowerCase()
@@ -285,88 +194,6 @@ const normalizeSearchText = (value = "") =>
     .replace(/\s+/g, " ")
     .trim();
 
-const getChatbotKnowledge = async () => {
-  if (chatbotKnowledgeCache) return chatbotKnowledgeCache;
-
-  try {
-    const items = JSON.parse(await readFile(CHATBOT_KNOWLEDGE_FILE, "utf8"));
-    if (!Array.isArray(items)) throw new Error("chatbot-knowledge.json must contain an array.");
-
-    chatbotKnowledgeCache = items.map((item) => ({
-      ...item,
-      keywords: Array.isArray(item.keywords) ? item.keywords : [],
-      normalizedKeywords: (Array.isArray(item.keywords) ? item.keywords : []).map(normalizeSearchText).filter(Boolean),
-    }));
-  } catch (error) {
-    console.error("Chatbot knowledge read error:", error.message);
-    chatbotKnowledgeCache = [
-      {
-        id: "default",
-        title: "Opći odgovor",
-        keywords: [],
-        normalizedKeywords: [],
-        answer:
-          "SUPERIOR nudi fizikalnu terapiju i naprednu neurorehabilitaciju. Za osobni medicinski savjet ili termin pošaljite upit putem kontakt forme: /kontakt.",
-      },
-    ];
-  }
-
-  return chatbotKnowledgeCache;
-};
-
-const findChatbotKnowledgeAnswer = async (message) => {
-  const text = normalizeSearchText(message);
-  const words = text.split(" ");
-  const items = await getChatbotKnowledge();
-  const matches = items
-    .map((item, order) => {
-      const matchedKeyword = item.normalizedKeywords
-        .filter((keyword) => (keyword.length <= 3 ? words.includes(keyword) : text.includes(keyword)))
-        .sort((a, b) => b.length - a.length)[0];
-      return matchedKeyword ? { item, order, keywordLength: matchedKeyword.length } : null;
-    })
-    .filter(Boolean)
-    .sort((a, b) => b.keywordLength - a.keywordLength || a.order - b.order);
-  const match = matches[0]?.item;
-  return match?.answer || "";
-};
-
-const findWebsiteKnowledgeAnswer = async (message) => {
-  const tokens = normalizeSearchText(message)
-    .split(" ")
-    .filter((token) => token.length > 3 && !["kako", "koje", "koji", "sto", "sta", "ima", "imaju", "moze", "mogu"].includes(token));
-
-  if (!tokens.length) return "";
-
-  const websiteKnowledge = await getRelevantWebsiteKnowledge(message);
-  const chunks = websiteKnowledge
-    .split(/(?<=[.!?])\s+|\n+/)
-    .map((chunk) => chunk.trim())
-    .filter((chunk) => chunk.length >= 40 && chunk.length <= 520)
-    .filter((chunk) => {
-      const normalized = normalizeSearchText(chunk);
-      return (
-        !normalized.includes("preskoci na sadrzaj") &&
-        !normalized.includes("navigacija") &&
-        !normalized.includes("politika privatnosti") &&
-        !normalized.includes("fizikalnasuperior gmail") &&
-        !normalized.includes("put studenca") &&
-        !normalized.includes("naslovna o nama usluge")
-      );
-    });
-
-  let best = null;
-  for (const chunk of chunks) {
-    const normalizedChunk = normalizeSearchText(chunk);
-    const score = tokens.reduce((sum, token) => sum + (normalizedChunk.includes(token) ? 1 : 0), 0);
-    if (score > 0 && (!best || score > best.score)) best = { chunk, score };
-  }
-
-  if (!best) return "";
-
-  return `${best.chunk} Za detaljniji upit ili dogovor termina najbolje je poslati poruku putem kontakt forme: /kontakt.`;
-};
-
 const getRelevantWebsiteKnowledge = async (message) => {
   const normalizedMessage = normalizeSearchText(message);
   const tokens = normalizedMessage
@@ -375,7 +202,9 @@ const getRelevantWebsiteKnowledge = async (message) => {
 
   const expandedTokens = new Set(tokens);
   if (tokens.some((token) => ["kuce", "kuci", "kucne", "kucni", "home"].includes(token))) {
-    ["kucne", "posjete", "nepokretne", "mobilnost", "split"].forEach((token) => expandedTokens.add(token));
+    ["kuca", "kuce", "kuci", "kucna", "kucne", "posjete", "adresa", "adresu", "dolazimo", "opremom", "nepokretne", "mobilnost", "split"].forEach((token) =>
+      expandedTokens.add(token),
+    );
   }
   if (tokens.some((token) => ["termin", "naruciti", "narucivanje", "kontakt"].includes(token))) {
     ["kontakt", "forma", "termin", "upit"].forEach((token) => expandedTokens.add(token));
@@ -396,78 +225,10 @@ const getRelevantWebsiteKnowledge = async (message) => {
     .filter((item) => item.score > 0)
     .sort((a, b) => b.score - a.score || a.order - b.order)
     .slice(0, 12)
-    .sort((a, b) => a.order - b.order)
     .map((item) => item.chunk)
     .join("\n\n");
 
   return scored || websiteKnowledge.slice(0, 8000);
-};
-
-const getChatbotKnowledgeText = async () => {
-  const items = await getChatbotKnowledge();
-  return items
-    .filter((item) => item.id !== "default")
-    .map((item) => {
-      const keywords = item.keywords.length ? ` Keywords: ${item.keywords.join(", ")}.` : "";
-      return `${item.title || item.id}: ${item.answer}${keywords}`;
-    })
-    .join("\n");
-};
-
-const getGreetingAnswer = (message = "") => {
-  const text = normalizeSearchText(message);
-  if (!/^(bok|cao|cesto|hej|halo|hello|hi|pozdrav|dobar dan|dobra vecer|dobro jutro)$/.test(text)) return "";
-
-  return "Pozdrav. Mogu pomoći s informacijama o uslugama centra SUPERIOR, neurorehabilitaciji, fizikalnim procedurama, Brain Gymu, lokaciji i naručivanju termina. Možete pitati, na primjer: koje usluge nudite, gdje se nalazite ili kako naručiti termin.";
-};
-
-const fallbackChatAnswer = async (message) => {
-  const greetingAnswer = getGreetingAnswer(message);
-  if (greetingAnswer) return greetingAnswer;
-
-  const knowledgeAnswer = await findChatbotKnowledgeAnswer(message);
-  if (knowledgeAnswer) return knowledgeAnswer;
-
-  const websiteAnswer = await findWebsiteKnowledgeAnswer(message);
-  if (websiteAnswer) return websiteAnswer;
-
-  const text = String(message || "").toLowerCase();
-  if (text.includes("facebook") || text.includes("instagram") || text.includes("društven") || text.includes("drustven") || text.includes("mrež") || text.includes("mrez") || text.includes("social")) {
-    return "SUPERIOR možete pronaći na Facebooku: https://www.facebook.com/fizikalnasuperior/ i Instagramu: https://www.instagram.com/fizikalna_superior/.";
-  }
-  const condition = conditionAnswers.find((item) => item.terms.some((term) => text.includes(term)));
-  if (condition) return condition.answer;
-  if (text.includes("bobath")) {
-    return "Bobath koncept je neurorazvojni terapijski pristup koji se koristi kod neuroloških poteškoća, primjerice nakon moždanog udara, kod multiple skleroze i drugih oštećenja središnjeg živčanog sustava. Cilj je poticati kvalitetniji obrazac pokreta, bolju kontrolu tijela i funkcionalniji oporavak kroz individualno prilagođen rad. Za procjenu odgovara li Bobath terapija vašem slučaju, najbolje je poslati upit putem kontakt forme: /kontakt.";
-  }
-  if (text.includes("mirror") || text.includes("ogledal")) {
-    return "Mirror therapy, odnosno terapija ogledalom, koristi vizualnu povratnu informaciju kako bi potaknula aktivaciju i oporavak pokreta, osobito kod neuroloških stanja i oporavka nakon moždanog udara. Za individualnu procjenu najbolje je poslati upit putem kontakt forme: /kontakt.";
-  }
-  if (text.includes("limfn") || text.includes("drenaž") || text.includes("drenaz")) {
-    return "Limfna drenaža je terapijska tehnika kojom se potiče protok limfe, često kao podrška kod edema, nakon operacija ili kod određenih rehabilitacijskih stanja. Za odabir odgovarajuće terapije najbolje je poslati upit putem kontakt forme: /kontakt.";
-  }
-  if (text.includes("ultrazv")) {
-    return "Ultrazvučna terapija koristi se kao fizikalna procedura za potporu oporavku mekih tkiva, smanjenje upale i poboljšanje lokalne cirkulacije. Za procjenu je li prikladna za vašu tegobu, pošaljite upit putem kontakt forme: /kontakt.";
-  }
-  if (text.includes("bol") || text.includes("boli") || text.includes("problem") || text.includes("tegob") || text.includes("ozljed") || text.includes("ozlijed") || text.includes("rastrg") || text.includes("puk") || text.includes("istegn") || text.includes("uganu") || text.includes("prepon") || text.includes("mišić") || text.includes("misic") || text.includes("tetiv") || text.includes("ligament") || text.includes("vrat") || text.includes("leđa") || text.includes("leda") || text.includes("rame") || text.includes("lakat") || text.includes("šaka") || text.includes("saka") || text.includes("ruka") || text.includes("koljeno") || text.includes("kuk") || text.includes("zglob") || text.includes("list") || text.includes("noga") || text.includes("stopalo") || text.includes("gležanj") || text.includes("glezanj") || text.includes("naručit") || text.includes("narucit") || text.includes("termin")) {
-    return "SUPERIOR radi rehabilitaciju nakon ozljeda, bolova i individualnih tegoba, uključujući ozljede mišića, tetiva, ligamenata i oporavak nakon nezgoda. Za takav slučaj najbolje je poslati upit putem kontakt forme: /kontakt. U poruci kratko opišite što se dogodilo, gdje osjećate problem, koliko dugo traje i želite li termin za procjenu. Ako je ozljeda svježa, jaka ili se stanje naglo pogoršava, prvo se obratite liječniku ili hitnoj službi.";
-  }
-  if (text.includes("antonela") || text.includes("pavic") || text.includes("pavić")) {
-    return "Antonela Pavić, mag. physioth., voditeljica je centra SUPERIOR. Magistrica je fizioterapije i predavačica na Sveučilišnom odjelu zdravstvenih studija u Splitu, gdje povezuje akademsko znanje s kliničkom praksom neurorehabilitacije.";
-  }
-  if (text.includes("nezgod") || text.includes("nesre") || text.includes("promet") || text.includes("auto") || text.includes("accident")) {
-    return "SUPERIOR radi i terapijski oporavak nakon prometnih i drugih nezgoda: nakon padova, prijeloma, ozljeda mekih tkiva, operacija, boli, gubitka pokretljivosti i povratka svakodnevnom kretanju. Za individualnu procjenu ili termin najbolje je poslati upit putem kontakt forme: /kontakt.";
-  }
-  if (text.includes("kontakt") || text.includes("adresa") || text.includes("gdje") || text.includes("telefon")) {
-    if (text.includes("telefon") || text.includes("broj") || text.includes("nazvati") || text.includes("zvati")) {
-      return "Telefon centra je +385 99 855 6105. Za slanje upita ili dogovor termina možete koristiti i kontakt formu: /kontakt.";
-    }
-    return "SUPERIOR se nalazi na adresi Put studenca 23a, Split. Za upit ili dogovor termina najbolje je koristiti kontakt formu: /kontakt. Radno vrijeme navedeno na stranici je ponedjeljak-petak 08-20h.";
-  }
-  if (text.includes("brain") || text.includes("gym")) {
-    return "Brain Gym je strukturirani program vježbi za poticanje neuroplastičnosti i integracije moždanih funkcija. Na stranici je SUPERIOR istaknut kao jedini Brain Gym centar/program u regiji.";
-  }
-  return "SUPERIOR nudi fizikalnu terapiju i naprednu neurorehabilitaciju: oporavak nakon CVI/moždanog udara, neurološka stanja, Bobath koncept, mirror therapy, Brain Gym, fizikalne procedure, manualnu terapiju, rehabilitaciju nakon nezgoda i kućne posjete. Za osobni medicinski savjet ili termin pošaljite upit putem kontakt forme: /kontakt.";
 };
 
 const readPosts = async () => {
@@ -638,16 +399,15 @@ app.post("/api/chat", async (req, res) => {
     return res.status(400).json({ error: "Poruka je preduga. Molimo skratite upit." });
   }
 
-  const greetingAnswer = getGreetingAnswer(message);
-  if (greetingAnswer) {
-    return res.json({ answer: greetingAnswer });
-  }
-
   if (!OPENAI_API_KEY) {
-    return res.json({ answer: await fallbackChatAnswer(message), fallback: true });
+    return res.json({
+      answer: "AI asistent trenutno nije konfiguriran. Molimo pošaljite upit putem kontakt forme: /kontakt.",
+      unavailable: true,
+    });
   }
 
   const websiteKnowledge = await getRelevantWebsiteKnowledge(message);
+  const socialKnowledge = await getSocialKnowledge();
   const input = [
     ...history
       .filter((item) => item && ["user", "assistant"].includes(item.role) && typeof item.content === "string")
@@ -655,8 +415,10 @@ app.post("/api/chat", async (req, res) => {
     { role: "user", content: message },
   ];
   const openAiInstructions =
-    "You are Duje, the website assistant for Fizikalna terapija + rehabilitacija SUPERIOR. Answer only using the provided website text. Do not use any outside knowledge or the old manual chatbot knowledge base. If the answer is not stated in the website text, say that the information is not listed on the website and direct the user to the contact form at /kontakt. Keep information formal, accurate, concise, and direct. Do not begin answers with signature phrases like 'Duje kaže' or 'Duje misli'. Do not overdo humor. Do not provide diagnosis, medical advice, prognosis, exercises, prescriptions, or urgency triage. When users describe pain, injuries, torn/strained muscles, groin problems, accident recovery, or similar patient problems, summarize only what the website says about relevant rehabilitation services, then direct them to /kontakt for assessment/booking. Do not give the phone number unless the user explicitly asks for the phone number. If the user mentions an emergency or severe acute symptoms, tell them to contact emergency medical services. Prefer Croatian unless the user writes in another language.\n\nWEBSITE TEXT:\n" +
-    websiteKnowledge;
+    "You are Duje, the website assistant for Fizikalna terapija + rehabilitacija SUPERIOR. Answer only using the provided SUPERIOR website text and provided SUPERIOR social media sources. Do not use the old manual chatbot knowledge base and do not use outside knowledge. If the answer is not stated in the provided website/social text, say that the information is not listed there and direct the user to the contact form at /kontakt. Keep answers formal, accurate, concise, and direct. Do not begin answers with signature phrases like 'Duje kaže' or 'Duje misli'. Do not overdo humor. Do not provide diagnosis, medical advice, prognosis, exercises, prescriptions, or urgency triage. When users describe pain, injuries, torn/strained muscles, groin problems, accident recovery, or similar patient problems, summarize only what the provided website/social text says about relevant rehabilitation services, then direct them to /kontakt for assessment/booking. Do not give the phone number unless the user explicitly asks for the phone number. If the user mentions an emergency or severe acute symptoms, tell them to contact emergency medical services. Prefer Croatian unless the user writes in another language.\n\nRELEVANT WEBSITE TEXT:\n" +
+    websiteKnowledge +
+    "\n\nSUPERIOR SOCIAL MEDIA SOURCES:\n" +
+    socialKnowledge;
 
   try {
     const response = await fetchWithRetry("https://api.openai.com/v1/responses", {
@@ -705,7 +467,10 @@ app.post("/api/chat", async (req, res) => {
         }
       }
 
-      return res.json({ answer: await fallbackChatAnswer(message), fallback: true });
+      return res.json({
+        answer: "AI asistent trenutno ne može dohvatiti odgovor. Molimo pošaljite upit putem kontakt forme: /kontakt.",
+        unavailable: true,
+      });
     }
 
     const data = await response.json();
@@ -718,10 +483,18 @@ app.post("/api/chat", async (req, res) => {
         .join("\n")
         .trim();
 
-    res.json({ answer: answer || (await fallbackChatAnswer(message)) });
+    res.json({
+      answer:
+        answer ||
+        "AI asistent trenutno ne može dohvatiti odgovor. Molimo pošaljite upit putem kontakt forme: /kontakt.",
+      unavailable: !answer,
+    });
   } catch (error) {
     console.error("OpenAI chat error:", error);
-    res.json({ answer: await fallbackChatAnswer(message), fallback: true });
+    res.json({
+      answer: "AI asistent trenutno ne može dohvatiti odgovor. Molimo pošaljite upit putem kontakt forme: /kontakt.",
+      unavailable: true,
+    });
   }
 });
 
