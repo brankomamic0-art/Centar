@@ -11,7 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const RESEND_KEY = process.env.RESEND_API_KEY || process.env.RESEND_KEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
+const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || "jurej2750@gmail.com";
 const FROM_EMAIL =
   process.env.FROM_EMAIL ||
