@@ -298,7 +298,7 @@ nav.primary .nav-dropdown a:hover{background:var(--bone);color:var(--ink)}
 /* ───────── Hero ───────── */
 .hero{
   position:relative;overflow:hidden;
-  min-height:100svh;
+  min-height:calc(100svh - var(--above-hero, 7.5rem));
   display:flex;flex-direction:column;justify-content:flex-end;
 }
 .hero-video{
@@ -1301,6 +1301,18 @@ if(form){
 }
 </script>
 
+<script>
+(function(){
+  function setHeroHeight(){
+    var utility=document.querySelector('.utility');
+    var header=document.querySelector('header.site');
+    var offset=(utility?utility.offsetHeight:0)+(header?header.offsetHeight:0);
+    document.documentElement.style.setProperty('--above-hero',offset+'px');
+  }
+  setHeroHeight();
+  window.addEventListener('resize',setHeroHeight);
+})();
+</script>
 <script src="chatbot.js" defer></script>
 </body>
 </html>
