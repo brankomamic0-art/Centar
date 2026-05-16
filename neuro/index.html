@@ -646,22 +646,24 @@ section.block{padding:clamp(4rem,8vw,7rem) 0;position:relative}
 }
 .condition{
   display:grid;grid-template-columns:80px 1fr auto;
-  gap:1.5rem;padding:1.8rem 0;align-items:center;
+  gap:1.5rem;padding:1.8rem 0;align-items:start;
   border-bottom:1px solid rgba(244,239,230,.16);
   cursor:pointer;
   transition:background .3s, padding-left .3s;
 }
 .condition:hover{padding-left:1rem;background:rgba(244,239,230,.04)}
 .condition:nth-child(odd){border-right:1px solid rgba(244,239,230,.16)}
-.condition .c-num{font-family:var(--mono);font-size:.82rem;color:var(--warm-soft);letter-spacing:.1em}
+.condition .c-num{font-family:var(--mono);font-size:.82rem;color:var(--warm-soft);letter-spacing:.1em;padding-top:.35rem}
+.condition .c-body{display:flex;flex-direction:column;gap:.45rem}
 .condition .c-name{font-family:var(--serif);font-size:1.55rem;font-weight:400;letter-spacing:-.015em;line-height:1.1}
 .condition .c-name .it{font-style:italic;color:rgba(244,239,230,.7)}
+.condition .c-desc{font-size:.84rem;line-height:1.5;color:rgba(244,239,230,.52);margin:0;max-width:34ch}
 .condition .c-arrow{
   width:32px;height:32px;border-radius:50%;
   border:1px solid rgba(244,239,230,.3);
   display:grid;place-items:center;color:var(--paper);
   transition:all .3s;flex-shrink:0;
-  margin-right:.5rem;
+  margin-right:.5rem;margin-top:.3rem;
 }
 .condition:hover .c-arrow{background:var(--warm);color:var(--ink);border-color:var(--warm)}
 .condition .c-arrow svg{width:13px;height:13px}
@@ -670,6 +672,7 @@ section.block{padding:clamp(4rem,8vw,7rem) 0;position:relative}
   .condition:nth-child(odd){border-right:0}
   .condition{grid-template-columns:50px 1fr auto;gap:1rem}
   .condition .c-name{font-size:1.3rem}
+  .condition .c-desc{font-size:.8rem}
 }
 
 .nerve-callout{
@@ -1025,42 +1028,66 @@ footer.site ul a:hover{color:var(--warm-soft)}
       <div class="conditions">
         <article class="condition reveal">
           <span class="c-num">N·01</span>
-          <h3 class="c-name">Moždani udar <span class="it">(CVI)</span></h3>
+          <div class="c-body">
+            <h3 class="c-name">Moždani udar <span class="it">(CVI)</span></h3>
+            <p class="c-desc">Intenzivna rehabilitacija motorike, govora i kognicije u akutnoj i kroničnoj fazi — Bobath, PNF i neuroplastičnost.</p>
+          </div>
           <span class="c-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </article>
         <article class="condition reveal">
           <span class="c-num">N·02</span>
-          <h3 class="c-name">Multipla <span class="it">skleroza</span></h3>
+          <div class="c-body">
+            <h3 class="c-name">Multipla <span class="it">skleroza</span></h3>
+            <p class="c-desc">Programi za usporavanje progresije, povećanje izdržljivosti i kontrolu spasticiteta prilagođeni svakom obliku MS-a.</p>
+          </div>
           <span class="c-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </article>
         <article class="condition reveal">
           <span class="c-num">N·03</span>
-          <h3 class="c-name">Parkinsonova <span class="it">bolest</span></h3>
+          <div class="c-body">
+            <h3 class="c-name">Parkinsonova <span class="it">bolest</span></h3>
+            <p class="c-desc">LSVT BIG protokol, trening hoda i ravnoteže te vježbe koordinacije za smanjenje rigidnosti i poboljšanje pokretljivosti.</p>
+          </div>
           <span class="c-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </article>
         <article class="condition reveal">
           <span class="c-num">N·04</span>
-          <h3 class="c-name">Alzheimerova <span class="it">bolest</span></h3>
+          <div class="c-body">
+            <h3 class="c-name">Alzheimerova <span class="it">bolest</span></h3>
+            <p class="c-desc">Kognitivna stimulacija, Brain Gym i tjelesna aktivnost za očuvanje funkcionalnih sposobnosti i kvalitete života.</p>
+          </div>
           <span class="c-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </article>
         <article class="condition reveal">
           <span class="c-num">N·05</span>
-          <h3 class="c-name">Trauma mozga &amp; <span class="it">leđne moždine</span></h3>
+          <div class="c-body">
+            <h3 class="c-name">Trauma mozga &amp; <span class="it">leđne moždine</span></h3>
+            <p class="c-desc">Višedisciplinarni oporavak nakon TBI i ozljeda kralježnice — od intenzivne akutne faze do dugoročne funkcionalne neovisnosti.</p>
+          </div>
           <span class="c-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </article>
         <article class="condition reveal">
           <span class="c-num">N·06</span>
-          <h3 class="c-name">Tumori <span class="it">mozga</span></h3>
+          <div class="c-body">
+            <h3 class="c-name">Tumori <span class="it">mozga</span></h3>
+            <p class="c-desc">Predoperativna priprema i postoperativna rehabilitacija motoričkih, kognitivnih i govornih deficita nastalih uslijed tumora.</p>
+          </div>
           <span class="c-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </article>
         <article class="condition reveal">
           <span class="c-num">N·07</span>
-          <h3 class="c-name">Ataksija &amp; <span class="it">poremećaji ravnoteže</span></h3>
+          <div class="c-body">
+            <h3 class="c-name">Ataksija &amp; <span class="it">poremećaji ravnoteže</span></h3>
+            <p class="c-desc">Ciljani trening propriocepcije i stabilizacije uz vestibularnu rehabilitaciju za sigurniji i samostalniji hod.</p>
+          </div>
           <span class="c-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </article>
         <article class="condition reveal">
           <span class="c-num">N·08</span>
-          <h3 class="c-name">Postoperativna <span class="it">neurorehabilitacija</span></h3>
+          <div class="c-body">
+            <h3 class="c-name">Postoperativna <span class="it">neurorehabilitacija</span></h3>
+            <p class="c-desc">Strukturirani oporavak nakon neurokirurških zahvata za što brži povratak motoričke funkcije i svakodnevnih aktivnosti.</p>
+          </div>
           <span class="c-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </article>
       </div>
