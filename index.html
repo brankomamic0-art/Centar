@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Neurorehabilitacija i fizikalna terapija Split | SUPERIOR</title>
 
-<meta name="description" content="SUPERIOR je specijalizirani centar za neurorehabilitaciju i fizikalnu terapiju u Splitu. Bobath koncept, Brain Gym, terapija ogledalom, oporavak nakon moždanog udara, nezgoda i neuroloških stanja." />
+<meta name="description" content="Specijalizirani centar za neurorehabilitaciju i fizikalnu terapiju u Splitu. Oporavak nakon moždanog udara, multiple skleroze, Parkinsona i Brain Gym program." />
 <meta name="keywords" content="neurorehabilitacija Split, fizikalna terapija Split, rehabilitacija nakon moždanog udara Split, Bobath koncept Split, Brain Gym Split, terapija ogledalom Split, Antonela Pavić" />
 <meta name="author" content="Fizikalna terapija + rehabilitacija SUPERIOR" />
 <meta name="robots" content="index, follow" />
@@ -28,11 +28,17 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "MedicalBusiness",
-  "name": "Fizikalna terapija + rehabilitacija SUPERIOR",
+  "@type": "MedicalClinic",
+  "name": "SUPERIOR — fizikalna terapija + rehabilitacija",
+  "alternateName": "Fizikalna terapija SUPERIOR Split",
+  "description": "Specijalizirani centar za neurorehabilitaciju i fizikalnu terapiju u Splitu — oporavak nakon moždanog udara, multiple skleroze, Parkinsonove bolesti i Brain Gym program.",
+  "url": "/",
+  "logo": "/slika.jpg",
   "image": "/slika.jpg",
   "telephone": "+385998556105",
   "email": "fizikalnasuperior@gmail.com",
+  "priceRange": "€€",
+  "medicalSpecialty": "Physiotherapy",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Put studenca 23a",
@@ -40,19 +46,26 @@
     "postalCode": "21000",
     "addressCountry": "HR"
   },
-  "openingHours": "Mo-Fr 08:00-20:00",
-  "sameAs": [
-    "https://www.facebook.com/fizikalnasuperior/",
-    "https://www.instagram.com/fizikalna_superior/",
-    "https://bebologija-superior.com/"
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+    "opens": "08:00",
+    "closes": "20:00"
+  }],
+  "areaServed": [
+    { "@type": "City", "name": "Split" },
+    { "@type": "AdministrativeArea", "name": "Splitsko-dalmatinska županija" }
   ],
   "founder": {
     "@type": "Person",
-    "name": "Antonela Pavić, mag. physioth.",
-    "jobTitle": "Predavač, Sveučilišni odjel zdravstvenih studija u Splitu"
+    "name": "Antonela Pavić",
+    "jobTitle": "Magistra fizioterapije",
+    "honorificSuffix": "mag. physioth."
   },
-  "medicalSpecialty": ["Physiotherapy", "Neurology", "Rehabilitation"],
-  "areaServed": "Split-dalmatinska županija"
+  "sameAs": [
+    "https://www.facebook.com/fizikalnasuperior/",
+    "https://www.instagram.com/fizikalna_superior/"
+  ]
 }
 </script>
 
@@ -989,7 +1002,7 @@ footer.site ul a:hover{color:var(--warm-soft)}
 <main id="main">
 
 <section class="hero" id="home">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="slika.jpg" aria-hidden="true">
       <source src="hero-video.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay" aria-hidden="true"></div>
