@@ -41,11 +41,20 @@ h1{font-family:var(--serif);font-size:clamp(2.6rem,6vw,5.8rem);line-height:.98;f
 .nav-toggle{display:none;background:none;border:0;padding:.5rem;cursor:pointer;color:var(--ink)}
 .nav-toggle svg{width:24px;height:24px}
 @media(max-width:920px){
-  .nav{align-items:center}
+  .nav{align-items:center;gap:.7rem;padding-top:.72rem;padding-bottom:.72rem}
   nav.primary{display:none}
   nav.primary.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--rule);padding:1.5rem var(--gutter) 2rem;gap:1.1rem;font-size:1.1rem;z-index:100}
   .nav-toggle{display:block}
+  .nav > div > .cta{padding:.68rem .82rem;font-size:.76rem}
   .blog-hero-grid,.admin-grid{grid-template-columns:1fr}
   .blog-grid{grid-template-columns:1fr 1fr}
 }
-@media(max-width:620px){.blog-grid,.admin-form{grid-template-columns:1fr}h1{font-size:2.6rem}.brand-tag{display:none}}
+@media(max-width:620px){
+  .blog-grid,.admin-form{grid-template-columns:1fr}
+  h1{font-size:2.6rem}
+  .brand-mark{width:38px;height:38px;flex:0 0 38px}
+  .brand-name{font-size:1.05rem}
+  .brand-tag{font-size:.55rem;letter-spacing:.14em;max-width:8.5rem}
+  .nav-toggle{display:grid;min-width:42px;min-height:42px;padding:.45rem}
+}
+@media(max-width:380px){.brand-tag{display:none}.nav > div > .cta{display:none}}
