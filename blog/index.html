@@ -83,7 +83,7 @@
       <img src="/slika.jpg" class="brand-mark" alt="SUPERIOR logo" />
       <span><span class="brand-name">Superior</span><span class="brand-tag">Fizikalna terapija &amp; rehabilitacija</span></span>
     </a>
-    <nav class="primary" aria-label="Glavna navigacija">
+    <nav class="primary" id="primary-nav" aria-label="Glavna navigacija">
       <a href="/">Naslovna</a>
       <a href="/o-nama">O nama</a>
       <a href="/usluge">Usluge</a>
@@ -92,7 +92,12 @@
       <a href="/blog" aria-current="page">Blog</a>
       <a href="/kontakt">Kontakt</a>
     </nav>
-    <a href="/kontakt" class="cta">Dogovorite pregled</a>
+    <div style="display:flex;gap:.6rem;align-items:center">
+      <a href="/kontakt" class="cta">Dogovorite pregled</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Otvori izbornik">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -120,5 +125,22 @@
 </footer>
 <script src="/blog/blog.js"></script>
 <script src="/chatbot.js" defer></script>
+<script>
+(function(){
+  const tog = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('nav.primary');
+  if(!tog || !nav) return;
+  tog.addEventListener('click', function(){
+    const open = nav.classList.toggle('open');
+    tog.setAttribute('aria-expanded', open);
+  });
+  nav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      nav.classList.remove('open');
+      tog.setAttribute('aria-expanded', 'false');
+    });
+  });
+})();
+</script>
 </body>
 </html>

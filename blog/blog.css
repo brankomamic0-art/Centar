@@ -38,5 +38,14 @@ h1{font-family:var(--serif);font-size:clamp(2.6rem,6vw,5.8rem);line-height:.98;f
 .admin-form input,.admin-form textarea,.admin-form select{font:inherit;letter-spacing:0;text-transform:none;color:var(--ink);padding:.8rem;border:1px solid var(--rule);background:var(--white)}
 .admin-form textarea{min-height:260px;resize:vertical}.admin-form .full{grid-column:1/-1}.actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:.8rem}
 .notice{margin:1rem 0;color:var(--ink-soft)}
-@media(max-width:920px){.nav{align-items:flex-start}.primary{display:none}.cta{display:none}.blog-hero-grid,.admin-grid{grid-template-columns:1fr}.blog-grid{grid-template-columns:1fr 1fr}}
+.nav-toggle{display:none;background:none;border:0;padding:.5rem;cursor:pointer;color:var(--ink)}
+.nav-toggle svg{width:24px;height:24px}
+@media(max-width:920px){
+  .nav{align-items:center}
+  nav.primary{display:none}
+  nav.primary.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--rule);padding:1.5rem var(--gutter) 2rem;gap:1.1rem;font-size:1.1rem;z-index:100}
+  .nav-toggle{display:block}
+  .blog-hero-grid,.admin-grid{grid-template-columns:1fr}
+  .blog-grid{grid-template-columns:1fr 1fr}
+}
 @media(max-width:620px){.blog-grid,.admin-form{grid-template-columns:1fr}h1{font-size:2.6rem}.brand-tag{display:none}}
