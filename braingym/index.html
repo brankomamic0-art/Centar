@@ -19,8 +19,12 @@
 <meta property="og:title" content="Brain Gym Split | SUPERIOR" />
 <meta property="og:description" content="Strukturirani Brain Gym program u Splitu za poticanje neuroplastičnosti, koordinacije i kognitivnih funkcija." />
 <meta property="og:url" content="/braingym/" />
-<meta property="og:image" content="/slika.jpg" />
+<meta property="og:image" content="/braingym/braingym-program-split-1.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="900" />
+<meta property="og:image:alt" content="Brain Gym program u SUPERIOR centru Split" />
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="/braingym/braingym-program-split-1.jpg" />
 
 <link rel="stylesheet" href="../fonts/fonts.css" />
 <link rel="stylesheet" href="../chatbot.css" />
@@ -76,6 +80,67 @@
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Naslovna", "item": "/" },
     { "@type": "ListItem", "position": 2, "name": "Brain Gym", "item": "/braingym/" }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ImageGallery",
+  "name": "Brain Gym program — SUPERIOR Split",
+  "description": "Fotografije s Brain Gym programa u centru SUPERIOR Split. Jedini Brain Gym program u Splitu i regiji.",
+  "url": "/braingym/",
+  "associatedMedia": [
+    {
+      "@type": "ImageObject",
+      "url": "/braingym/braingym-program-split-1.jpg",
+      "name": "Brain Gym program Split — sesija 1",
+      "description": "Brain Gym vježbe u centru SUPERIOR Split za poticanje neuroplastičnosti",
+      "contentUrl": "/braingym/braingym-program-split-1.jpg"
+    },
+    {
+      "@type": "ImageObject",
+      "url": "/braingym/braingym-program-split-2.jpg",
+      "name": "Brain Gym program Split — sesija 2",
+      "description": "Brain Gym strukturirani program od 26 vježbi, SUPERIOR Split",
+      "contentUrl": "/braingym/braingym-program-split-2.jpg"
+    },
+    {
+      "@type": "ImageObject",
+      "url": "/braingym/braingym-program-split-3.jpg",
+      "name": "Brain Gym program Split — sesija 3",
+      "description": "Neuroplastičnost i kognitivna rehabilitacija kroz Brain Gym, Split",
+      "contentUrl": "/braingym/braingym-program-split-3.jpg"
+    },
+    {
+      "@type": "ImageObject",
+      "url": "/braingym/braingym-sesija-split-4.jpg",
+      "name": "Brain Gym sesija Split — 4",
+      "description": "Brain Gym sesija u SUPERIOR centru za fizikalnu terapiju, Split",
+      "contentUrl": "/braingym/braingym-sesija-split-4.jpg"
+    },
+    {
+      "@type": "ImageObject",
+      "url": "/braingym/braingym-sesija-split-5.jpg",
+      "name": "Brain Gym sesija Split — 5",
+      "description": "Individualna Brain Gym sesija, SUPERIOR Split",
+      "contentUrl": "/braingym/braingym-sesija-split-5.jpg"
+    },
+    {
+      "@type": "ImageObject",
+      "url": "/braingym/braingym-sesija-split-6.jpg",
+      "name": "Brain Gym sesija Split — 6",
+      "description": "Brain Gym vježbe za koordinaciju i ravnotežu, SUPERIOR Split",
+      "contentUrl": "/braingym/braingym-sesija-split-6.jpg"
+    },
+    {
+      "@type": "ImageObject",
+      "url": "/braingym/braingym-sesija-split-7.jpg",
+      "name": "Brain Gym sesija Split — 7",
+      "description": "Brain Gym rehabilitacijski program za djecu i odrasle, Split",
+      "contentUrl": "/braingym/braingym-sesija-split-7.jpg"
+    }
   ]
 }
 </script>
@@ -801,6 +866,24 @@ section.block{padding:clamp(4rem,8vw,7rem) 0;position:relative}
 .steps-list p{font-size:.9rem;color:var(--ink-soft);margin:0;line-height:1.5}
 @media (max-width:880px){.steps-list{grid-template-columns:1fr}}
 
+/* ───────── Photo gallery ───────── */
+.photo-gallery{background:var(--bone);padding:clamp(3rem,7vw,6rem) 0}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:4px;
+  margin-top:2.5rem;
+}
+.gallery-grid figure{margin:0;overflow:hidden;aspect-ratio:4/3;background:var(--paper-deep)}
+.gallery-grid figure:first-child{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.gallery-grid figure img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .45s cubic-bezier(.25,.46,.45,.94);
+}
+.gallery-grid figure:hover img{transform:scale(1.04)}
+@media(max-width:800px){.gallery-grid{grid-template-columns:repeat(2,1fr)}.gallery-grid figure:first-child{grid-column:span 2;grid-row:span 1;aspect-ratio:4/3}}
+@media(max-width:500px){.gallery-grid{grid-template-columns:1fr}.gallery-grid figure:first-child{grid-column:span 1}}
+
 /* ───────── Testimonial / quote band ───────── */
 .quote-band{
   background:var(--ink);color:var(--paper);
@@ -1182,6 +1265,57 @@ footer.site ul a:hover{color:var(--warm-soft)}
           <p>Redovite seanse, mjerenje napretka i prilagodba plana. Svaki mali pomak — bilježi se i proslavlja.</p>
         </li>
       </ol>
+    </div>
+  </section>
+
+  <!-- ───────── Photo gallery ───────── -->
+  <section class="photo-gallery" aria-label="Fotografije s Brain Gym programa">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Iz prakse</span>
+        </div>
+        <div>
+          <h2>Brain Gym <span class="it">u akciji.</span></h2>
+        </div>
+      </div>
+      <div class="gallery-grid reveal">
+        <figure>
+          <img src="/braingym/braingym-program-split-1.jpg"
+               alt="Brain Gym sesija u SUPERIOR centru Split — vježbe za neuroplastičnost"
+               loading="lazy" width="800" height="600" />
+        </figure>
+        <figure>
+          <img src="/braingym/braingym-program-split-2.jpg"
+               alt="Brain Gym program Split — jedan od 26 strukturiranih pokreta"
+               loading="lazy" width="800" height="600" />
+        </figure>
+        <figure>
+          <img src="/braingym/braingym-program-split-3.jpg"
+               alt="Brain Gym vježbe za koordinaciju mozga i tijela, SUPERIOR Split"
+               loading="lazy" width="800" height="600" />
+        </figure>
+        <figure>
+          <img src="/braingym/braingym-sesija-split-4.jpg"
+               alt="Individualna Brain Gym sesija u SUPERIOR centru, Split"
+               loading="lazy" width="800" height="600" />
+        </figure>
+        <figure>
+          <img src="/braingym/braingym-sesija-split-5.jpg"
+               alt="Brain Gym rehabilitacija za djecu i odrasle — SUPERIOR Split"
+               loading="lazy" width="800" height="600" />
+        </figure>
+        <figure>
+          <img src="/braingym/braingym-sesija-split-6.jpg"
+               alt="Brain Gym vježbe ravnoteže i kognicije, fizikalna terapija Split"
+               loading="lazy" width="800" height="600" />
+        </figure>
+        <figure>
+          <img src="/braingym/braingym-sesija-split-7.jpg"
+               alt="Brain Gym program — kognitivna i motorička rehabilitacija, Split"
+               loading="lazy" width="800" height="600" />
+        </figure>
+      </div>
     </div>
   </section>
 
