@@ -971,19 +971,19 @@ footer.site ul a:hover{color:var(--warm-soft)}
   /* aspect ratio of single portrait (half of combined image) */
   aspect-ratio:9/16;
 }
-/* Both layers use background-image for pixel-perfect half-image display */
+/* Both layers use background-image; 200% width = each half is exactly one photo */
 .ba-layer{
   position:absolute;inset:0;
   background-image:url('/neuro/neuro-prijeposlije.jpg');
-  background-size:auto 100%;
+  background-size:200% auto;
   background-repeat:no-repeat;
   pointer-events:none;
 }
 /* right half of combined image = poslije (10. terapija) */
-.ba-after-layer{ background-position:right center; }
+.ba-after-layer{ background-position:100% 50%; }
 /* left half of combined image = prije (1. terapija), clipped from right */
 .ba-before-layer{
-  background-position:left center;
+  background-position:0% 50%;
   clip-path:inset(0 50% 0 0);
 }
 /* Divider line */
