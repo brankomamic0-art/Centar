@@ -21,21 +21,68 @@
 </head>
 <body>
 <a href="#main" class="skip">Preskoči na sadržaj</a>
+
+<div class="utility" role="region" aria-label="Brzi kontakt">
+  <div class="wrap">
+    <div class="utility-left">
+      <span><span class="dot" aria-hidden="true"></span>Centar otvoren — Pon–Pet 08–20h</span>
+      <span aria-hidden="true" style="opacity:.4">|</span>
+      <a href="tel:+385998556105">+385 99 855 6105</a>
+      <span aria-hidden="true" style="opacity:.4">|</span>
+      <a href="mailto:fizikalnasuperior@gmail.com">fizikalnasuperior@gmail.com</a>
+      <span class="utility-sep" aria-hidden="true" style="opacity:.4">|</span>
+      <a href="https://bebologija-superior.com/" target="_blank" rel="noopener">Bebologija</a>
+    </div>
+    <div class="utility-right">
+      <a href="/kontakt">Put studenca 23a, Split</a>
+    </div>
+  </div>
+</div>
+
 <header class="site">
   <div class="wrap nav">
-    <a href="/" class="brand" aria-label="SUPERIOR - naslovna">
+    <a href="/" class="brand" aria-label="SUPERIOR — naslovna">
       <img src="/slika.jpg" class="brand-mark" alt="SUPERIOR logo" />
-      <span><span class="brand-name">Superior</span><span class="brand-tag">Fizikalna terapija &amp; rehabilitacija</span></span>
+      <span>
+        <span class="brand-name">Superior</span>
+        <span class="brand-tag">Fizikalna terapija &amp; rehabilitacija</span>
+      </span>
     </a>
-    <nav class="primary" aria-label="Glavna navigacija">
-      <a href="/">Naslovna</a>
-      <a href="/o-nama">O nama</a>
-      <a href="/usluge">Usluge</a>
-      <a href="/neuro">Neurorehabilitacija</a>
-      <a href="/braingym">Brain Gym</a>
-      <a href="/blog" aria-current="page">Blog</a>
-      <a href="/kontakt">Kontakt</a>
+
+    <nav class="primary" id="primary-nav" aria-label="Glavna navigacija">
+      <ul>
+        <li><a href="/">Naslovna</a></li>
+        <li><a href="/o-nama">O nama</a></li>
+        <li class="nav-item">
+          <button class="nav-link nav-dropdown-toggle" type="button" aria-expanded="false">
+            Usluge<span class="nav-caret" aria-hidden="true"></span>
+          </button>
+          <div class="nav-dropdown" aria-label="Sekcije usluga">
+            <a href="/usluge#fizikalne-procedure">Fizikalne procedure</a>
+            <a href="/usluge#neuro-tretmani">Neuro-tretmani</a>
+            <a href="/usluge#manualna-terapija">Manualna terapija</a>
+          </div>
+        </li>
+        <li><a href="/neuro">Neurorehabilitacija</a></li>
+        <li><a href="/braingym">Brain Gym</a></li>
+        <li><a href="/blog" aria-current="page">Blog</a></li>
+        <li><a href="/kontakt">Kontakt</a></li>
+      </ul>
     </nav>
+
+    <div style="display:flex;gap:.6rem;align-items:center">
+      <a href="tel:+385998556105" class="cta cta--ghost">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+        Nazovite
+      </a>
+      <a href="/kontakt" class="cta">
+        Dogovorite pregled
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Otvori izbornik">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -56,5 +103,29 @@
 </footer>
 <script src="/blog/post.js"></script>
 <script src="/chatbot.js" defer></script>
+<script>
+// Mobile nav toggle
+const tog = document.querySelector('.nav-toggle');
+const navp = document.querySelector('nav.primary');
+if(tog && navp){
+  tog.addEventListener('click', () => {
+    const open = navp.classList.toggle('open');
+    tog.setAttribute('aria-expanded', open);
+  });
+  navp.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navp.classList.remove('open');
+    tog.setAttribute('aria-expanded', false);
+  }));
+}
+// Usluge dropdown
+const serviceMenu = document.querySelector('.nav-item');
+const serviceToggle = document.querySelector('.nav-dropdown-toggle');
+if(serviceMenu && serviceToggle){
+  const close = () => { serviceMenu.classList.remove('open'); serviceToggle.setAttribute('aria-expanded','false'); };
+  serviceToggle.addEventListener('click', e => { e.stopPropagation(); const open = serviceMenu.classList.toggle('open'); serviceToggle.setAttribute('aria-expanded', open); });
+  document.addEventListener('click', e => { if(!serviceMenu.contains(e.target)) close(); });
+  document.addEventListener('keydown', e => { if(e.key==='Escape') close(); });
+}
+</script>
 </body>
 </html>
