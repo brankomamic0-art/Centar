@@ -868,21 +868,24 @@ section.block{padding:clamp(4rem,8vw,7rem) 0;position:relative}
 
 /* ───────── Photo gallery ───────── */
 .photo-gallery{background:var(--bone);padding:clamp(3rem,7vw,6rem) 0}
-.gallery-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:4px;
+.masonry{
+  columns:3;
+  column-gap:6px;
   margin-top:2.5rem;
 }
-.gallery-grid figure{margin:0;overflow:hidden;aspect-ratio:4/3;background:var(--paper-deep)}
-.gallery-grid figure:first-child{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
-.gallery-grid figure img{
-  width:100%;height:100%;object-fit:cover;display:block;
+.masonry figure{
+  margin:0 0 6px;
+  overflow:hidden;
+  break-inside:avoid;
+  background:var(--paper-deep);
+}
+.masonry figure img{
+  width:100%;height:auto;display:block;
   transition:transform .45s cubic-bezier(.25,.46,.45,.94);
 }
-.gallery-grid figure:hover img{transform:scale(1.04)}
-@media(max-width:800px){.gallery-grid{grid-template-columns:repeat(2,1fr)}.gallery-grid figure:first-child{grid-column:span 2;grid-row:span 1;aspect-ratio:4/3}}
-@media(max-width:500px){.gallery-grid{grid-template-columns:1fr}.gallery-grid figure:first-child{grid-column:span 1}}
+.masonry figure:hover img{transform:scale(1.04)}
+@media(max-width:700px){.masonry{columns:2}}
+@media(max-width:420px){.masonry{columns:1}}
 
 /* ───────── Testimonial / quote band ───────── */
 .quote-band{
@@ -1279,7 +1282,7 @@ footer.site ul a:hover{color:var(--warm-soft)}
           <h2>Brain Gym <span class="it">u akciji.</span></h2>
         </div>
       </div>
-      <div class="gallery-grid reveal">
+      <div class="masonry reveal">
         <figure>
           <img src="/braingym/braingym-program-split-1.jpg"
                alt="Brain Gym sesija u SUPERIOR centru Split — vježbe za neuroplastičnost"
