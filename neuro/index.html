@@ -968,8 +968,8 @@ footer.site ul a:hover{color:var(--warm-soft)}
   position:relative;overflow:hidden;
   border-radius:2px;border:1px solid var(--rule);
   cursor:ew-resize;user-select:none;touch-action:none;
-  /* aspect ratio of single portrait (half of combined image) */
-  aspect-ratio:9/16;
+  /* Shorter than 9/16 so bg overflows at top → crops the blue text box */
+  aspect-ratio:9/14;
 }
 /* Both layers use background-image; 200% width = each half is exactly one photo */
 .ba-layer{
@@ -979,11 +979,11 @@ footer.site ul a:hover{color:var(--warm-soft)}
   background-repeat:no-repeat;
   pointer-events:none;
 }
-/* right half of combined image = poslije (10. terapija) */
-.ba-after-layer{ background-position:100% 50%; }
-/* left half of combined image = prije (1. terapija), clipped from right */
+/* right half = poslije (10. terapija), aligned to bottom so top gets cropped */
+.ba-after-layer{ background-position:100% 100%; }
+/* left half = prije (1. terapija), aligned to bottom */
 .ba-before-layer{
-  background-position:0% 50%;
+  background-position:0% 100%;
   clip-path:inset(0 50% 0 0);
 }
 /* Divider line */
