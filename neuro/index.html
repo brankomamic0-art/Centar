@@ -960,6 +960,66 @@ footer.site ul a:hover{color:var(--warm-soft)}
   *,*::before,*::after{animation:none !important;transition:none !important}
   html{scroll-behavior:auto}
 }
+
+/* ── Before / After slider ── */
+.ba-section{background:var(--bone);padding:clamp(3rem,7vw,6rem) 0}
+.ba-wrap{max-width:560px;margin:2.5rem auto 0}
+.ba-slider{
+  position:relative;overflow:hidden;
+  border-radius:2px;border:1px solid var(--rule);
+  cursor:ew-resize;user-select:none;touch-action:none;
+  /* aspect ratio of single portrait (half of combined image) */
+  aspect-ratio:9/16;
+}
+/* Both layers fill the full container; object-position crops to correct half */
+.ba-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;
+}
+.ba-after-layer{ object-position:right center; }
+/* Before clip: grows from left, shows left half of combined image */
+.ba-before-clip{
+  position:absolute;inset:0;overflow:hidden;
+  width:50%;
+  border-right:2px solid rgba(255,255,255,.9);
+}
+.ba-before-clip .ba-img{ object-position:left center; width:200%; }
+.ba-handle{
+  position:absolute;top:0;bottom:0;left:50%;
+  width:44px;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.ba-handle-circle{
+  width:44px;height:44px;border-radius:50%;
+  background:#fff;box-shadow:0 2px 16px rgba(11,31,56,.28);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.ba-handle-circle svg{width:20px;height:20px;color:var(--ink)}
+.ba-label{
+  position:absolute;top:14px;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  background:rgba(11,31,56,.72);color:#fff;
+  padding:.3rem .65rem;border-radius:2px;pointer-events:none;
+}
+.ba-label-before{left:14px}
+.ba-label-after{right:14px}
+
+/* ── Masonry gallery ── */
+.neuro-gallery{background:var(--paper);padding:clamp(2rem,5vw,4rem) 0}
+.masonry-neuro{
+  columns:3;column-gap:6px;margin-top:2.5rem;
+}
+.masonry-neuro figure{
+  margin:0 0 6px;overflow:hidden;break-inside:avoid;background:var(--paper-deep);
+}
+.masonry-neuro figure img{
+  width:100%;height:auto;display:block;
+  transition:transform .45s cubic-bezier(.25,.46,.45,.94);
+}
+.masonry-neuro figure:hover img{transform:scale(1.04)}
+@media(max-width:700px){.masonry-neuro{columns:2}}
+@media(max-width:420px){.masonry-neuro{columns:1}}
 </style>
 </head>
 <body>
@@ -1133,6 +1193,64 @@ footer.site ul a:hover{color:var(--warm-soft)}
     </div>
   </section>
 
+  <!-- ── Before / After slider ── -->
+  <section class="ba-section" aria-label="Rezultati neurorehabilitacije — prije i poslije">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div><span class="eyebrow">Rezultati</span></div>
+        <div>
+          <h2>Prije i <span class="it">poslije.</span></h2>
+          <p style="color:var(--ink-soft);margin-top:.8rem;font-size:1rem">Povucite klizač za usporedbu stanja prije i nakon neurorehabilitacije.</p>
+        </div>
+      </div>
+      <div class="ba-wrap reveal">
+        <div class="ba-slider" id="ba-slider">
+          <img class="ba-img ba-after-layer" src="/neuro/neuro-prijeposlije.jpg" alt="10. terapija — poslije neurorehabilitacije, SUPERIOR Split" draggable="false" />
+          <div class="ba-before-clip" id="ba-clip">
+            <img class="ba-img" src="/neuro/neuro-prijeposlije.jpg" alt="1. terapija — prije neurorehabilitacije, SUPERIOR Split" draggable="false" />
+          </div>
+          <span class="ba-label ba-label-before" aria-hidden="true">Prije</span>
+          <span class="ba-label ba-label-after" aria-hidden="true">Poslije</span>
+          <div class="ba-handle" id="ba-handle" aria-hidden="true">
+            <div class="ba-handle-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6l-4 6 4 6M16 6l4 6-4 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Masonry gallery ── -->
+  <section class="neuro-gallery" aria-label="Fotografije s neurorehabilitacijskih sesija">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div><span class="eyebrow">Iz prakse</span></div>
+        <div><h2>Neurorehabilitacija <span class="it">u akciji.</span></h2></div>
+      </div>
+      <div class="masonry-neuro reveal">
+        <figure><img src="/neuro/neuro-mirror-terapija.jpg" alt="Mirror terapija — neurorehabilitacija Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-sesija-1.jpg" alt="Neurorehabilitacijska sesija u SUPERIOR centru Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-aktivacija-core.jpg" alt="Aktivacija core mišića — fizikalna terapija Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-sesija-2.jpg" alt="Neurorehabilitacija — oporavak nakon moždanog udara, Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-hands-on-zdjelica.jpg" alt="Hands-on tehnika — zdjelica i trup, SUPERIOR Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-sesija-3.jpg" alt="Fizikalna terapija neuroloških pacijenata, Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-iskorak-priprema.jpg" alt="Priprema za iskorak — neurorehabilitacija SUPERIOR" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-sesija-4.jpg" alt="Bobath koncept — neurorehabilitacijska terapija Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-snazenje-kvadricepsa.jpg" alt="Snaženje kvadricepsa — oporavak nakon CVI Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-sesija-5.jpg" alt="Neurorehabilitacija — multipla skleroza Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-ravnoteza-vjezba.jpg" alt="Vježba ravnoteže hands-on — SUPERIOR Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-sesija-6.jpg" alt="Parkinsonova bolest rehabilitacija Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-sesija-7.jpg" alt="Neurorehabilitacijska sesija — SUPERIOR Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-sesija-8.jpg" alt="Fizikalna terapija Split — individualni pristup" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-sesija-9.jpg" alt="Neurorehabilitacija Split — oporavak pokreta" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-sesija-10.jpg" alt="Neurorehabilitacija — SUPERIOR centar Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-sesija-11.jpg" alt="Terapija neuroloških pacijenata, Split" loading="lazy" /></figure>
+        <figure><img src="/neuro/neuro-sesija-12.jpg" alt="Neurorehabilitacijska sesija SUPERIOR Split" loading="lazy" /></figure>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site">
@@ -1281,5 +1399,35 @@ if(form){
 </script>
 
 <script src="../chatbot.js" defer></script>
+<script>
+(function(){
+  const slider = document.getElementById('ba-slider');
+  if(!slider) return;
+  const clip   = document.getElementById('ba-clip');
+  const handle = document.getElementById('ba-handle');
+
+  function setPos(pct){
+    pct = Math.max(2, Math.min(98, pct));
+    clip.style.width = pct + '%';
+    handle.style.left = pct + '%';
+  }
+
+  setPos(50);
+
+  function getPos(e){
+    const rect = slider.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    return (x / rect.width) * 100;
+  }
+
+  let dragging = false;
+  slider.addEventListener('mousedown',  (e) => { dragging = true; setPos(getPos(e)); });
+  window.addEventListener('mousemove',  (e) => { if(dragging) setPos(getPos(e)); });
+  window.addEventListener('mouseup',    ()  => { dragging = false; });
+  slider.addEventListener('touchstart', (e) => { dragging = true; setPos(getPos(e)); }, {passive:true});
+  window.addEventListener('touchmove',  (e) => { if(dragging) setPos(getPos(e)); }, {passive:true});
+  window.addEventListener('touchend',   ()  => { dragging = false; });
+})();
+</script>
 </body>
 </html>
