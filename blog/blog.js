@@ -20,7 +20,7 @@ const renderPosts = (posts) => {
     .map(
       (post) => `
         <article class="blog-card">
-          <img src="${escapeHtml(post.featuredImage || "/slika.jpg")}" alt="">
+          <img src="${escapeHtml(post.featuredImage || "/slika.webp")}" alt="">
           <div class="blog-card-body">
             <div class="meta">${escapeHtml(dateFormatter.format(new Date(post.publishDate)))} · ${escapeHtml(post.author)}</div>
             <h2>${escapeHtml(post.title)}</h2>

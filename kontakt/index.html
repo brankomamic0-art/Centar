@@ -917,6 +917,47 @@ form.appt .consent input{
   form.appt{grid-template-columns:1fr}
 }
 
+/* ── Mobile contact fixes ── */
+@media (max-width:600px){
+  html,body{overflow-x:hidden}
+
+  /* Utility bar: samo radno vrijeme, sakri ostalo */
+  .utility .wrap{flex-direction:column;align-items:flex-start;gap:.3rem}
+  .utility-left > a,
+  .utility-left > span[aria-hidden="true"]{display:none}
+  .utility-left{gap:.2rem}
+  .utility-right{display:none}
+
+  /* Section heading h1 manji na mobitelu */
+  .section-head h1{font-size:clamp(1.8rem,8vw,2.6rem)}
+
+  /* Contact info heading */
+  .contact-info h3{font-size:clamp(1.6rem,7vw,2.2rem);line-height:1.1}
+
+  /* Email ne smije prelijeti */
+  .contact-list .v{font-size:1rem;word-break:break-word}
+  .contact-list li{grid-template-columns:40px 1fr;gap:.8rem}
+  .contact-list .ci{width:40px;height:40px}
+
+  /* Radno vrijeme */
+  .hours{grid-template-columns:1fr;gap:.5rem}
+  .hours dt{margin-top:.6rem}
+  .hours dt:first-child{margin-top:0}
+
+  /* Form card manje padding */
+  .form-card{padding:1.4rem 1.2rem}
+  .form-card h4{font-size:1.3rem}
+
+  /* Submit red: consent + button u kolonu */
+  form.appt .submit{flex-direction:column;align-items:stretch}
+  form.appt .consent{max-width:100%}
+  form.appt .submit .cta{width:100%;justify-content:center}
+
+  /* Karta viša na mobitelu */
+  .map-frame{aspect-ratio:4/3}
+  .map-wrap{margin-top:2rem;padding-top:2rem}
+}
+
 
 .footer-links{display:flex;gap:.75rem;margin-top:1.2rem}
 .footer-links a{
