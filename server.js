@@ -698,6 +698,11 @@ for (const page of STATIC_SEO_PAGES) {
 
 app.use("/uploads/blog", express.static(BLOG_UPLOAD_DIR));
 
+// Redirect stare .jpg/.jpeg putanje na .webp nakon konverzije
+app.get(/\.(jpg|jpeg)$/i, (req, res) => {
+  res.redirect(301, req.path.replace(/\.(jpg|jpeg)$/i, ".webp"));
+});
+
 app.use(
   express.static(__dirname, {
     extensions: ["html"],
