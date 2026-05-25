@@ -29,8 +29,6 @@ fetch(`/api/blog-posts/${slug}`)
     document.getElementById("post-date").textContent = dateFormatter.format(new Date(post.publishDate));
     document.getElementById("post-author").textContent = post.author;
     document.getElementById("post-title").textContent = post.title;
-    document.getElementById("post-image").src = post.featuredImage || "/slika.jpg";
-    document.getElementById("post-image").alt = post.title;
     document.getElementById("post-tags").innerHTML = (post.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
     document.getElementById("post-content").innerHTML = paragraphs(post.content);
     postEl.hidden = false;
