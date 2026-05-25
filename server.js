@@ -556,7 +556,7 @@ app.post("/api/blog-posts", requireAdmin, async (req, res) => {
       slug,
       excerpt: String(req.body.excerpt || "").trim(),
       content: String(req.body.content || "").trim(),
-      featuredImage: String(req.body.featuredImage || "/slika.jpg").trim(),
+      featuredImage: String(req.body.featuredImage || "/slika.webp").trim(),
       publishDate: req.body.publishDate || now.slice(0, 10),
       author: String(req.body.author || "Fizikalna terapija SUPERIOR").trim(),
       category: String(req.body.category || "Savjeti").trim(),
@@ -595,7 +595,7 @@ app.put("/api/blog-posts/:id", requireAdmin, async (req, res) => {
       slug,
       excerpt: String(req.body.excerpt || "").trim(),
       content: String(req.body.content || "").trim(),
-      featuredImage: String(req.body.featuredImage || "/slika.jpg").trim(),
+      featuredImage: String(req.body.featuredImage || "/slika.webp").trim(),
       publishDate: req.body.publishDate || posts[index].publishDate,
       author: String(req.body.author || "Fizikalna terapija SUPERIOR").trim(),
       category: String(req.body.category || "Savjeti").trim(),
@@ -719,7 +719,7 @@ app.get("/blog/:slug", async (req, res) => {
     const postUrl = `${origin}/blog/${post.slug}`;
     const imageUrl = post.featuredImage?.startsWith("http")
       ? post.featuredImage
-      : `${origin}${post.featuredImage || "/slika.jpg"}`;
+      : `${origin}${post.featuredImage || "/slika.webp"}`;
     const title = `${post.title} | SUPERIOR Split`;
     const description =
       post.excerpt ||

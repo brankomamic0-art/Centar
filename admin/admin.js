@@ -29,7 +29,7 @@ const emptyPost = () => ({
   slug: "",
   excerpt: "",
   content: "",
-  featuredImage: "/slika.jpg",
+  featuredImage: "/slika.webp",
   publishDate: today(),
   author: "Fizikalna terapija SUPERIOR",
   category: "Savjeti",
@@ -56,7 +56,7 @@ const fillForm = (post) => {
   fields.excerpt.value = post.excerpt || "";
   fields.content.value = post.content || "";
   fields.tags.value = (post.tags || []).join(", ");
-  fields.featuredImage.value = post.featuredImage || "/slika.jpg";
+  fields.featuredImage.value = post.featuredImage || "/slika.webp";
 };
 
 const renderList = () => {
