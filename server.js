@@ -717,9 +717,11 @@ app.get("/blog/:slug", async (req, res) => {
 
     const origin = getSiteOrigin(req);
     const postUrl = `${origin}/blog/${post.slug}`;
+    const FALLBACK_IMAGES = ["/neuro/neuro-sesija-1.webp","/neuro/neuro-sesija-2.webp","/neuro/neuro-mirror-terapija.webp","/braingym/braingym-program-split-1.webp"];
+    const fallback = FALLBACK_IMAGES[Math.abs(post.slug.charCodeAt(0) % FALLBACK_IMAGES.length)];
     const imageUrl = post.featuredImage?.startsWith("http")
       ? post.featuredImage
-      : `${origin}${post.featuredImage || "/slika.webp"}`;
+      : `${origin}${post.featuredImage || fallback}`;
     const title = `${post.title} | SUPERIOR Split`;
     const description =
       post.excerpt ||
