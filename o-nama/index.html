@@ -637,6 +637,16 @@ section.block{padding:clamp(4rem,8vw,7rem) 0;position:relative}
   .about-gallery .about-masonry{column-count:2}
 }
 
+/* ───────── Predavanja ───────── */
+.lectures{background:var(--paper);padding:clamp(2.5rem,6vw,5rem) 0;border-top:1px solid var(--rule)}
+.lectures-masonry{columns:4;column-gap:8px;margin-top:2.5rem}
+.lectures-masonry figure{margin:0 0 8px;overflow:hidden;break-inside:avoid;border-radius:4px;box-shadow:var(--shadow-1)}
+.lectures-masonry figure img{width:100%;height:auto;display:block;transition:transform .45s cubic-bezier(.25,.46,.45,.94)}
+.lectures-masonry figure:hover img{transform:scale(1.04)}
+@media(max-width:900px){.lectures-masonry{columns:3}}
+@media(max-width:600px){.lectures-masonry{columns:2}}
+@media(max-width:380px){.lectures-masonry{columns:1}}
+
 /* ───────── Usluge (Services) ───────── */
 .services{background:var(--paper-deep)}
 .svc-tabs{
@@ -1171,6 +1181,30 @@ footer.site ul a:hover{color:var(--warm-soft)}
         <figure>
           <img src="../uploads/o-nama/about-4.webp" alt="Prostor ustanove Superior u Splitu" loading="lazy" />
         </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block lectures" aria-labelledby="predavanja-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Edukacija i praksa</span>
+        </div>
+        <div>
+          <h2 id="predavanja-title">Predavanja i <span class="it">studentska praksa</span>.</h2>
+          <p class="intro" style="margin-top:1rem">Antonela Pavić aktivno prenosi znanje studentima Fakulteta zdravstvenih studija u Splitu — kroz predavanja, kliničke demonstracije i direktan rad s pacijentima.</p>
+        </div>
+      </div>
+      <div class="lectures-masonry reveal">
+        <figure><img src="/uploads/predavanja/predavanje-01.webp" alt="Antonela Pavić demonstrira mirror terapiju studentima" loading="lazy" /></figure>
+        <figure><img src="/uploads/predavanja/predavanje-02.webp" alt="Predavanje o Bellovoj parezi na Fakultetu zdravstvenih studija" loading="lazy" /></figure>
+        <figure><img src="/uploads/predavanja/predavanje-03.webp" alt="Studenti u bijelim kutama prate kliničku demonstraciju" loading="lazy" /></figure>
+        <figure><img src="/uploads/predavanja/predavanje-04.webp" alt="Grupna fotografija studenata i tima ustanove Superior" loading="lazy" /></figure>
+        <figure><img src="/uploads/predavanja/predavanje-05.webp" alt="Studenti i Antonela Pavić u prostoru ustanove Superior" loading="lazy" /></figure>
+        <figure><img src="/uploads/predavanja/predavanje-06.webp" alt="Studenti prate kliničku demonstraciju rehabilitacije" loading="lazy" /></figure>
+        <figure><img src="/uploads/predavanja/predavanje-07.webp" alt="Pedijatrijska sesija sa studentima i bebama" loading="lazy" /></figure>
+        <figure><img src="/uploads/predavanja/predavanje-08.webp" alt="Antonela Pavić na predavanju u akademskom okruženju" loading="lazy" /></figure>
       </div>
     </div>
   </section>
