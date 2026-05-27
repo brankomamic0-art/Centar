@@ -25,7 +25,7 @@
     <div class="chatbot-head">
       <div>
         <span class="chatbot-title">Duje</span>
-        <span class="chatbot-subtitle">Informacije o centru i uslugama</span>
+        <span class="chatbot-subtitle">Informacije o ustanovi i uslugama</span>
       </div>
       <button class="chatbot-close" type="button" aria-label="Zatvori chat">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -41,7 +41,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7Z"/></svg>
           </button>
         </div>
-        <p class="chatbot-note">Duje daje samo opće informacije. Za medicinski savjet ili termin kontaktirajte centar.</p>
+        <p class="chatbot-note">Duje daje samo opće informacije. Za medicinski savjet ili termin kontaktirajte ustanovu.</p>
       </form>
     </div>
   `;
@@ -118,7 +118,7 @@
 
   addMessage(
     "bot",
-    "Pozdrav. Mogu odgovoriti na kratka pitanja o uslugama, centru, Antoneli Pavić, terminima i oporavku nakon nezgoda.",
+    "Pozdrav. Mogu odgovoriti na kratka pitanja o uslugama, ustanovi, Antoneli Pavić, terminima i oporavku nakon nezgoda.",
   );
 
   launcher.addEventListener("click", () => setOpen(!panel.classList.contains("open")));
