@@ -928,6 +928,23 @@ footer.site ul a:hover{color:var(--warm-soft)}
   *,*::before,*::after{animation:none !important;transition:none !important}
   html{scroll-behavior:auto}
 }
+
+/* ───────── Zadovoljni klijenti ───────── */
+.clients{background:var(--paper);padding:clamp(2.5rem,6vw,5rem) 0;border-top:1px solid var(--rule)}
+.clients-masonry{
+  columns:4;column-gap:8px;margin-top:2.5rem;
+}
+.clients-masonry figure{
+  margin:0 0 8px;overflow:hidden;break-inside:avoid;border-radius:4px;
+}
+.clients-masonry figure img{
+  width:100%;height:auto;display:block;
+  transition:transform .45s cubic-bezier(.25,.46,.45,.94);
+}
+.clients-masonry figure:hover img{transform:scale(1.04)}
+@media(max-width:900px){.clients-masonry{columns:3}}
+@media(max-width:600px){.clients-masonry{columns:2}}
+@media(max-width:380px){.clients-masonry{columns:1}}
 </style>
 </head>
 <body>
@@ -1164,6 +1181,35 @@ footer.site ul a:hover{color:var(--warm-soft)}
           <p>Za nepokretne pacijente i one s teškim ograničenjima mobilnosti dolazimo na kućnu adresu — terapija ne smije ovisiti o sposobnosti pacijenta da dođe do nas.</p>
         </article>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── Zadovoljni klijenti ───────── -->
+  <section class="block clients">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Naši klijenti</span>
+        </div>
+        <div>
+          <h2>Oporavak koji se <span class="it">vidi na licima.</span></h2>
+          <p class="intro" style="margin-top:1rem">Svaki osmijeh iza nas priča svoju priču — o strpljenju, trudu i povratku u život.</p>
+        </div>
+      </div>
+      <div class="clients-masonry reveal">
+        <figure><img src="/uploads/klijenti/klijent-01.webp" alt="Zadovoljna klijentica SUPERIOR Split" loading="lazy" /></figure>
+        <figure><img src="/uploads/klijenti/klijent-02.webp" alt="Klijent nakon rehabilitacije SUPERIOR" loading="lazy" /></figure>
+        <figure><img src="/uploads/klijenti/klijent-03.webp" alt="Zadovoljni klijenti SUPERIOR Split" loading="lazy" /></figure>
+        <figure><img src="/uploads/klijenti/klijent-04.webp" alt="Oporavak pacijenta SUPERIOR" loading="lazy" /></figure>
+        <figure><img src="/uploads/klijenti/klijent-05.webp" alt="Klijentica fizikalna terapija Split" loading="lazy" /></figure>
+        <figure><img src="/uploads/klijenti/klijent-06.webp" alt="Zadovoljan klijent neurorehabilitacija Split" loading="lazy" /></figure>
+        <figure><img src="/uploads/klijenti/klijent-07.webp" alt="Klijent nakon terapije SUPERIOR Split" loading="lazy" /></figure>
+        <figure><img src="/uploads/klijenti/klijent-08.webp" alt="Zadovoljni klijenti SUPERIOR rehabilitacija" loading="lazy" /></figure>
+        <figure><img src="/uploads/klijenti/klijent-09.webp" alt="Uspješan oporavak klijenta SUPERIOR" loading="lazy" /></figure>
+        <figure><img src="/uploads/klijenti/klijent-10.webp" alt="Klijenti fizikalna terapija SUPERIOR Split" loading="lazy" /></figure>
+        <figure><img src="/uploads/klijenti/klijent-11.webp" alt="Zadovoljni klijenti neurorehabilitacija" loading="lazy" /></figure>
+        <figure><img src="/uploads/klijenti/klijent-12.webp" alt="Klijent rehabilitacija SUPERIOR Split" loading="lazy" /></figure>
       </div>
     </div>
   </section>
