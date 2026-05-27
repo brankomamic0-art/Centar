@@ -1016,14 +1016,12 @@ footer.site ul a:hover{color:var(--warm-soft)}
 /* ── Masonry gallery ── */
 .neuro-gallery{background:var(--paper);padding:clamp(2rem,5vw,4rem) 0}
 .masonry-label{
-  column-span:all;
   display:flex;align-items:center;gap:.75rem;
-  margin:1.5rem 0 .75rem;
-  padding-top:1.5rem;
-  border-top:1px solid var(--rule);
+  margin:2rem 0 1rem;
   font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;
   text-transform:uppercase;color:var(--muted);
 }
+.masonry-label::before{content:"";width:24px;height:1px;background:currentColor;opacity:.6}
 .masonry-label::after{content:"";flex:1;height:1px;background:var(--rule)}
 .masonry-neuro{
   columns:3;column-gap:6px;margin-top:2.5rem;
@@ -1287,9 +1285,11 @@ footer.site ul a:hover{color:var(--warm-soft)}
         <figure><img src="/neuro/neuro-sesija-10.webp" alt="Neurorehabilitacija — SUPERIOR ustanova Split" loading="lazy" /></figure>
         <figure><img src="/neuro/neuro-sesija-11.webp" alt="Terapija neuroloških pacijenata, Split" loading="lazy" /></figure>
         <figure><img src="/neuro/neuro-sesija-12.webp" alt="Neurorehabilitacijska sesija SUPERIOR Split" loading="lazy" /></figure>
+      </div>
 
-        <div class="masonry-label">Mirror terapija</div>
+      <div class="masonry-label">Mirror terapija</div>
 
+      <div class="masonry-neuro reveal">
         <figure><img src="/neuro/neuro-mirror-terapija.webp" alt="Mirror terapija — pacijent promatra odraz u zrcalu, Split" loading="lazy" /></figure>
         <figure><img src="/neuro/mirror-terapija-01.webp" alt="Mirror terapija — rehabilitacija stopala zrcalom" loading="lazy" /></figure>
         <figure><img src="/neuro/mirror-terapija-02.webp" alt="Mirror terapija — oporavak pokreta noge" loading="lazy" /></figure>
