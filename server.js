@@ -707,6 +707,9 @@ app.get(/\.(jpg|jpeg)$/i, (req, res) => {
 app.get(["/kineziterapija", "/kineziterapija/"], (req, res) => {
   res.redirect(301, "/usluge/");
 });
+app.get(["/fizikalna-terapija", "/fizikalna-terapija/"], (req, res) => {
+  res.redirect(301, "/usluge/");
+});
 app.get(["/rehabilitacija", "/rehabilitacija/"], (req, res) => {
   res.redirect(301, "/usluge/");
 });

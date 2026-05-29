@@ -1046,6 +1046,7 @@ footer.site ul a:hover{color:var(--warm-soft)}
       <div class="svc-tabs reveal" role="tablist" aria-label="Kategorije usluga">
         <button class="svc-tab" role="tab" aria-selected="true" aria-controls="panel-physical" id="tab-physical">Fizikalne procedure</button>
         <button class="svc-tab" role="tab" aria-selected="false" aria-controls="panel-kinezi" id="tab-kinezi">Kineziterapija</button>
+        <button class="svc-tab" role="tab" aria-selected="false" aria-controls="panel-rehab" id="tab-rehab">Rehabilitacija</button>
         <button class="svc-tab" role="tab" aria-selected="false" aria-controls="panel-neuro" id="tab-neuro">Neuro-tretmani</button>
         <button class="svc-tab" role="tab" aria-selected="false" aria-controls="panel-manual" id="tab-manual">Manualna terapija</button>
       </div>
@@ -1103,38 +1104,121 @@ footer.site ul a:hover{color:var(--warm-soft)}
           <div class="svc-grid">
             <article class="svc-card">
               <span class="svc-num">K · 01</span>
-              <h4>Terapeutske <span class="it">vježbe</span></h4>
-              <p>Individualno doziran program aktivnih vježbi za vraćanje snage, opsega pokreta i funkcije — temelj kineziterapijskog pristupa u oporavku.</p>
-              <div class="duration"><span>Trajanje 45–60 min</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+              <h4>Vježbe <span class="it">opsega pokreta</span></h4>
+              <p>Aktivne i pasivne vježbe za vraćanje pune pokretljivosti zglobova nakon ozljeda, operacija ili dugotrajne imobilizacije.</p>
+              <div class="duration"><span>Plan prema procjeni</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
             </article>
             <article class="svc-card">
               <span class="svc-num">K · 02</span>
-              <h4>PNF — proprioceptivna <span class="it">facilitacija</span></h4>
-              <p>Tehnika koja koristi proprioceptivne reflekse za poboljšanje neuromuskularne koordinacije i aktivaciju oslabljenih mišićnih skupina.</p>
-              <div class="duration"><span>Trajanje 30–45 min</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+              <h4>Vježbe <span class="it">snaženja</span></h4>
+              <p>Progresivni program za obnovu mišićne mase i snage — individualno doziran prema stanju i ciljevima pacijenta.</p>
+              <div class="duration"><span>Plan prema procjeni</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
             </article>
             <article class="svc-card">
               <span class="svc-num">K · 03</span>
-              <h4>Posturalna <span class="it">rehabilitacija</span></h4>
-              <p>Korekcija posturalnih obrazaca i jačanje duboke muskulature trupa — ključno kod kronične boli u leđima, skolioze i posturalnih poremećaja.</p>
+              <h4>Trening <span class="it">hodanja</span></h4>
+              <p>Sustavna reedukacija hoda nakon moždanog udara, ozljeda donjih ekstremiteta ili neuroloških stanja koja narušavaju obrazac kretanja.</p>
               <div class="duration"><span>Trajanje 45 min</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
             </article>
             <article class="svc-card">
               <span class="svc-num">K · 04</span>
-              <h4>Vježbe jačanja <span class="it">i stabilizacije</span></h4>
-              <p>Progresivni otporni trening za obnovu mišićne mase i zglobne stabilnosti nakon operacija, prijeloma i dugotrajne imobilizacije.</p>
-              <div class="duration"><span>Trajanje 45 min</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+              <h4>Trening koordinacije <span class="it">i ravnoteže</span></h4>
+              <p>Vježbe za poboljšanje neuromuskularne koordinacije i dinamičke ravnoteže — esencijalno kod ataksije, Parkinsona i MS-a.</p>
+              <div class="duration"><span>Trajanje 30–45 min</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
             </article>
             <article class="svc-card">
               <span class="svc-num">K · 05</span>
-              <h4>Stretching i <span class="it">fleksibilnost</span></h4>
-              <p>Sustavno rastezanje skraćenih mišića i fascija za poboljšanje opsega pokreta i smanjenje rizika od ponovnih ozljeda.</p>
+              <h4>Vježbe propriocepcije <span class="it">i balansa</span></h4>
+              <p>Ciljani trening osjetilnih receptora u zglobovima i mišićima za bolju stabilnost tijela i prevenciju padova.</p>
               <div class="duration"><span>Trajanje 30 min</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
             </article>
             <article class="svc-card">
               <span class="svc-num">K · 06</span>
-              <h4>Hidrokineziterapija <span class="it">— vježbe u vodi</span></h4>
-              <p>Terapijsko kretanje u vodi koje smanjuje opterećenje zglobova i olakšava izvođenje vježbi kod pacijenata s teškim motoričkim ograničenjima.</p>
+              <h4>Mobilizacija <span class="it">zglobova</span></h4>
+              <p>Pasivne i aktivno-asistiraene tehnike za vraćanje pokretljivosti ukočenih zglobova i smanjenje boli pri kretanju.</p>
+              <div class="duration"><span>Trajanje 30–45 min</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+            <article class="svc-card">
+              <span class="svc-num">K · 07</span>
+              <h4>Trening sjedenja, ustajanja <span class="it">i stajanja</span></h4>
+              <p>Funkcionalni trening prijenosa tjelesne težine i osnovnih pokreta svakodnevnog života — ključan u ranoj neurorehabilitaciji.</p>
+              <div class="duration"><span>Trajanje 45 min</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+            <article class="svc-card">
+              <span class="svc-num">K · 08</span>
+              <h4>Respiracijski i kardiovaskularni <span class="it">trening</span></h4>
+              <p>Vježbe disanja i laganog kardio opterećenja za poboljšanje plućne funkcije i opće kondicije tijekom rehabilitacije.</p>
+              <div class="duration"><span>Trajanje 30 min</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+            <article class="svc-card">
+              <span class="svc-num">K · 09</span>
+              <h4>Trening upotrebe <span class="it">ortopedskih pomagala</span></h4>
+              <p>Učenje pravilnog korištenja štaka, hodalica, invalidskih kolica i ortoza — za sigurno i neovisno kretanje.</p>
+              <div class="duration"><span>Plan prema procjeni</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+            <article class="svc-card">
+              <span class="svc-num">K · 10</span>
+              <h4>Programi za djecu <span class="it">s teškoćama u razvoju</span></h4>
+              <p>Individualni kineziterapijski programi prilagođeni djeci s motoričkim, neurološkim i razvojnim teškoćama.</p>
+              <div class="duration"><span>Plan prema procjeni</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+            <article class="svc-card">
+              <span class="svc-num">K · 11</span>
+              <h4>Specijalna fizioterapija <span class="it">(Bobath, Mirror)</span></h4>
+              <p>Napredne terapijske metode za pacijente s neurološkim oštećenjima — Bobath koncept i Mirror therapy za obnovu motoričkih funkcija.</p>
+              <div class="duration"><span>Trajanje 60 min</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+          </div>
+        </div>
+
+        <div class="svc-panel" role="tabpanel" id="panel-rehab" aria-labelledby="tab-rehab" hidden>
+          <div class="svc-grid">
+            <article class="svc-card">
+              <span class="svc-num">R · 01</span>
+              <h4>Degenerativne bolesti <span class="it">kralježnice i zglobova</span></h4>
+              <p>Rehabilitacija kod artroze, hernije diska, spondiloze i kroničnih degenerativnih promjena — za smanjenje boli i očuvanje pokretljivosti.</p>
+              <div class="duration"><span>Plan prema procjeni</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+            <article class="svc-card">
+              <span class="svc-num">R · 02</span>
+              <h4>Rehabilitacija neuroloških <span class="it">stanja i bolesti</span></h4>
+              <p>Strukturirani oporavak nakon moždanog udara, ozljeda živaca i neuroloških bolesti — s ciljem vraćanja motoričkih funkcija i neovisnosti.</p>
+              <div class="duration"><span>Plan prema procjeni</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+            <article class="svc-card">
+              <span class="svc-num">R · 03</span>
+              <h4>Postoperativna <span class="it">rehabilitacija</span></h4>
+              <p>Oporavak nakon operacija zglobova, kralježnice i mekih tkiva — od rane mobilizacije do punog funkcionalnog povratka.</p>
+              <div class="duration"><span>Plan prema procjeni</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+            <article class="svc-card">
+              <span class="svc-num">R · 04</span>
+              <h4>Rehabilitacija upalnih <span class="it">reumatskih bolesti</span></h4>
+              <p>Fizioterapijski pristup kod reumatoidnog artritisa, ankilozirajućeg spondilitisa i ostalih upalnih reumatskih stanja za smanjenje boli i očuvanje funkcije.</p>
+              <div class="duration"><span>Plan prema procjeni</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+            <article class="svc-card">
+              <span class="svc-num">R · 05</span>
+              <h4>Sindromi <span class="it">prenaprezanja</span></h4>
+              <p>Liječenje tendinitisa, burzitisa, epikondilitisa i ostalih prenaprezanja uzrokovanih repetitivnim pokretima — u sportu i na radnom mjestu.</p>
+              <div class="duration"><span>Plan prema procjeni</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+            <article class="svc-card">
+              <span class="svc-num">R · 06</span>
+              <h4>Sportske <span class="it">ozljede</span></h4>
+              <p>Rehabilitacija uganuća, ruptura ligamenata, mišićnih ozljeda i stresnih fraktura — s fokusom na brz i siguran povratak sportskim aktivnostima.</p>
+              <div class="duration"><span>Plan prema procjeni</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+            <article class="svc-card">
+              <span class="svc-num">R · 07</span>
+              <h4>Vježbe <span class="it">u kući</span></h4>
+              <p>Dolazak terapeuta na adresu pacijenta s punom opremom — za nepokretne pacijente i one s ograničenom mobilnošću na području Splita i okolice.</p>
+              <div class="duration"><span>Plan prema procjeni</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            </article>
+            <article class="svc-card">
+              <span class="svc-num">R · 08</span>
+              <h4>Rehabilitacija <span class="it">za djecu</span></h4>
+              <p>Individualni rehabilitacijski programi za djecu s motoričkim teškoćama, razvojnim kašnjenjima i neurološkim stanjima.</p>
               <div class="duration"><span>Plan prema procjeni</span><span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
             </article>
           </div>
@@ -1328,12 +1412,14 @@ const panels = document.querySelectorAll('.svc-panel');
 const serviceSections = {
   'fizikalne-procedure': 'tab-physical',
   'kineziterapija': 'tab-kinezi',
+  'rehabilitacija': 'tab-rehab',
   'neuro-tretmani': 'tab-neuro',
   'manualna-terapija': 'tab-manual'
 };
 const tabHashes = {
   'tab-physical': 'fizikalne-procedure',
   'tab-kinezi': 'kineziterapija',
+  'tab-rehab': 'rehabilitacija',
   'tab-neuro': 'neuro-tretmani',
   'tab-manual': 'manualna-terapija'
 };
