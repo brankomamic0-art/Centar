@@ -703,6 +703,14 @@ app.get(/\.(jpg|jpeg)$/i, (req, res) => {
   res.redirect(301, req.path.replace(/\.(jpg|jpeg)$/i, ".webp"));
 });
 
+// 301 redirecti sa stare domene (fizio-superior.hr) za SEO
+app.get(["/kineziterapija", "/kineziterapija/"], (req, res) => {
+  res.redirect(301, "/usluge/");
+});
+app.get(["/rehabilitacija", "/rehabilitacija/"], (req, res) => {
+  res.redirect(301, "/usluge/");
+});
+
 app.use(
   express.static(__dirname, {
     extensions: ["html"],
