@@ -83,6 +83,7 @@ const absolutizeSeoUrls = (html, req, canonicalPath) => {
     .replace(/"image": "\/([^"]+)"/g, (_match, imagePath) => `"image": "${escapeHtml(`${origin}/${imagePath}`)}"`)
     .replace(/"logo": "\/([^"]+)"/g, (_match, logoPath) => `"logo": "${escapeHtml(`${origin}/${logoPath}`)}"`)
     .replace(/"url": "\/([^"]*)"/g, (_match, path) => `"url": "${escapeHtml(`${origin}/${path}`)}"`)
+    .replace(/"item": "\/([^"]*)"/g, (_match, path) => `"item": "${escapeHtml(`${origin}/${path}`)}"`)
 };
 
 const requiredText = (value) => typeof value === "string" && value.trim().length > 0;
