@@ -685,7 +685,26 @@ app.get("/sitemap.xml", async (req, res) => {
   }
 });
 
-for (const page of STATIC_SEO_PAGES) {
+app.get(["/blog", "/blog/"], async (req, res) => {
+  try {
+    const [html, posts] = await Promise.all([
+      readFile(join(__dirname, "blog", "index.html"), "utf8"),
+      readPosts(),
+    ]);
+    const origin = getSiteOrigin(req);
+    const published = posts.filter((p) => p.status === "published");
+    const staticLinks = published.length
+      ? `<noscript><ul>${published.map((p) => `<li><a href="${escapeHtml(`${origin}/blog/${p.slug}`)}">${escapeHtml(p.title)}</a></li>`).join("")}</ul></noscript>`
+      : "";
+    const injected = html.replace("</main>", `${staticLinks}</main>`);
+    res.type("html").send(absolutizeSeoUrls(injected, req, "/blog/"));
+  } catch (error) {
+    console.error("Blog page render error:", error);
+    res.status(500).sendFile(join(__dirname, "blog", "index.html"));
+  }
+});
+
+for (const page of STATIC_SEO_PAGES.filter((p) => p.canonical !== "/blog/")) {
   app.get(page.routes, async (req, res) => {
     try {
       const html = await readFile(join(__dirname, page.file), "utf8");
