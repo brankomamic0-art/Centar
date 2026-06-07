@@ -47,6 +47,7 @@ const STATIC_SEO_PAGES = [
   { routes: ["/o-nama", "/o-nama/"], file: join("o-nama", "index.html"), canonical: "/o-nama/" },
   { routes: ["/kontakt", "/kontakt/"], file: join("kontakt", "index.html"), canonical: "/kontakt/" },
   { routes: ["/blog", "/blog/"], file: join("blog", "index.html"), canonical: "/blog/" },
+  { routes: ["/privatnost", "/privatnost/"], file: join("privatnost", "index.html"), canonical: "/privatnost/" },
 ];
 
 const escapeHtml = (value = "") =>
