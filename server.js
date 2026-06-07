@@ -781,7 +781,8 @@ app.get("/blog/:slug", async (req, res) => {
         `<meta property="og:description" content="${escapeHtml(description)}" />`,
       )
       .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${escapeHtml(postUrl)}" />`)
-      .replace(/<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${escapeHtml(imageUrl)}" />`);
+      .replace(/<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${escapeHtml(imageUrl)}" />`)
+      .replace(/<h1 id="post-title"><\/h1>/, `<h1 id="post-title">${escapeHtml(post.title)}</h1>`);
 
     res.type("html").send(html);
   } catch (error) {
