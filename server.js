@@ -647,6 +647,10 @@ app.post("/api/blog-upload", requireAdmin, async (req, res) => {
   }
 });
 
+app.get("/llms.txt", (req, res) => {
+  res.type("text/plain").sendFile(join(__dirname, "llms.txt"));
+});
+
 app.get("/robots.txt", (req, res) => {
   const origin = getSiteOrigin(req);
   res.type("text/plain").send(`User-agent: *
