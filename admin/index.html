@@ -9,6 +9,27 @@
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" href="/fonts/fonts.css" />
 <link rel="stylesheet" href="/blog/blog.css" />
+<style>
+.md-editor-wrapper{display:flex;flex-direction:column;gap:.4rem}
+.md-label{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#5C6B7E;font-family:var(--mono,monospace)}
+.md-toolbar{display:flex;flex-wrap:wrap;gap:.3rem;padding:.4rem;background:#f0ebe2;border:1px solid #C9BFA9;border-bottom:none;border-radius:6px 6px 0 0}
+.md-toolbar button{background:#fff;border:1px solid #C9BFA9;border-radius:4px;padding:.25rem .55rem;font-size:.82rem;font-family:var(--mono,monospace);cursor:pointer;color:#0B1F38;transition:background .15s}
+.md-toolbar button:hover{background:#C08B5C;color:#fff;border-color:#C08B5C}
+.md-editor-pane{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #C9BFA9;border-radius:0 0 6px 6px;overflow:hidden}
+.md-editor-pane textarea{border:none;border-right:1px solid #C9BFA9;border-radius:0;resize:vertical;min-height:320px;padding:.75rem;font-family:var(--mono,monospace);font-size:.88rem;line-height:1.6;background:#fdfaf6}
+.md-editor-pane textarea:focus{outline:none;background:#fff}
+.md-preview{padding:.75rem 1rem;overflow-y:auto;background:#fff;font-size:.92rem;line-height:1.7;min-height:320px}
+.md-preview h1,.md-preview h2,.md-preview h3{margin:1em 0 .4em;line-height:1.2}
+.md-preview h2{font-size:1.2rem;border-bottom:1px solid #e8e0d2;padding-bottom:.3rem}
+.md-preview h3{font-size:1rem}
+.md-preview p{margin:0 0 .8em}
+.md-preview ul,.md-preview ol{padding-left:1.4em;margin:0 0 .8em}
+.md-preview a{color:#2B6AA8;text-decoration:underline}
+.md-preview strong{font-weight:700}
+.md-preview em{font-style:italic}
+.md-preview hr{border:none;border-top:1px solid #C9BFA9;margin:1em 0}
+.md-preview code{background:#f0ebe2;padding:.1em .3em;border-radius:3px;font-size:.85em}
+</style>
 </head>
 <body>
 <header class="site">
@@ -57,7 +78,23 @@
             </select>
           </label>
           <label class="full">Kratki sažetak <textarea name="excerpt" rows="3"></textarea></label>
-          <label class="full">Sadržaj objave <textarea name="content" rows="14" placeholder="Pišite tekst. Odvojite paragrafe praznim redom."></textarea></label>
+          <div class="full md-editor-wrapper">
+            <span class="md-label">Sadržaj objave</span>
+            <div class="md-toolbar">
+              <button type="button" data-md="h2">H2</button>
+              <button type="button" data-md="h3">H3</button>
+              <button type="button" data-md="bold"><b>B</b></button>
+              <button type="button" data-md="italic"><i>I</i></button>
+              <button type="button" data-md="ul">• Lista</button>
+              <button type="button" data-md="ol">1. Lista</button>
+              <button type="button" data-md="link">🔗 Link</button>
+              <button type="button" data-md="hr">— Razdjelnik</button>
+            </div>
+            <div class="md-editor-pane">
+              <textarea name="content" placeholder="## Naslov&#10;&#10;Pišite **podebljano** ili *kurziv*..."></textarea>
+              <div class="md-preview" id="md-preview"><em style="color:#aaa">Preview će se prikazati ovdje...</em></div>
+            </div>
+          </div>
           <label>Oznake <input name="tags" placeholder="CVI, oporavak, terapija" /></label>
           <label>Putanja istaknute slike <input name="featuredImage" placeholder="/uploads/blog/slika.jpg" /></label>
           <label class="full">Učitaj istaknutu sliku <input type="file" id="image-upload" accept="image/png,image/jpeg,image/webp,image/gif" /></label>
@@ -71,6 +108,7 @@
     </div>
   </section>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="/admin/admin.js"></script>
 </body>
 </html>

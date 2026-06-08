@@ -11,11 +11,8 @@ const escapeHtml = (value = "") =>
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
 
-const paragraphs = (content = "") =>
-  content
-    .split(/\n{2,}/)
-    .map((paragraph) => `<p>${escapeHtml(paragraph).replaceAll("\n", "<br>")}</p>`)
-    .join("");
+const renderContent = (content = "") =>
+  typeof marked !== "undefined" ? marked.parse(content) : content.split(/\n{2,}/).map((p) => `<p>${escapeHtml(p).replaceAll("\n", "<br>")}</p>`).join("");
 
 fetch(`/api/blog-posts/${slug}`)
   .then((response) => {
@@ -30,7 +27,7 @@ fetch(`/api/blog-posts/${slug}`)
     document.getElementById("post-author").textContent = post.author;
     document.getElementById("post-title").textContent = post.title;
     document.getElementById("post-tags").innerHTML = (post.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
-    document.getElementById("post-content").innerHTML = paragraphs(post.content);
+    document.getElementById("post-content").innerHTML = renderContent(post.content);
     postEl.hidden = false;
   })
   .catch(() => {

@@ -57,6 +57,7 @@ const fillForm = (post) => {
   fields.content.value = post.content || "";
   fields.tags.value = (post.tags || []).join(", ");
   fields.featuredImage.value = post.featuredImage || "/slika.webp";
+  if (typeof updatePreview === "function") updatePreview();
 };
 
 const renderList = () => {
@@ -169,6 +170,56 @@ document.getElementById("image-upload").addEventListener("change", async (event)
     show("Slika je učitana i postavljena kao istaknuta slika.");
   };
   reader.readAsDataURL(file);
+});
+
+// Markdown editor
+const contentArea = fields.content;
+const mdPreview = document.getElementById("md-preview");
+
+const updatePreview = () => {
+  mdPreview.innerHTML = typeof marked !== "undefined" ? marked.parse(contentArea.value || "") : contentArea.value;
+};
+
+contentArea.addEventListener("input", updatePreview);
+
+const wrapSelection = (before, after = before, placeholder = "") => {
+  const start = contentArea.selectionStart;
+  const end = contentArea.selectionEnd;
+  const selected = contentArea.value.slice(start, end) || placeholder;
+  const replacement = before + selected + after;
+  contentArea.setRangeText(replacement, start, end, "select");
+  contentArea.focus();
+  updatePreview();
+};
+
+const insertLine = (prefix) => {
+  const start = contentArea.selectionStart;
+  const lineStart = contentArea.value.lastIndexOf("\n", start - 1) + 1;
+  const lineEnd = contentArea.value.indexOf("\n", start);
+  const end = lineEnd === -1 ? contentArea.value.length : lineEnd;
+  const line = contentArea.value.slice(lineStart, end);
+  contentArea.setRangeText(prefix + line, lineStart, end, "end");
+  contentArea.focus();
+  updatePreview();
+};
+
+document.querySelectorAll(".md-toolbar button[data-md]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const action = btn.dataset.md;
+    if (action === "bold") wrapSelection("**", "**", "podebljani tekst");
+    else if (action === "italic") wrapSelection("*", "*", "kurziv");
+    else if (action === "h2") insertLine("## ");
+    else if (action === "h3") insertLine("### ");
+    else if (action === "ul") insertLine("- ");
+    else if (action === "ol") insertLine("1. ");
+    else if (action === "link") wrapSelection("[", "](https://)", "tekst linka");
+    else if (action === "hr") {
+      const pos = contentArea.selectionStart;
+      contentArea.setRangeText("\n\n---\n\n", pos, pos, "end");
+      contentArea.focus();
+      updatePreview();
+    }
+  });
 });
 
 loadPosts().catch(() => {});
