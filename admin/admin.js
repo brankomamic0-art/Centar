@@ -31,7 +31,7 @@ const emptyPost = () => ({
   content: "",
   featuredImage: "/slika.webp",
   publishDate: today(),
-  author: "Fizikalna terapija SUPERIOR",
+  author: "Fizikalna terapija + rehabilitacija SUPERIOR",
   category: "Savjeti",
   tags: [],
   status: "draft",
@@ -49,7 +49,7 @@ const fillForm = (post) => {
   fields.id.value = post.id || "";
   fields.title.value = post.title || "";
   fields.slug.value = post.slug || "";
-  fields.author.value = post.author || "Fizikalna terapija SUPERIOR";
+  fields.author.value = post.author || "Fizikalna terapija + rehabilitacija SUPERIOR";
   fields.publishDate.value = post.publishDate || today();
   fields.category.value = post.category || "Savjeti";
   fields.status.value = post.status || "draft";

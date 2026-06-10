@@ -15,7 +15,7 @@ const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || "jurej2750@gmail.com";
 const FROM_EMAIL =
   process.env.FROM_EMAIL ||
-  "Fizikalna terapija SUPERIOR <noreply@mamicwebdesign.com>";
+  "Fizikalna terapija + rehabilitacija SUPERIOR <noreply@mamicwebdesign.com>";
 const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
 const BLOG_STORAGE_ROOT = process.env.RAILWAY_VOLUME_MOUNT_PATH || "";
 const BLOG_DATA_DIR = process.env.BLOG_DATA_DIR || (BLOG_STORAGE_ROOT ? join(BLOG_STORAGE_ROOT, "data") : join(__dirname, "data"));
@@ -350,9 +350,9 @@ app.post("/api/send-email", async (req, res) => {
   const payload = {
     from: FROM_EMAIL,
     to: [CONTACT_EMAIL],
-    subject: `Novi upit od ${name.trim()} - Fizikalna terapija SUPERIOR`,
+    subject: `Novi upit od ${name.trim()} - Fizikalna terapija + rehabilitacija SUPERIOR`,
     html: `
-      <h2 style="color:#0b1f38">Novi upit s web stranice - Fizikalna terapija SUPERIOR</h2>
+      <h2 style="color:#0b1f38">Novi upit s web stranice - Fizikalna terapija + rehabilitacija SUPERIOR</h2>
       <table style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;color:#111">
         <tr><td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">Ime i prezime</td><td style="padding:8px 12px">${safeName}</td></tr>
         <tr><td style="padding:8px 12px;font-weight:bold;background:#f5f5f5">Telefon</td><td style="padding:8px 12px">${safePhone}</td></tr>
@@ -560,7 +560,7 @@ app.post("/api/blog-posts", requireAdmin, async (req, res) => {
       content: String(req.body.content || "").trim(),
       featuredImage: String(req.body.featuredImage || "/slika.webp").trim(),
       publishDate: req.body.publishDate || now.slice(0, 10),
-      author: String(req.body.author || "Fizikalna terapija SUPERIOR").trim(),
+      author: String(req.body.author || "Fizikalna terapija + rehabilitacija SUPERIOR").trim(),
       category: String(req.body.category || "Savjeti").trim(),
       tags: normalizeTags(req.body.tags),
       status: req.body.status === "draft" ? "draft" : "published",
@@ -599,7 +599,7 @@ app.put("/api/blog-posts/:id", requireAdmin, async (req, res) => {
       content: String(req.body.content || "").trim(),
       featuredImage: String(req.body.featuredImage || "/slika.webp").trim(),
       publishDate: req.body.publishDate || posts[index].publishDate,
-      author: String(req.body.author || "Fizikalna terapija SUPERIOR").trim(),
+      author: String(req.body.author || "Fizikalna terapija + rehabilitacija SUPERIOR").trim(),
       category: String(req.body.category || "Savjeti").trim(),
       tags: normalizeTags(req.body.tags),
       status: req.body.status === "draft" ? "draft" : "published",

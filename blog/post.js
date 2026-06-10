@@ -20,7 +20,7 @@ fetch(`/api/blog-posts/${slug}`)
     return response.json();
   })
   .then((post) => {
-    document.title = `${post.title} - Fizikalna terapija SUPERIOR`;
+    document.title = `${post.title} - Fizikalna terapija + rehabilitacija SUPERIOR`;
     document.querySelector('meta[name="description"]').setAttribute("content", post.excerpt || post.title);
     document.getElementById("post-category").textContent = post.category;
     document.getElementById("post-date").textContent = dateFormatter.format(new Date(post.publishDate));
