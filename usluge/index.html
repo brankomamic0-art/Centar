@@ -936,7 +936,7 @@ footer.site{
   display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;
   padding-bottom:3rem;border-bottom:1px solid rgba(244,239,230,.15);
 }
-footer.site h6{
+footer.site .f-head{
   font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
   color:rgba(244,239,230,.55);margin:0 0 1.2rem;font-weight:400;
 }
@@ -959,6 +959,22 @@ footer.site ul a:hover{color:var(--warm-soft)}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important}
   html{scroll-behavior:auto}
+}
+
+/* ───────── SEO Info Section ───────── */
+.seo-qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--rule);border:1px solid var(--rule);margin-bottom:2.5rem}
+.seo-qa-cell{padding:2.2rem 2rem}
+.seo-qa-cell:nth-child(odd){background:var(--paper)}
+.seo-qa-cell:nth-child(even){background:var(--bone)}
+.seo-qa-cell h3{font-family:var(--serif);font-size:1.45rem;letter-spacing:-.015em;font-weight:400;margin:0 0 .9rem;line-height:1.15}
+.seo-qa-cell p{font-size:.97rem;color:var(--ink-soft);line-height:1.65;margin:0 0 .7em}
+.seo-qa-cell p:last-child{margin-bottom:0}
+.seo-qa-cell ul{font-size:.95rem;color:var(--ink-soft);padding-left:1.2rem;margin:0;display:flex;flex-direction:column;gap:.4rem;line-height:1.6}
+.seo-qa-cell ul li strong{color:var(--ink)}
+.seo-superior-block{background:var(--ink);color:var(--paper);padding:2.5rem;border-radius:6px;display:grid;grid-template-columns:1.1fr .9fr;gap:2rem 3rem;align-items:start}
+@media(max-width:760px){
+  .seo-qa-grid{grid-template-columns:1fr}
+  .seo-superior-block{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -1313,6 +1329,78 @@ footer.site ul a:hover{color:var(--warm-soft)}
     </div>
   </section>
 
+  <!-- ───────── SEO Info Section ───────── -->
+  <section class="block" style="background:var(--bone);border-top:1px solid var(--rule)">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Vodič · Fizikalna terapija Split</span>
+        </div>
+        <div>
+          <h2>Fizikalna terapija u <span class="it">Splitu:</span> kako odabrati pravu ustanovu</h2>
+          <p class="intro" style="margin-top:1.2rem">Fizikalna terapija u Splitu danas je dostupnija nego ikad — no kako odabrati pravu ustanovu i što uopće očekivati od terapijskog procesa?</p>
+        </div>
+      </div>
+
+      <div class="seo-qa-grid reveal">
+        <div class="seo-qa-cell">
+          <h3>Što je fizikalna terapija?</h3>
+          <p>Fizikalna terapija je medicinska disciplina koja koristi fizikalne metode — pokret, toplinu, ultrazvuk, elektroterapiju i manualnu terapiju — za liječenje boli, oporavak nakon ozljeda i poboljšanje kvalitete života.</p>
+          <p>Fizioterapeut u Splitu procjenjuje stanje pacijenta i sastavlja individualni plan terapije prilagođen specifičnim potrebama.</p>
+        </div>
+        <div class="seo-qa-cell">
+          <h3>Kada potražiti fizikalnu terapiju?</h3>
+          <p>Fizikalna terapija pokriva širok spektar stanja:</p>
+          <ul>
+            <li>Oporavak nakon operacija</li>
+            <li>Kronična bol u leđima, vratu i zglobovima</li>
+            <li>Neurorehabilitacija nakon moždanog udara, multiple skleroze ili Parkinsonove bolesti</li>
+            <li>Rehabilitacija nakon sportskih ozljeda</li>
+            <li>Dječja razvojna kašnjenja i neurorazvojni poremećaji</li>
+          </ul>
+        </div>
+        <div class="seo-qa-cell">
+          <h3>Fizikalna terapija vs. kineziterapija — koja je razlika?</h3>
+          <p>Fizikalna terapija uključuje fizikalne procedure (ultrazvuk, elektroterapija, magnetoterapija), dok kineziterapija i medicinska gimnastika koriste ciljani pokret i vježbu za rehabilitaciju.</p>
+          <p>U modernoj praksi ove dvije discipline nadopunjuju se unutar cjelovitog plana terapije.</p>
+        </div>
+        <div class="seo-qa-cell">
+          <h3>Kako odabrati centar za fizikalnu terapiju u Splitu?</h3>
+          <p>Pri odabiru ustanove obratite pozornost na:</p>
+          <ul>
+            <li><strong>Stručnost terapeuta</strong> — magistri fizioterapije s uskom specijalizacijom</li>
+            <li><strong>Individualni pristup</strong> — svaki pacijent zaslužuje plan terapije koji nije generički</li>
+            <li><strong>Opremu i metode</strong> — moderne tehnike daju bolje rezultate</li>
+            <li><strong>Iskustvo s vašim stanjem</strong> — neurorehabilitacija zahtijeva drugačije znanje od sportske rehabilitacije</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="seo-superior-block reveal">
+        <div>
+          <p style="font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(244,239,230,.55);margin:0 0 .9rem">Zašto SUPERIOR</p>
+          <h3 style="font-family:var(--serif);font-size:1.7rem;font-weight:400;letter-spacing:-.02em;line-height:1.1;margin:0 0 1rem;color:var(--paper)">Fizikalna terapija + rehabilitacija <em>SUPERIOR</em></h3>
+          <p style="font-size:.97rem;color:rgba(244,239,230,.82);line-height:1.65;margin:0 0 .7em">Specijalizirana privatna ustanova na adresi <strong style="color:var(--paper)">Put studenca 23a, Split</strong>, otvorena radnim danom od 8 do 20 sati.</p>
+          <p style="font-size:.97rem;color:rgba(244,239,230,.82);line-height:1.65;margin:0">Predvodi je <strong style="color:var(--paper)">Antonela Pavić, mag. physioth.</strong>, predavačica Fakulteta zdravstvenih studija u Splitu.</p>
+        </div>
+        <div>
+          <p style="font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(244,239,230,.55);margin:0 0 .8rem">Specijalizacija i usluge</p>
+          <p style="font-size:.97rem;color:rgba(244,239,230,.82);line-height:1.65;margin:0 0 .8em">Posebnost ustanove je uska specijalizacija za neurorehabilitaciju — oporavak nakon moždanog udara, multipla skleroza, Parkinsonova bolest i Guillain-Barréov sindrom. Jedina ustanova u regiji s <strong style="color:var(--paper)">Brain Gym programom</strong>.</p>
+          <ul style="font-size:.92rem;color:rgba(244,239,230,.78);padding-left:1.1rem;margin:0 0 1.6rem;display:flex;flex-direction:column;gap:.35rem;line-height:1.55">
+            <li>Masaže i limfna drenaža</li>
+            <li>Kineziterapija i manualna terapija</li>
+            <li>Patronažna terapija na kućnoj adresi</li>
+          </ul>
+          <a href="/kontakt/" class="cta" style="background:var(--warm);color:var(--ink);border-color:var(--warm)">
+            Zakažite pregled
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
 </main>
 
 <footer class="site">
@@ -1331,7 +1419,7 @@ footer.site ul a:hover{color:var(--warm-soft)}
         </div>
       </div>
       <div>
-        <h6>Navigacija</h6>
+        <p class="f-head">Navigacija</p>
         <ul>
           <li><a href="/">Naslovna</a></li>
           <li><a href="/o-nama/">O nama</a></li>
@@ -1341,7 +1429,7 @@ footer.site ul a:hover{color:var(--warm-soft)}
         </ul>
       </div>
       <div>
-        <h6>Specijalnosti</h6>
+        <p class="f-head">Specijalnosti</p>
         <ul>
           <li><a href="/neuro/">Oporavak nakon CVI</a></li>
           <li><a href="/neuro/">Multipla skleroza</a></li>
@@ -1354,7 +1442,7 @@ footer.site ul a:hover{color:var(--warm-soft)}
         </ul>
       </div>
       <div>
-        <h6>Kontakt</h6>
+        <p class="f-head">Kontakt</p>
         <ul>
           <li><a href="tel:+385998556105">+385 99 855 6105</a></li>
           <li><a href="mailto:fizikalnasuperior@gmail.com">fizikalnasuperior@gmail.com</a></li>
