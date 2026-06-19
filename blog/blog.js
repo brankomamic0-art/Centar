@@ -1,17 +1,17 @@
-const dateFormatter = new Intl.DateTimeFormat("hr-HR", { dateStyle: "long" });
+﻿const dateFormatter = new Intl.DateTimeFormat("hr-HR", { dateStyle: "long" });
 const list = document.getElementById("blog-list");
 const empty = document.getElementById("blog-empty");
 document.getElementById("yr").textContent = new Date().getFullYear();
 
 const FALLBACK_IMAGES = [
-  "/neuro/neuro-sesija-1.webp",
-  "/neuro/neuro-sesija-2.webp",
-  "/neuro/neuro-sesija-3.webp",
-  "/neuro/neuro-sesija-4.webp",
-  "/neuro/neuro-sesija-5.webp",
-  "/neuro/neuro-sesija-6.webp",
-  "/neuro/neuro-mirror-terapija.webp",
-  "/neuro/neuro-aktivacija-core.webp",
+  "/neurorehabilitacija/neuro-sesija-1.webp",
+  "/neurorehabilitacija/neuro-sesija-2.webp",
+  "/neurorehabilitacija/neuro-sesija-3.webp",
+  "/neurorehabilitacija/neuro-sesija-4.webp",
+  "/neurorehabilitacija/neuro-sesija-5.webp",
+  "/neurorehabilitacija/neuro-sesija-6.webp",
+  "/neurorehabilitacija/neuro-mirror-terapija.webp",
+  "/neurorehabilitacija/neuro-aktivacija-core.webp",
   "/braingym/braingym-program-split-1.webp",
   "/braingym/braingym-program-split-2.webp",
   "/braingym/braingym-sesija-split-4.webp",

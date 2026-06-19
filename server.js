@@ -1,4 +1,4 @@
-import compression from "compression";
+﻿import compression from "compression";
 import express from "express";
 import bcrypt from "bcryptjs";
 import { randomBytes, randomUUID } from "crypto";
@@ -32,7 +32,7 @@ const adminSessions = new Map();
 const SEO_ROUTES = [
   { path: "/", priority: "1.0", changefreq: "weekly" },
   { path: "/usluge/", priority: "0.9", changefreq: "monthly" },
-  { path: "/neuro/", priority: "0.9", changefreq: "monthly" },
+  { path: "/neurorehabilitacija/", priority: "0.9", changefreq: "monthly" },
   { path: "/braingym/", priority: "0.9", changefreq: "monthly" },
   { path: "/o-nama/", priority: "0.8", changefreq: "monthly" },
   { path: "/kontakt/", priority: "0.8", changefreq: "monthly" },
@@ -42,7 +42,7 @@ const SEO_ROUTES = [
 const STATIC_SEO_PAGES = [
   { routes: ["/", "/index.html"], file: "index.html", canonical: "/" },
   { routes: ["/usluge", "/usluge/"], file: join("usluge", "index.html"), canonical: "/usluge/" },
-  { routes: ["/neuro", "/neuro/"], file: join("neuro", "index.html"), canonical: "/neuro/" },
+  { routes: ["/neurorehabilitacija", "/neurorehabilitacija/"], file: join("neurorehabilitacija", "index.html"), canonical: "/neurorehabilitacija/" },
   { routes: ["/braingym", "/braingym/"], file: join("braingym", "index.html"), canonical: "/braingym/" },
   { routes: ["/o-nama", "/o-nama/"], file: join("o-nama", "index.html"), canonical: "/o-nama/" },
   { routes: ["/kontakt", "/kontakt/"], file: join("kontakt", "index.html"), canonical: "/kontakt/" },
@@ -110,7 +110,7 @@ const SITE_KNOWLEDGE_FILES = [
   ["Naslovna", "index.html"],
   ["O nama", join("o-nama", "index.html")],
   ["Usluge", join("usluge", "index.html")],
-  ["Neurorehabilitacija", join("neuro", "index.html")],
+  ["Neurorehabilitacija", join("neurorehabilitacija", "index.html")],
   ["Brain Gym", join("braingym", "index.html")],
   ["Kontakt", join("kontakt", "index.html")],
   ["Blog", join("blog", "index.html")],
@@ -731,6 +731,9 @@ app.get(/\.(jpg|jpeg)$/i, (req, res) => {
 });
 
 // 301 redirecti sa stare domene (fizio-superior.hr) za SEO
+app.get(["/neuro", "/neuro/"], (req, res) => {
+  res.redirect(301, "/neurorehabilitacija/");
+});
 app.get(["/kineziterapija", "/kineziterapija/"], (req, res) => {
   res.redirect(301, "/usluge/");
 });
@@ -760,7 +763,7 @@ app.get("/blog/:slug", async (req, res) => {
 
     const origin = getSiteOrigin(req);
     const postUrl = `${origin}/blog/${post.slug}`;
-    const FALLBACK_IMAGES = ["/neuro/neuro-sesija-1.webp","/neuro/neuro-sesija-2.webp","/neuro/neuro-mirror-terapija.webp","/braingym/braingym-program-split-1.webp"];
+    const FALLBACK_IMAGES = ["/neurorehabilitacija/neuro-sesija-1.webp","/neurorehabilitacija/neuro-sesija-2.webp","/neurorehabilitacija/neuro-mirror-terapija.webp","/braingym/braingym-program-split-1.webp"];
     const fallback = FALLBACK_IMAGES[Math.abs(post.slug.charCodeAt(0) % FALLBACK_IMAGES.length)];
     const imageUrl = post.featuredImage?.startsWith("http")
       ? post.featuredImage
