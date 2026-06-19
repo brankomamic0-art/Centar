@@ -691,6 +691,7 @@ app.get("/sitemap.xml", async (req, res) => {
 });
 
 app.get(["/blog", "/blog/"], async (req, res) => {
+  if (!req.path.endsWith("/")) return res.redirect(301, "/blog/");
   try {
     const [html, posts] = await Promise.all([
       readFile(join(__dirname, "blog", "index.html"), "utf8"),
@@ -711,6 +712,7 @@ app.get(["/blog", "/blog/"], async (req, res) => {
 
 for (const page of STATIC_SEO_PAGES.filter((p) => p.canonical !== "/blog/")) {
   app.get(page.routes, async (req, res) => {
+    if (req.path !== page.canonical) return res.redirect(301, page.canonical);
     try {
       const html = await readFile(join(__dirname, page.file), "utf8");
       res.type("html").send(absolutizeSeoUrls(html, req, page.canonical));
