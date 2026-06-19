@@ -72,6 +72,63 @@
 }
 </script>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Što je fizikalna terapija i što sve uključuju fizikalne terapije u SUPERIOR-u?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fizikalna terapija obuhvaća skupinu medicinskih postupaka koji liječe bol, poboljšavaju pokretljivost i ubrzavaju oporavak — bez operacije ili lijekova. U SUPERIOR-u provodimo širok spektar fizikalnih terapija: manualna terapija, kineziterapija, ultrazvuk, elektroterapija, limfna drenaža, medicinska masaža i neurorehabilitacija. Sve fizikalne terapije prilagođavamo individualnom stanju i ciljevima svakog pacijenta u Splitu."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Tražim fizioterapeuta ili fizijatra u Splitu — koja je razlika?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fizioterapeut (mag. physioth.) je zdravstveni stručnjak koji neposredno provodi terapijske postupke — vježbe, masaže i fizikalne procedure. Fizijatar (dr. med. spec. fizikalne medicine) je liječnik koji dijagnosticira stanje i propisuje rehabilitacijski plan. SUPERIOR vodi magistrica fizioterapije Antonela Pavić, predavač Fakulteta zdravstvenih studija u Splitu. Dolazite li bez uputnice fizijatra, sami izrađujemo procjenu i individualni plan terapije."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Što je kineziterapija i razlikuje li se od medicinske gimnastike?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Kineziterapija je terapija pokretom — strukturirani program terapeutskih vježbi koji jača mišiće, vraća raspon pokreta i poboljšava ravnotežu i koordinaciju. Medicinska gimnastika je stariji, uobičajeni naziv za isti pojam. Kineziterapija u SUPERIOR-u provodi se individualno uz stručan nadzor i prilagođena je svakom stanju — od poslijeoperativne rehabilitacije do neuroloških i ortopedskih poremećaja."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Što je fizikalna medicina i rehabilitacija?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fizikalna medicina i rehabilitacija je medicinsko područje koje koristi fizikalne agense — toplinu, hladnoću, struju, ultrazvuk i terapeutski pokret — za liječenje boli, oporavak od ozljeda i poboljšanje funkcionalnih sposobnosti. SUPERIOR je specijalizirana privatna ustanova za fizikalnu rehabilitaciju u Splitu s individualnim pristupom, brzim terminima i jasnim terapijskim planom za svakog pacijenta."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Pruža li SUPERIOR kućnu fizikalnu terapiju u Splitu?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Da. Za pacijente koji zbog zdravstvenog stanja ili smanjene pokretnosti ne mogu doći u ordinaciju, SUPERIOR pruža patronažnu fizikalnu terapiju na kućnoj adresi u Splitu i okolici. Terapeut dolazi s potrebnom opremom i provodi individualni terapijski program na vašoj lokaciji."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kako se naručiti za fizikalnu terapiju u centru SUPERIOR, Split?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Najbrže putem kontakt forme na https://www.fizio-superior.hr/kontakt/ — navedite razlog dolaska i preferirani termin. Možete nas i nazvati na +385 99 855 6105 (ponedjeljak–petak, 08–20h). Centar za fizikalnu terapiju SUPERIOR smješten je na adresi Put studenca 23a, Split. Uputnica nije uvjet — primamo pacijente i bez liječničke uputnice."
+      }
+    }
+  ]
+}
+</script>
+
 <style>
 /* ───────── Foundations ───────── */
 :root{
@@ -932,6 +989,38 @@ footer.site ul a:hover{color:var(--warm-soft)}
   html{scroll-behavior:auto}
 }
 
+/* ───────── FAQ ───────── */
+.faq{background:var(--bone);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.faq-list{
+  display:flex;flex-direction:column;
+  border:1px solid var(--rule);border-radius:4px;overflow:hidden;
+  margin-top:clamp(2rem,4vw,3rem);
+}
+.faq-item{border-bottom:1px solid var(--rule)}
+.faq-item:last-child{border-bottom:0}
+.faq-item summary{
+  display:flex;justify-content:space-between;align-items:center;gap:1.5rem;
+  padding:1.4rem 1.8rem;cursor:pointer;list-style:none;
+  font-family:var(--serif);font-size:1.1rem;font-weight:500;letter-spacing:-.01em;
+  background:var(--bone);transition:background .25s;user-select:none;
+}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary:hover{background:var(--paper)}
+.faq-item[open]>summary{background:var(--white)}
+.faq-icon{
+  width:22px;height:22px;flex-shrink:0;border:1px solid var(--rule);border-radius:50%;
+  display:grid;place-items:center;font-size:1.1rem;line-height:1;
+  color:var(--ink-soft);transition:transform .3s,background .25s,border-color .25s;
+}
+.faq-item[open]>.faq-icon-wrap .faq-icon,
+.faq-item[open]>summary .faq-icon{background:var(--ink);color:var(--paper);border-color:var(--ink);transform:rotate(45deg)}
+.faq-answer{padding:0 1.8rem 1.6rem;font-size:1rem;color:var(--ink-soft);line-height:1.65;max-width:74ch}
+.faq-answer a{color:var(--sky-deep);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:600px){
+  .faq-item summary{padding:1.1rem 1.2rem;font-size:1rem}
+  .faq-answer{padding:0 1.2rem 1.2rem}
+}
+
 /* ───────── Zadovoljni klijenti ───────── */
 .clients{background:var(--paper);padding:clamp(2.5rem,6vw,5rem) 0;border-top:1px solid var(--rule)}
 .clients-masonry{
@@ -1185,6 +1274,84 @@ footer.site ul a:hover{color:var(--warm-soft)}
           <h3>Fizikalna terapija u kući</h3>
           <p>Za nepokretne pacijente i one s teškim ograničenjima mobilnosti dolazimo na kućnu adresu — terapija ne smije ovisiti o sposobnosti pacijenta da dođe do nas.</p>
         </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── FAQ ───────── -->
+  <section class="block faq" id="faq" aria-labelledby="faq-heading">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Česta pitanja</span>
+        </div>
+        <div>
+          <h2 id="faq-heading">Sve što trebate <span class="it">znati.</span></h2>
+          <p class="intro" style="margin-top:1rem">Odgovori na najčešća pitanja o fizikalnoj terapiji, kineziterapiji i neurorehabilitaciji u Splitu.</p>
+        </div>
+      </div>
+      <div class="faq-list reveal">
+
+        <details class="faq-item">
+          <summary>
+            Što je fizikalna terapija i što sve uključuju fizikalne terapije u SUPERIOR-u?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>Fizikalna terapija obuhvaća skupinu medicinskih postupaka koji liječe bol, poboljšavaju pokretljivost i ubrzavaju oporavak — bez operacije ili lijekova. U SUPERIOR-u provodimo širok spektar fizikalnih terapija: manualna terapija, kineziterapija, ultrazvuk, elektroterapija, limfna drenaža, medicinska masaža i neurorehabilitacija. Sve fizikalne terapije prilagođavamo individualnom stanju i ciljevima svakog pacijenta u Splitu.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Tražim fizioterapeuta ili fizijatra u Splitu — koja je razlika?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>Fizioterapeut (mag. physioth.) je zdravstveni stručnjak koji neposredno provodi terapijske postupke — vježbe, masaže i fizikalne procedure. Fizijatar (dr. med. spec. fizikalne medicine) je liječnik koji dijagnosticira stanje i propisuje rehabilitacijski plan. SUPERIOR vodi magistrica fizioterapije Antonela Pavić, predavač Fakulteta zdravstvenih studija u Splitu. Dolazite li bez uputnice fizijatra, sami izrađujemo procjenu i individualni plan terapije.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Što je kineziterapija i razlikuje li se od medicinske gimnastike?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>Kineziterapija je terapija pokretom — strukturirani program terapeutskih vježbi koji jača mišiće, vraća raspon pokreta i poboljšava ravnotežu i koordinaciju. Medicinska gimnastika je stariji, uobičajeni naziv za isti pojam. Kineziterapija u SUPERIOR-u provodi se individualno uz stručan nadzor i prilagođena je svakom stanju — od poslijeoperativne rehabilitacije do neuroloških i ortopedskih poremećaja.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Što je fizikalna medicina i rehabilitacija?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>Fizikalna medicina i rehabilitacija je medicinsko područje koje koristi fizikalne agense — toplinu, hladnoću, struju, ultrazvuk i terapeutski pokret — za liječenje boli, oporavak od ozljeda i poboljšanje funkcionalnih sposobnosti. SUPERIOR je specijalizirana privatna ustanova za fizikalnu rehabilitaciju u Splitu s individualnim pristupom, brzim terminima i jasnim terapijskim planom za svakoga pacijenta.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Pruža li SUPERIOR kućnu fizikalnu terapiju u Splitu?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>Da. Za pacijente koji zbog zdravstvenog stanja ili smanjene pokretnosti ne mogu doći u ordinaciju, SUPERIOR pruža patronažnu fizikalnu terapiju na kućnoj adresi u Splitu i okolici. Terapeut dolazi s potrebnom opremom i provodi individualni terapijski program na vašoj lokaciji. Kontaktirajte nas putem <a href="/kontakt/">kontakt forme</a> ili telefona za dogovor rasporeda i početnu procjenu.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Kako se naručiti za fizikalnu terapiju u centru SUPERIOR, Split?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>Najbrže putem <a href="/kontakt/">kontakt forme</a> — navedite razlog dolaska i preferirani termin pa ćemo vas kontaktirati za potvrdu. Možete nas i nazvati na <a href="tel:+385998556105">+385 99 855 6105</a> (ponedjeljak–petak, 08–20h). Centar za fizikalnu terapiju SUPERIOR smješten je na adresi Put studenca 23a, Split. Uputnica nije uvjet — primamo pacijente i bez liječničke uputnice.</p>
+          </div>
+        </details>
 
       </div>
     </div>
